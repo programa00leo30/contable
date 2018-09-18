@@ -4,7 +4,10 @@
  */
 if (!isset($l)) $l="";
 $ngroup = "has-error has-feedback";
+/*
+if (!isset($mensaje))$mensaje="";
 $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >$mensaje</div>";
+*/
 
 ?>
 		<div class="signup-form-container">
@@ -42,17 +45,22 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
   `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
 */				
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
+					echo $fatura->mostrar_editar("tipFact")."\n";
+					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
+				</div>";
+					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group \">\n" ;
 					echo $fatura->mostrar_editar("cajero")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
+					echo "\t\t\t\t<div class=\"separate\">-</div><div class=\"form-group \">\n" ;
+					echo $fatura->mostrar_editar("nrocontrol")."\n";
+					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
+				</div></div>";					
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
 					echo $fatura->mostrar_editar("Fecha",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("nrocontrol")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
+
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
 					echo $fatura->mostrar_editar("idCliente",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
@@ -66,10 +74,11 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 */
-				if ($factura->id !=""){
+				//var_dump($fatura);
+				if ($fatura->idRecordset()){ // existe un registro activo.
 					echo "<iframe src=\"".$helper->url("facturas","iframe/detalle")."\">factura detalle</iframe>";
 				}else{
-					echo "<div class=\"row\"><div class=\"col-md-2\">primero se debe crear la factura</div></div>";
+					echo "<div class=\"row\"><div class=\"col-md-2\"><h2>primero se debe crear la factura</h2></div></div>";
 				}	
 /*				
 				foreach($fatura->columns() as $k ){

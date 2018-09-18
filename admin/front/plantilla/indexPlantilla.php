@@ -21,7 +21,7 @@
     <meta name="author" content="<?php echo $pagina->autor ?>">
     <link rel="icon" href="<?php $pagina->favicon() ?>">
 
-    <title><?php echo $pagina->titulo ?></title>
+    <title><?php echo $pagina->title ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo $helper->url("css","bootstrap.min.css") ?>" rel="stylesheet">

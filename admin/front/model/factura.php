@@ -45,7 +45,8 @@ class factura extends EntidadBase {
 			"idDeContrato"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden" ,"label"=>"ID:" ),					
+				"dbtipo"=>"null" ,"clas"=>"hidden" ,"label"=>"ID:" ),					
+			
 			"cajero"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"default null" ),
 			"nrocontrol"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 

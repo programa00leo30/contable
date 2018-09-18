@@ -24,10 +24,11 @@ class facturasController extends ControladorBase{
 	public function editar(){
 		$factura = new factura();
 		$clientes = new clientes();
-		if(isset($_POST["id"])){
+		if(isset($_POST["id"]) or isset($_GET["facturaNueva"])){
 			// si existe este campo la factura existe
 			// modo editar
-			$registro=$factura->buscar("id",$_POST["id"]);
+			$idFact=isset($_POST["id"])?$_POST["id"]:$this->get_sesion("facturaID");
+			$registro=$factura->buscar("id",$idFact);
 			if ($registro){
 				$this->set_sesion("facturaID" , $registro->id );
 			}; // else{
@@ -35,14 +36,14 @@ class facturasController extends ControladorBase{
 		}else{
 			// agregar nueva factura.
 			$idFAct=$factura->guardarform($_POST,true);
-			if ($idFact){
-				
-			// si se crea una que se refresque el campo.
-			$this->redirect("facturas","editar");
+			if ($idFAct){				
+				// si se crea una que se refresque el campo.
+				$this->set_sesion("facturaID",$idFAct);
+				$this->redirect("facturas","editar?facturaNueva=si");
 			}else{
 				// hubo algun error al intentar guardar.
 				echo "error :";
-				var_dump($idFact);
+				// var_dump($idFAct);
 				exit(1); // falla de salida
 			}
 		}

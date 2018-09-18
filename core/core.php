@@ -16,6 +16,11 @@
 	echo $_SERVER["PATH_INFO"];
 	
 */
+
+/*
+ * clase tiempo para saber demoras del script.
+ * /
+
 class tiempo{
 	private static $iniTimer;
 	public function __construct(){
@@ -26,9 +31,11 @@ class tiempo{
 	}
 } ;
 $tiempo = new tiempo();
+// */
+
 function tiempo($f,$l){
-	global $tiempo ;
-	$tiempo->t( $f , $l);
+	// global $tiempo ;
+	// $tiempo->t( $f , $l);
 };
 
 tiempo( __FILE__ , __LINE__);
@@ -59,3 +66,7 @@ if (isset($_SERVER["PATH_INFO"])){
 	tiempo( __FILE__ , __LINE__);
 }
 
+if (debugmode){
+	// muestra errores:
+	echo MiControlError::salida() ;
+}

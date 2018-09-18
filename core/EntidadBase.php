@@ -38,6 +38,17 @@ class EntidadBase{
 		$this->crearObjetos();
 		tiempo( __FILE__ , __LINE__);
 	}
+	
+	public function idRecordset(){
+		// ultimo valor adquirido del recodset actual
+		// si no hay seleccionado uno devolvera null.
+		if (is_null($this->idRecordset)){
+			return false;
+		}else{
+			return $this->idRecordset;
+		}
+	}
+	
 	public function popiedades($nombreColumna,$propiedades){
 		foreach($propiedades as $k=>$v){
 			$this->objetos->$k = $v;
@@ -132,6 +143,7 @@ class EntidadBase{
            $resultSet[]=$row;
            
         }
+		$this->idRecordset = null;
         $this->paginn = count($resultSet);
         return $resultSet;
     }
@@ -150,7 +162,7 @@ class EntidadBase{
       */
 		$tx=<<<texto
 				<div class="input-group-btn">
-					$tx
+					
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						$labelButon<span class="caret"></span>
 					</button>
@@ -181,6 +193,7 @@ textoultm
 		// funcion que devuelve un contenido html
 		// para la edicion del campo.
 		tiempo( __FILE__ , __LINE__);
+		$txt="";
 		$tabulador="\n".str_repeat("\t",4);
 		if (in_array($campo,$this->columnas)){
 			// el campo existe:
@@ -341,15 +354,22 @@ JAVAS
 		}
 		if ($checer and $add ){
 			// agregar. nuevo
+			
 			$idSalida=$this->add();
 		}elseif ( $checer ){
 			if (isset($this->id) and ($this->id != "")){
+				
 				$idSalida=$this->save();
 			}else{
+				
 				// la salida.
 				$idSalida=$fail;
 			}
+		}else{
+			// falla por algo:
+			$checer=array($checer,$fail);
 		}
+		
 		return array($checer,$idSalida);	
 	}
     public function save(){
@@ -398,6 +418,10 @@ JAVAS
 			if ($query->num_rows > 0 ){
 				while($row = $query->fetch_object()) {
 				   $resultSet[]=$row;
+				   if ($this->atributos[$k]["dbtipo"]=="autoincrement"){
+						// clave id:
+						$this->idRecordset = $v ;
+					}
 				}
 			}else{
 				$resultSet = array();
@@ -406,6 +430,7 @@ JAVAS
 			// falla de consulta
 			echo "falla de sistema . ";
 			echo $this->db()->error;
+			$this->idRecordset=null;
 			exit ;
 		}
 		// echo "error ";
@@ -424,13 +449,16 @@ JAVAS
 			echo $this->db()->error;
 			exit ;
 		}
+		$this->idRecordset=null;
         return $query;
         
     }
      
     public function deleteBy($column,$value){
         $query=$this->db->query("DELETE FROM $this->table WHERE $column='$value'"); 
+        $this->idRecordset=null;
         return $query;
+        
     }
      
  
@@ -457,6 +485,10 @@ JAVAS
 					 foreach($row as $k=>$v){
 						// esto asigna los valores encontrados al entorno general.
 						$this->$k = $v;
+						if ($this->atributos[$k]["dbtipo"]=="autoincrement"){
+							// clave id:
+							$this->idRecordset = $v ;
+						}
 						// echo "asignado $k = $v <br>\n";
 					}
 					// $this->$row; // valores para todos los campos.
@@ -562,25 +594,34 @@ JAVAS
 		$t="" ;
 		foreach($this->columnas as $campo ) {
 			if ($campo != "id") {
-				if ($this->$campo == '') 
-					$t .= " NULL ," ;
-				else
+				if ($this->$campo == '' or $this->$campo == "NULL" ){
+					if (isset($this->atributos[$campo]["dbdefault"])){
+						$t .= " '".$this->atributos[$campo]["dbdefault"]."' ," ;
+					}else{
+						$t .= " NULL ," ;
+					}
+				}else
 					$t .=  "'".$this->$campo."'," ;
 			}
 		}
+		// quitando la ultima coma.
 		$t=substr($t,0,strlen($t)-1);
 		
         $query="INSERT INTO ".$this->table." (".implode(", ",$this->columnas).")
                 VALUES(NULL, $t );";
-                       
+        // echo $query;
+        
         $save=$this->db()->query($query);
         if ($save){
 			$save = $this->db()->insert_id;
+			// clave id:
+			$this->idRecordset = $save;
 		}
 		else{
 			echo $this->db()->error;
 			$save=$this->db()->error;
-        }
+			$this->idRecordset=null;
+		}
         
         return $save;
     }

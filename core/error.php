@@ -130,12 +130,16 @@ class MiControlError
 		// if ($númerr == E_USER_ERROR) {
 		//    mail("phpdev@example.com", "Error Crítico de Usuario", $err);
 		// }
+			echo "<!------ ERROR \n".$err."\n ERROR ----------> ";
 		if (debugmode){
 			// si no esta el modo de depuracion no se agregan errores.
-			$registro = file_get_contents(PATH ."/auxiliar/error.log");
-			$f=file_put_contents(PATH ."/auxiliar/error.log" , $err . $registro );
-		
+			// $registro = file_get_contents(PATH ."/auxiliar/error.log");
+			// $f=file_put_contents(PATH ."/auxiliar/error.log" , $err . $registro );
+			self::$_todoElTexto=self::$_todoElTexto.$err;
 		}
+	}
+	public function __toString(){
+		return $this->salida();
 	}
 	
 	

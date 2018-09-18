@@ -10,7 +10,7 @@ class AyudaVistas{
 		$this->iframe = false;
 	}
     public function url($controlador=CONTROLADOR_DEFECTO,$accion=ACCION_DEFECTO,$ifram=false){
-		$iframe = $ifram or $this->ifram;
+		$iframe = $ifram or $this->iframe;
         if ( $iframe ){	
 			$urlString=URL."index.php/".$controlador."/iframe/".$accion;
 		}else{
@@ -148,7 +148,6 @@ class AyudaVistas{
 			$contenido= ob_get_contents() ;
 		ob_end_clean();
 		return $contenido;
-		
 		
 	}
 }

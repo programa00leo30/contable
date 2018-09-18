@@ -20,7 +20,7 @@ $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false
 // define("PATH","/home/u302896513/public_html/iduv/front"); // path real al cual dirigirse no como url.
 define("PATH","$actualDir$objetivo"); // declarado en el index!!.
 // define("URL" ,"//$domain/") ;		// url destino ( exactamente como aparece en el url del sitio )
-define("URL" ,"//localhost/l/sys/") ;		// url destino ( exactamente como aparece en el url del sitio )
+define("URL" ,"//localhost/l/contable/") ;		// url destino ( exactamente como aparece en el url del sitio )
 
 //Más constantes de configuración
 
