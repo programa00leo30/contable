@@ -24,8 +24,40 @@ class facturasController extends ControladorBase{
 	}
 	public function confirmar(){
 		// confirmacion de facturas:
+		$factura = new factura();
+		$clientes = new clientes();
+		if(isset($_POST["id"]) or isset($_GET["facturaNueva"])){
+			// si existe este campo la factura existe
+			// modo editar
+			$idFact=isset($_POST["id"])?$_POST["id"]:$this->get_sesion("facturaID");
+			$registro=$factura->buscar("id",$idFact);
+			if ($registro){
+				$this->set_sesion("facturaID" , $registro->id );
+				$this->redirect("facturas","editar?idFactura=".$registro->id);
+			}else{
+				// $factura->guardarform($_POST);
+				$this->redirect("facturas","fail?error=$registro");
+			}
+		}else{
+			// agregar nueva factura.
+			$idFAct=$factura->guardarform($_POST,true);
+			if ($idFAct){				
+				// si se crea una que se refresque el campo.
+				$this->set_sesion("facturaID",$idFAct);
+				$this->redirect("facturas","confirmar?facturaNueva=si");
+			}else{
+				// hubo algun error al intentar guardar.
+				echo "error :";
+				// var_dump($idFAct);
+				exit(1); // falla de salida
+			}
+		}
+		
 	}
-	
+	public function fail(){
+		// mostrar mensaje en caso de falla
+		echo "existio un error:";
+	}
 		
 	public function editar(){
 		$factura = new factura();
