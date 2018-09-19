@@ -15,12 +15,18 @@ class facturasController extends ControladorBase{
 		$this->set_sesion("facturaID" , null);
 		tiempo( __FILE__ , __LINE__);
 		$this->view("facturaForm",array(
+			"destino" => "confirmar",
 			"clientes" => $clientes,	// model cliente
 			"fatura" => $factura,	// model factura
 			"detalle" => "falso",	// no mostrar detalle.
 			"Pagtitulo" => "encabezado"
 		));
 	}
+	public function confirmar(){
+		// confirmacion de facturas:
+	}
+	
+		
 	public function editar(){
 		$factura = new factura();
 		$clientes = new clientes();
@@ -32,14 +38,15 @@ class facturasController extends ControladorBase{
 			if ($registro){
 				$this->set_sesion("facturaID" , $registro->id );
 			}; // else{
-			$factura->guardarform($_POST);
+			// $factura->guardarform($_POST);
+		
 		}else{
 			// agregar nueva factura.
 			$idFAct=$factura->guardarform($_POST,true);
 			if ($idFAct){				
 				// si se crea una que se refresque el campo.
 				$this->set_sesion("facturaID",$idFAct);
-				$this->redirect("facturas","editar?facturaNueva=si");
+				$this->redirect("facturas","confirmar?facturaNueva=si");
 			}else{
 				// hubo algun error al intentar guardar.
 				echo "error :";
