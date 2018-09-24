@@ -157,7 +157,16 @@ class ControladorBase{
 			require_once PATH.'/view/'.$vista.'ViewContenido.php';
 			echo "<script>";
 			echo "\n". $html->javascript_Render();
-			echo "</script></body></html>";
+			echo "</script>";
+			if (debugmode){
+				// el signo + viene como un espacio.	
+				// echo "<div>".nz($_GET["dg"])."</div>";
+				if(isset($_GET["dg"])){
+					$msg=base64_decode( str_replace(" ","+",$dg ) );
+					echo "<div class='falla'>$msg</div>";
+				}
+			}
+			echo "</body></html>";
 		
 		}
 		
@@ -174,21 +183,20 @@ class ControladorBase{
         // if (isset($ob_sesion->msg)) $ob_sesion->msg 
         $dt="";
         require_once 'AyudaVistas.php';
-        if (debugmode){
-			
+        if (debugmode){	
+			// si hay error mostrarlo.
 			$datos = debugf("", 2 );
 			if ($datos){
-				
 				$dt = "&dg=".base64_encode($datos);
 				// echo $datos."<<<";
 			}
 		}
-        // header("Location:index.php?ac=".$controlador."&d=".$accion.$dt);
+		if ( $this->enventana ) {
+			// redirigir a ventana ( continuar modo iframe.
+			$accion="/iframe/".$accion;
+		}
         header("Location:".$protocolo.URL."index.php/".$controlador."/".$accion."?".$dt);
-        //echo ("Location:index.php?ac=".$controlador."&d=".$accion.$dt);
     }
-     
-    //Métodos para los controladores
  
 }
 ?>

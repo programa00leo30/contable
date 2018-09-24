@@ -4,7 +4,7 @@ class facturasController extends ControladorBase{
     public function __construct() {
         parent::__construct();
     }
-
+	
 	public function nueva(){
 		// debo saber que cliente
 		tiempo( __FILE__ , __LINE__);
@@ -18,15 +18,16 @@ class facturasController extends ControladorBase{
 			"destino" => "confirmar",
 			"clientes" => $clientes,	// model cliente
 			"fatura" => $factura,	// model factura
-			"detalle" => "falso",	// no mostrar detalle.
+			"detalle" => false,	// no mostrar detalle.
 			"Pagtitulo" => "encabezado"
 		));
 	}
 	public function confirmar(){
+		// recibo nueva factura o edicion de factura.
 		// confirmacion de facturas:
 		$factura = new factura();
 		$clientes = new clientes();
-		if(isset($_POST["id"]) or isset($_GET["facturaNueva"])){
+		if(isset($_POST["id"])){
 			// si existe este campo la factura existe
 			// modo editar
 			$idFact=isset($_POST["id"])?$_POST["id"]:$this->get_sesion("facturaID");
@@ -34,77 +35,174 @@ class facturasController extends ControladorBase{
 			if ($registro){
 				$this->set_sesion("facturaID" , $registro->id );
 				$this->redirect("facturas","editar?idFactura=".$registro->id);
-			}else{
-				// $factura->guardarform($_POST);
+			}elseif (isset($_GET["facturaNueva"])){
 				$this->redirect("facturas","fail?error=$registro");
 			}
-		}else{
-			// agregar nueva factura.
-			$idFAct=$factura->guardarform($_POST,true);
-			if ($idFAct){				
+		}elseif (isset($_GET["facturaNueva"])){
+			// no hay id de factura se agrega nueva factura.
+			// var_dump($_POST);
+			list($error,$idFact) = $factura->guardarform($_POST,true);
+			if ($error){				
 				// si se crea una que se refresque el campo.
-				$this->set_sesion("facturaID",$idFAct);
-				$this->redirect("facturas","confirmar?facturaNueva=si");
+				$this->set_sesion("facturaID",$idFact);
+				$this->redirect("facturas","editar?idFactura=".$idFact);
 			}else{
 				// hubo algun error al intentar guardar.
-				echo "error :";
-				// var_dump($idFAct);
-				exit(1); // falla de salida
+				$this->redirect("facturas","fail?msg='existio un error'");
 			}
+		}else{
+			// opcion desconocida.
+			$this->redirect("facturas","nueva");
 		}
 		
 	}
 	public function fail(){
 		// mostrar mensaje en caso de falla
-		echo "existio un error:";
-	}
+		// echo "existio un error mensaje:".(isset($_GET["msg"])?$_GET["msg"]:"falla");
+		$this->view("error",array(
+			"nro"=>0,
+			"title"=>"FACTURAS",
+			"text"=>"existio una falla en la operacion con la factura",
+			"mensaje"=>nz($_GET["msg"],"desconocida"),
+			"control"=>"facturas",
+			"accion"=>"index"
+		));
 		
-	public function editar(){
+	}
+	public function edicion(){
+		// diferencia con editar es que no valida con get_sesion();
+		// Envio formulario para edicion de facturas no cerradas.
 		$factura = new factura();
 		$clientes = new clientes();
-		if(isset($_POST["id"]) or isset($_GET["facturaNueva"])){
-			// si existe este campo la factura existe
-			// modo editar
-			$idFact=isset($_POST["id"])?$_POST["id"]:$this->get_sesion("facturaID");
-			$registro=$factura->buscar("id",$idFact);
-			if ($registro){
-				$this->set_sesion("facturaID" , $registro->id );
-			}; // else{
-			// $factura->guardarform($_POST);
-		
-		}else{
-			// agregar nueva factura.
-			$idFAct=$factura->guardarform($_POST,true);
-			if ($idFAct){				
-				// si se crea una que se refresque el campo.
-				$this->set_sesion("facturaID",$idFAct);
-				$this->redirect("facturas","confirmar?facturaNueva=si");
+		if (isset($_GET["idFactura"])){
+			$idF = (int)($_GET["idFactura"]);
+			// comprobacion de confianza. no solicitar algo y editar otra.
+			$factura->buscar("id",$idF);
+			if ($factura->factCerrada == 0){
+				$this->view("facturaForm",array(
+					"destino" => "confirmar",
+					"clientes" => $clientes,	// model cliente
+					"fatura" => $factura,	// model factura
+					"idfatura" => $idF,
+					"detalle" => true,	// no mostrar detalle.
+					"Pagtitulo" => "editando factura"
+				));
 			}else{
-				// hubo algun error al intentar guardar.
-				echo "error :";
-				// var_dump($idFAct);
-				exit(1); // falla de salida
+				$this->redirect("facturas","fail?msg='la factura no puede editarse ya esta cerrada'");
 			}
+		}else{
+			// los datos no condicen.
+			$this->redirect("facturas","fail?msg='falla de datos'");
 		}
-		$this->view("facturaForm",array(
-			"clientes" => $clientes,	// model cliente
-			"fatura" => $factura,	// model factura
-			"detalle" => "falso",	// no mostrar detalle.
-			"Pagtitulo" => "encabezado"
-		));
 	}
-	
+	public function editar(){
+		// Envio formulario para edicion de facturas no cerradas.
+		$factura = new factura();
+		$clientes = new clientes();
+		if (isset($_GET["idFactura"])){
+			$idF = (int)($_GET["idFactura"]);
+			if ($idF == $this->get_sesion("facturaID")){
+				// comprobacion de confianza. no solicitar algo y editar otra.
+				$factura->buscar("id",$idF);
+				if ($factura->factCerrada == 0){
+					$this->view("facturaForm",array(
+						"destino" => "confirmar",
+						"clientes" => $clientes,	// model cliente
+						"fatura" => $factura,	// model factura
+						"idfatura" => $idF,
+						"detalle" => true,	//mostrar detalle.
+						"Pagtitulo" => "editando factura"
+					));
+				}else{
+					$this->redirect("facturas","fail?msg='la factura no puede editarse ya esta cerrada'");
+				}
+			}else{
+				$this->redirect("facturas","fail?msg='solicitud de edicion no autorizada'");
+			}	
+		}else{
+			// los datos no condicen.
+			$this->redirect("facturas","fail?msg='falla de datos'");
+		}
+	}
+	/* 
+	 * control de detalle de factura:
+	 * 
+	 */
 	public function detalle(){
 		$fac_detalle = new fact_detalle();
 		$factura = new factura();
 		
-		if ($this->get_sesion("facturaID" )){ // retorna falso sin no existe.
+		if (isset($_GET["idfac"])){
+			$idfactura=$_GET["idfac"];
+		}elseif ($this->get_sesion("facturaID" )){ // retorna falso sin no existe.
 			$idfactura=$this->get_sesion("facturaID" );
+		}else{
+			$this->redirect("facturas","fail?msg='falla obtencion detalle'");
 		}
+			
 		// formulario detalle de las factura
 		$this->view("facturaFormDetalle",array(
-			"facturaid"=>$idfactura,
+			"idfactura"=>$idfactura,
+			"fact_detalle"=>$fac_detalle,
 			"Pagtitulo" =>"detalle de facturas"
 		));
+	}
+	public function checfactura($idfact ){
+		// verificar si esta factura puede ser modificada.
+		return true; // invalidacion.
+	}
+	public function deldetalle(){
+		$fac_detalle = new fact_detalle();
+		// verificar informacion:
+		if (isset($_GET["deleted"])){
+			// eliminar detalle
+			$det=nz($_POST["id"]);
+			$chec=$fac_detalle->buscar("id",$det);
+		// $this->checfactura();
+			if ($chec and $this->checfactura($fac_detalle->idFact ) ){
+				$iddet=$fac_detalle->deleteById($det);
+				if ($iddet){
+					// var_dump($iddet);
+					$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
+				}else{
+					$this->redirect("facturas","fail?msg='no se pudo editar el detalle'");
+				}
+			}else{
+				$this->redirect("facturas","fail?msg='detalle no encontrado'");
+			}
+		}else{
+			// edicion de detalle:
+			$this->redirect("facturas","fail?msg='detalle no encontrado'");				
+		}
+	}
+	public function confirmardetalle(){
+		$fac_detalle = new fact_detalle();
+		// $this->checfactura();
+		// verificar informacion:
+		if (isset($_GET["agregar"])){
+			// nuevo detalle.
+			$iddet=$fac_detalle->guardarform($_POST,true);
+			if ($iddet){
+				// var_dump($iddet);
+				$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
+			}else{
+				$this->redirect("facturas","fail?msg='no se pudo agregar el detalle'");
+			}
+		}else{
+			// edicion de detalle:
+			$det=nz($_POST["id"]);
+			$chec=$fac_detalle->buscar("id",$det);
+			if ($chec and $this->checfactura($fac_detalle->idFact )){
+				$iddet=$fac_detalle->guardarform($_POST);
+				if ($iddet){
+					// var_dump($iddet);
+					$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
+				}else{
+					$this->redirect("facturas","fail?msg='no se pudo editar el detalle'");
+				}
+			}else{
+				$this->redirect("facturas","fail?msg='detalle no encontrado'");
+			}	
+		}
 	}
 }

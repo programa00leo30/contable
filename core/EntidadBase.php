@@ -64,7 +64,10 @@ class EntidadBase{
 	public function columns(){
 		return $this->columnas ;
 	}
-	
+		
+    public function columnas (){ 
+		return $this->columnas ;
+	}
 	public function error($rtnQuery,$strQuery){
 		// controlador de errores de la base de datos.
 		/*
@@ -94,10 +97,7 @@ class EntidadBase{
 			return $rtnQuery ;
 		}
 	}
-	
-    public function columnas (){ 
-		return $this->columnas ;
-	}
+
 	/*
     protected function error(){
 		// devuelve un mensaje con el error
@@ -189,7 +189,7 @@ textoultm
 		return $tx;
     }
     // html es una herramienta eredada del momento de renderizado.
-    public function mostrar_editar($campo,$html=null){
+    public function mostrar_editar($campo,$html=null,$valor=null){
 		// funcion que devuelve un contenido html
 		// para la edicion del campo.
 		tiempo( __FILE__ , __LINE__);
@@ -199,7 +199,8 @@ textoultm
 			// el campo existe:
 			$atr = $this->atributos[$campo] ;
 			$extra="";
-			$valor = ( $this->$campo != "NULL" )?$this->$campo:"";
+			if (!isset($valor))
+				$valor = ( $this->$campo != "NULL" )?$this->$campo:"";
 			
 			if ($atr["dbtipo"] == "not null"){
 				$extra = "required=\"required\"" ;
@@ -245,7 +246,7 @@ textoultm
 						."placeholder=\"$placeholder\" name=\"$campo\" $extra value=\"$valor\">\n";
 					break;
 				case "list" :
-					$txt.="$tabulador<input type=\"text\" class=\"form-control\" id=\"$campo\""
+					$txt.="$tabulador<input type=\"text\" class=\"form-control\" id=\"$campo\" "
 						."placeholder=\"$placeholder\" name=\"$campo\" $extra value=\"$valor\">\n".
 						$this->botonlistar($lista,$campo,$label) ;
 					break;
@@ -329,9 +330,8 @@ JAVAS
 		return $resultSet;
 		
     }
-    public function guardarform($post,$add=false){
-		// obtener los datos de $_POST, verificar y gardar
-		$checer=true;
+    public function checkForm($post){
+		$chk=true;$fail=array();
 		foreach($this->columnas as $campo){
 			if (array_key_exists($campo,$post)){
 				// buen camino.
@@ -342,7 +342,7 @@ JAVAS
 				if ( $this->atributos[$campo]["dbtipo"] == "not null" 
 					// el id es de tipo autoincrement. ( unico de su tipo. )
 				){
-					$checer=false; // falla de comprobacion.
+					$chk=false; // falla de comprobacion.
 					$fail[]=$campo;
 				};
 				if ($this->atributos[$campo]["dbtipo"] == "default"){
@@ -352,24 +352,31 @@ JAVAS
 				
 			}
 		}
+		return array($chk,$fail);
+	}
+	
+    public function guardarform($post,$add=false){
+		// obtener los datos de $_POST, verificar y gardar
+		$checer=true;
+		list($checer,$fail)=$this->checkForm($post);
 		if ($checer and $add ){
 			// agregar. nuevo
-			
+			// echo "agregando\n";
 			$idSalida=$this->add();
+			
 		}elseif ( $checer ){
+			// editar existente.
 			if (isset($this->id) and ($this->id != "")){
-				
 				$idSalida=$this->save();
 			}else{
-				
-				// la salida.
+				// la salida. por error de campo.
 				$idSalida=$fail;
 			}
 		}else{
 			// falla por algo:
 			$checer=array($checer,$fail);
 		}
-		
+		//var_dump(array($checer,$idSalida));
 		return array($checer,$idSalida);	
 	}
     public function save(){
@@ -408,7 +415,65 @@ JAVAS
 		}else
 			return false;
     }
-
+	public function mostrar($campo,$valor) {
+		// limita a una condicion simple de consulta
+		static $bandera=true; // iteraccion de inicio.
+		static $query;
+		static $posicion=0;
+		if ($bandera){
+			echo "entrando $posicion";
+			// primera vuelta verificar estado y comenzar.
+			$sql= "SELECT * FROM $this->table WHERE $campo='$valor' ;";
+			$query=$this->db->query($sql);
+			if (!$query){
+				// falla de consulta.
+				// falla de consulta
+				echo "falla de sistema . ";
+				echo $this->db()->error;
+				$this->idRecordset=null;
+				exit ;
+			};
+			$posicion=0;
+			$bandera=false;
+		}
+		// cargando la primera buelta de objetos:
+		 //Devolvemos el resultset en forma de array de objetos
+		$move= $query->data_seek($posicion);
+		if ($move){
+			$posicion++;
+			$row = $query->fetch_object()  ;
+			{
+			// var_dump($row);
+			if (!isset($row->$campo)){
+				return false; // no existe el campo.
+			}else{
+					
+				if ($row->$campo == $valor){
+					// echo "encontrado :$campo \"$valor\" ";
+					 foreach($row as $k=>$v){
+						// esto asigna los valores encontrados al entorno general.
+						$this->$k = $v;
+						if ($this->atributos[$k]["dbtipo"]=="autoincrement"){
+							// clave id:
+							$this->idRecordset = $v ;
+						}
+						// echo "asignado $k = $v <br>\n";
+					}
+					// $this->$row; // valores para todos los campos.
+					return $row ; // valor encontrado
+				}else{
+					// echo "\"" . $row->$campo."\" != \"$valor\"<br>\n" ;
+				}
+					
+				}
+			
+			}
+		}else{
+			$bandera=true; // reiniciar el funcionamiento.
+			return false;
+		}	
+	}
+		
     public function getBy($column,$value){
         $sql= "SELECT * FROM $this->table WHERE $column='$value' ;";
         // $sql= "SELECT * FROM $this->table WHERE idMesa='5' ;";
@@ -592,6 +657,7 @@ JAVAS
 	public function add(){
 		// agregar un registro nuevo.
 		$t="" ;
+		
 		foreach($this->columnas as $campo ) {
 			if ($campo != "id") {
 				if ($this->$campo == '' or $this->$campo == "NULL" ){
@@ -614,7 +680,8 @@ JAVAS
         $save=$this->db()->query($query);
         if ($save){
 			$save = $this->db()->insert_id;
-			// clave id:
+			//clave id:
+			// echo $save;
 			$this->idRecordset = $save;
 		}
 		else{

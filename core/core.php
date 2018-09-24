@@ -43,6 +43,15 @@ tiempo( __FILE__ , __LINE__);
 	require_once 'error.php';
 	// $error_handle = new MiControlError();
 
+
+if (!function_exists("nz")){
+	// funcion general para comprobacion de existencia o inicializacion
+	function nz($varian,$defaul=""){
+		return (isset($varian)?$varian:$defaul);
+	}
+}
+
+
 if (defined ("PATH")) {
 	// PATH_INFO // 
 	//Base para los controladores

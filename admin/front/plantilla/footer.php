@@ -8,7 +8,7 @@
 							  <img src="http://oi60.tinypic.com/w8lycl.jpg" class="img-circle" alt="the-brains">
 							  <br>
 							  <h4 class="footertext">Programador/h4>
-							  <p class="footertext">Leandro Morala.<br>
+							  <p class="footertext">Leandro Morala.<br></p>
 							</center>
 						  </div>
 						  <div class="col-md-4">
@@ -16,7 +16,7 @@
 							  <img src="http://oi60.tinypic.com/2z7enpc.jpg" class="img-circle" alt="...">
 							  <br>
 							  <h4 class="footertext">Artista</h4>
-							  <p class="footertext">Leandro Morala<br>
+							  <p class="footertext">Leandro Morala<br></p>
 							</center>
 						  </div>
 						  <div class="col-md-4">
@@ -24,7 +24,7 @@
 							  <img src="http://oi61.tinypic.com/307n6ux.jpg" class="img-circle" alt="...">
 							  <br>
 							  <h4 class="footertext">Diseñador</h4>
-							  <p class="footertext">Leandro Morala<br>
+							  <p class="footertext">Leandro Morala<br></p>
 							</center>
 						  </div>
 						</div>

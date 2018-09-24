@@ -62,6 +62,13 @@ class PaginaBase{
 		$html = $this->pagina["html"];
 
 		require_once PATH.'/plantilla/'.$this->pagina["archivo"] ;
+		if (debugmode){
+			// el signo + viene como un espacio.	
+			// echo "<div>".nz($_GET["dg"])."</div>";
+			$msg=base64_decode( str_replace(" ","+",nz($_GET["dg"]) ) );
+			echo "<div class='falla'>$msg</div>";
+		}
+			
 	}
 
 }

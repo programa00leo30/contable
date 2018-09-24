@@ -124,7 +124,7 @@ function debugf($mensaje,$render=0){ // falso.
 	
 	static $msn="";
 	static $con=0;
-	if ($render == true) $render =1;
+	// if ($render == true) $render =1;
 	/*
 	$llamado = debug_backtrace();
 		// var_dump($llamado);
@@ -134,10 +134,9 @@ function debugf($mensaje,$render=0){ // falso.
 	if ($render == 2){
 		// modo especial
 		if ($con > 0 )
-			$t = "(".$con.")".$msn ;
+			$t = "(".$con.")".$msn."<br>\n" ;
 		else
 			$t = false;
-		
 		return $t;
 	}else{	
 		$msn.="\t\t<div >($con)".$mensaje."</div>\n";

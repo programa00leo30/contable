@@ -18,6 +18,7 @@
 </div>
 	
  */
+if (!isset($mensaje))$mensaje="";
 if (!isset($l)) $l="";
 $ngroup = "has-error has-feedback";
 $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >$mensaje</div>";

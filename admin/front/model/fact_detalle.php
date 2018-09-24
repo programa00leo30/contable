@@ -8,26 +8,27 @@ class fact_detalle extends EntidadBase {
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
 			"idFact"=> array(  
-				"typeform" => "relacional","claseform"=> "obligatorio" , 
+				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+				
 			"Cantidad"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"null" ),
 
 			"idDetalle"=> array(  
 				"typeform" => "relacional","claseform"=> "obligatorio" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"null" ,"clas"=>"hidden"  ),
 				
 			"Detalle"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"not null" ),
 				
 			"porunidad"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"null" ),
+				"dbtipo"=>"null" ,"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ),
 			"impuesto"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"null" ),
+				"dbtipo"=>"null" ,"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ),
 			"subtotal"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"null" )
+				"dbtipo"=>"null" ,"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" )
 				);
 		 $table="fac_detalle";
         
@@ -38,11 +39,19 @@ class fact_detalle extends EntidadBase {
 		return $this->table ;
 	}
 	public function add(){
-		// para agregar un registro
-		if (isset($this->idFac) and $this->idFac != ""){
-			// confirmar que tengo una factura asociada.
-			parent::add();
+		// calcular el subtotal:
+		echo "agregando registro...";
+		if ($this->Cantidad == 0 ){
+			$this->Cantidad = 1;
 		}
+		if ($this->porunidad != 0 ){
+				$this->subtotal = $this->Cantidad * $this->porunidad ;
+		}else{
+			$this->porunidad = $this->subtotal / $this->Cantidad;
+		}
+		var_dump($this);
+		parent::add();
+		
 	}
 	
 	public function check($campo,$valor){

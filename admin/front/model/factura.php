@@ -60,13 +60,15 @@ class factura extends EntidadBase {
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
 			"Impuesto"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"DEFAUL NULL" ),
+				"dbtipo"=>"DEFAUL NULL",
+				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,"label"=>"Impuesto"),
 			"Total"=> array(  "typeform" => "moneda", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"DEFAUL NULL" ),
-			"observaciones"=> array(  "typeform" => "textarea", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null" ),
+				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,
+				"dbtipo"=>"DEFAUL NULL", "label"=>"total" ),
+			"Observaciones"=> array(  "typeform" => "textarea", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
+				"dbtipo"=>"null","label"=>"Observaciones" ),
 			"nroCupon"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null" )
+				"dbtipo"=>"null", "label"=>"Numero de cupon:" )
 				);
 		
 		 $table="factura";

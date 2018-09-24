@@ -8,13 +8,12 @@ $ngroup = "has-error has-feedback";
 if (!isset($mensaje))$mensaje="";
 $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >$mensaje</div>";
 */
-
 ?>
 		<div class="signup-form-container">
     
          <!-- form start -->
          <form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-			echo $helper->url("facturas","editar" ) ?>" >
+			echo $helper->url("facturas","confirmar?".(($detalle)?"editar":"facturaNueva")."=si" ) ?>" >
          
          <div class="form-header">
 			<div class="pull-left"></div>
@@ -27,7 +26,11 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 			 <!-- autoform start -->
             <?php
 				if ( isset($idfatura)) {
-					$fatura->buscar("id",$idfactura);
+					$idfacDetalle="?idfac=".$idfatura;
+					$t=$fatura->buscar("id",$idfatura);
+					// var_dump($idfatura);
+				}else{
+					$idfacDetalle="";
 				}
 /*
   `id` int(11) NOT NULL,
@@ -48,11 +51,11 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 					echo $fatura->mostrar_editar("tipFact")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
-					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group \">\n" ;
+					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group col-md-4\">\n" ;
 					echo $fatura->mostrar_editar("cajero")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
-					echo "\t\t\t\t<div class=\"separate\">-</div><div class=\"form-group \">\n" ;
+					echo "\t\t\t\t<div class=\"separate col-md-1\">-</div><div class=\"form-group col-md-4\">\n" ;
 					echo $fatura->mostrar_editar("nrocontrol")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div></div>";					
@@ -75,8 +78,9 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 				</div>";
 */
 				//var_dump($fatura);
-				if ($fatura->idRecordset()){ // existe un registro activo.
-					echo "<iframe src=\"".$helper->url("facturas","iframe/detalle")."\">factura detalle</iframe>";
+				if ($detalle){ // existe un registro activo.
+					echo "<iframe src=\"".
+						$helper->url("facturas","iframe/detalle$idfacDetalle")."\" class=\"col-md-12\">factura detalle</iframe>";
 				}else{
 					echo "<div class=\"row\"><div class=\"col-md-2\"><h2>primero se debe crear la factura</h2></div></div>";
 				}	
@@ -93,9 +97,15 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
             ?>
 			 <!-- autoform end -->
 			 <div class="row">
+				 <div class="form-group col-md-4">
 				<?php echo $fatura->mostrar_editar("Impuesto") ?>				
+				 </div>
+				 <div class="form-group col-md-4">
 				<?php echo $fatura->mostrar_editar("Total") ?>
+				 </div>
+				 <div class="form-group col-md-4">
 				<?php echo $fatura->mostrar_editar("Observaciones") ?>
+				</div>
 			 </div>
             </div>
             
