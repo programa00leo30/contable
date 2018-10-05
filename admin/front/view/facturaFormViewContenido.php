@@ -1,7 +1,22 @@
 <?php
 /* --------- clientesFormulario
  * formulario de edicion y agregado de clientes
- */
+ *
+ *
+  `id` int(11) NOT NULL,
+  `cajero` int(4) NOT NULL DEFAULT '0',
+  `nrocontrol` int(11) DEFAULT NULL,
+  `idCliente` int(11) NOT NULL,
+  `idEmpleado` int(11) NOT NULL,
+  `factCerrada` int(1) DEFAULT '0' COMMENT 'si la factura es posible modificarla',
+  `idDeContrato` int(11) DEFAULT NULL COMMENT 'que contrato genero la factura',
+  `tipFact` varchar(1) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'se refiere a fact A o B o C.',
+  `Fecha` date DEFAULT NULL,
+  `Total` decimal(12,4) NOT NULL,
+  `Impuesto` decimal(12,4) NOT NULL,
+  `Observaciones` text COLLATE utf8_spanish2_ci,
+  `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
+*/				
 if (!isset($l)) $l="";
 $ngroup = "has-error has-feedback";
 /*
@@ -28,26 +43,12 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 				if ( isset($idfatura)) {
 					$idfacDetalle="?idfac=".$idfatura;
 					$t=$fatura->buscar("id",$idfatura);
+					echo $fatura->mostrar_editar("id")."\n";
 					// var_dump($idfatura);
 				}else{
 					$idfacDetalle="";
 				}
-/*
-  `id` int(11) NOT NULL,
-  `cajero` int(4) NOT NULL DEFAULT '0',
-  `nrocontrol` int(11) DEFAULT NULL,
-  `idCliente` int(11) NOT NULL,
-  `idEmpleado` int(11) NOT NULL,
-  `factCerrada` int(1) DEFAULT '0' COMMENT 'si la factura es posible modificarla',
-  `idDeContrato` int(11) DEFAULT NULL COMMENT 'que contrato genero la factura',
-  `tipFact` varchar(1) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'se refiere a fact A o B o C.',
-  `Fecha` date DEFAULT NULL,
-  `Total` decimal(12,4) NOT NULL,
-  `Impuesto` decimal(12,4) NOT NULL,
-  `Observaciones` text COLLATE utf8_spanish2_ci,
-  `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
-*/				
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
+				echo "\t\t\t\t<div class=\"form-group \">\n" ;
 					echo $fatura->mostrar_editar("tipFact")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";

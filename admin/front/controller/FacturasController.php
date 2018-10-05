@@ -4,7 +4,17 @@ class facturasController extends ControladorBase{
     public function __construct() {
         parent::__construct();
     }
-	
+	public function ultimas(){
+		// listado de facturas no cerradas
+		$factura=new factura();
+		$clientes = new clientes();
+		$this->view("facturaListado",array(
+			"factura" => $factura,
+			"clientes" => $clientes,
+			"Pagtitulo" => "ultimas facturas"
+		));
+		
+	}
 	public function nueva(){
 		// debo saber que cliente
 		tiempo( __FILE__ , __LINE__);
@@ -33,6 +43,7 @@ class facturasController extends ControladorBase{
 			$idFact=isset($_POST["id"])?$_POST["id"]:$this->get_sesion("facturaID");
 			$registro=$factura->buscar("id",$idFact);
 			if ($registro){
+				$factura->guardarform($_POST);
 				$this->set_sesion("facturaID" , $registro->id );
 				$this->redirect("facturas","editar?idFactura=".$registro->id);
 			}elseif (isset($_GET["facturaNueva"])){
@@ -79,6 +90,8 @@ class facturasController extends ControladorBase{
 			// comprobacion de confianza. no solicitar algo y editar otra.
 			$factura->buscar("id",$idF);
 			if ($factura->factCerrada == 0){
+				// la factura puede ser editada.
+				$this->set_sesion("facturaID",$idF);
 				$this->view("facturaForm",array(
 					"destino" => "confirmar",
 					"clientes" => $clientes,	// model cliente
@@ -150,6 +163,7 @@ class facturasController extends ControladorBase{
 	public function checfactura($idfact ){
 		// verificar si esta factura puede ser modificada.
 		return true; // invalidacion.
+		
 	}
 	public function deldetalle(){
 		$fac_detalle = new fact_detalle();

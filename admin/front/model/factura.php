@@ -48,9 +48,9 @@ class factura extends EntidadBase {
 				"dbtipo"=>"null" ,"clas"=>"hidden" ,"label"=>"ID:" ),					
 			
 			"cajero"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"default null" ),
+				"dbtipo"=>"default null","label"=>"nro punto venta" ),
 			"nrocontrol"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"not null" ),
+				"dbtipo"=>"not null" , "label" => "nro Factura"),
 			
 			"tipFact" => array( 
 				"typeform" => "list", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
@@ -80,7 +80,14 @@ class factura extends EntidadBase {
     public function tabla(){
 		return $this->table ;
 	}
-
+	public function add(){
+		// completa algunos campos obligatorios y de valor 0
+		$this->idDeContrato=0;
+		$this->Impuesto=0;
+		$this->Total=0;
+		parent::add();
+	}
+	
 	public function check($campo,$valor){
 		// busca en la base de datos el valor del campo
 		if (in_array($campo,$this->columnas)){

@@ -43,5 +43,12 @@ echo $salida;
 $salida = $n->analiza($entrada,"url");
 echo $salida;
 
+/* cosas utilies
+ 
+ <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6B9RZQ&gtm_auth=TiByp1Z92r_vHHqYjmr5yQ&gtm_preview=env-6&gtm_cookies_win=x" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+ 
+ * 
+ * 
+ */
 
 ?>

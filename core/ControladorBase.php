@@ -10,6 +10,7 @@ class ControladorBase{
         require_once 'EntidadBase.php';
         require_once 'ModeloBase.php';
         require_once 'paginaBase.php';
+        require_once 'ControlArchivo.php';
         // obtengo secion
         // $this::sesion = sesion::constructor() ;
         
@@ -73,10 +74,12 @@ class ControladorBase{
 		
     }
     public function error404(){
-		$this->view("404", 
-			array(
-				"name" => $name , 
-				"title" => str_replace("Controller","", get_class( $this ) ) ));
+		$name="sin archivo";
+		
+		$this->view("404", 	array(
+			"name" => $name , 
+			"title" => str_replace("Controller","", get_class( $this ) ) 
+		));
         
      }
 	public function set_sesion($name,$value){
@@ -114,10 +117,12 @@ class ControladorBase{
 */
     public function view($vista,$datos,$usarPlantilla=TRUE){
 		
+
 		if ( $usarPlantilla and !$this->enventana ){
 			
 			//require_once PATH.'/view/'.$vista.'View.php';
 			//$pagina = new paginaBase($plantilla, $vista,$datos);
+			
 			$pagina = new paginaBase($this->plantilla, $vista,$datos);
 			echo $pagina->render();
 			
@@ -135,7 +140,10 @@ class ControladorBase{
 			// aqui esta la variable auxiliar de todos los views.
 			$helper = new AyudaVistas();
 			$imput = new htmlinput();
-			require_once PATH.'/view/'.$vista.'View.php';
+			$f = new ControlArchivo();
+			$f->setActuador("view");
+			// require_once PATH.'/view/'.$vista.'View.php';
+			require_once $f->runing($vista.'View.php');
 		}else{
 			// se debe mostrar solo el contenido.
 			foreach ($datos as $id_assoc => $valor) {
@@ -148,13 +156,18 @@ class ControladorBase{
 			// echo "lanzo:$vista"; 
 			require_once 'AyudaVistas.php';
 			require_once 'htmlinput.class.php';
+			$f = new ControlArchivo();
+			$f->setActuador("view");
+			
 			// aqui esta la variable auxiliar de todos los views.
 			$helper = new AyudaVistas();
 			$helper->iframe = true; 		// si es en ventana los links se sostienene.
 			$html = new htmlinput();
 			echo"<!DOCTYPE html>
 	<html lang=\"es_AR\"><head></head><body>";
-			require_once PATH.'/view/'.$vista.'ViewContenido.php';
+			// require_once PATH.'/view/'.$vista.'ViewContenido.php';
+			// require_once PATH.'/view/'.$vista.'ViewContenido.php';
+			require_once $f->runing($vista.'ViewContenido.php');
 			echo "<script>";
 			echo "\n". $html->javascript_Render();
 			echo "</script>";
@@ -162,6 +175,7 @@ class ControladorBase{
 				// el signo + viene como un espacio.	
 				// echo "<div>".nz($_GET["dg"])."</div>";
 				if(isset($_GET["dg"])){
+					$dg=$_GET["dg"];
 					$msg=base64_decode( str_replace(" ","+",$dg ) );
 					echo "<div class='falla'>$msg</div>";
 				}
@@ -195,7 +209,10 @@ class ControladorBase{
 			// redirigir a ventana ( continuar modo iframe.
 			$accion="/iframe/".$accion;
 		}
-        header("Location:".$protocolo.URL."index.php/".$controlador."/".$accion."?".$dt);
+		$url=rtrim(URL,"/");
+        header("Location:".$protocolo.$url."/".$controlador."/".$accion."?".$dt);
+		echo "enviando... redirigido a ".$url."/$controlador/$accion?$dt";
+		
     }
  
 }

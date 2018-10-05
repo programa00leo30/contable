@@ -4,6 +4,7 @@
 	control de pagina generico.
 */
 class PaginaBase{
+	private $modelo;
 	private $pagina;
 	public $title;
 	public $descripcion;
@@ -14,6 +15,7 @@ class PaginaBase{
 	// datos = valores pasados a view.
 	
 	public function __construct($pagina="index",$view, $datos=array("titulo"=>"index" , "autor"=>"leandro morala" )) {
+		global $modelo;
 		require_once 'AyudaVistas.php';
 		require_once 'htmlinput.class.php';
 		
@@ -22,53 +24,69 @@ class PaginaBase{
 		$this->pagina["ayuda"] = new AyudaVistas();
 		$this->pagina["html"] = new htmlinput();
 		$this->pagina["datos"] = $datos;
+		$this->modelo = $modelo;
 		
 	}
 	
 	public function favicon(){
 		echo "favicon.ico";
 	}
-	public function barrasuperior(){
-		
+	public function barra($archivo){
+		/*
         // aqui esta la variable auxiliar de todos los views.
         $helper = $this->pagina["ayuda"];
 		$imput = $this->pagina["html"];
 		
-		require_once PATH.'/plantilla/barrasuperior.php';
-	}
-	public function barralateral(){
-        $helper = $this->pagina["ayuda"];
-		$html = $this->pagina["html"];
-		require_once PATH.'/plantilla/barralateral.php';
+		$this->modelo->setActuador("plantilla");
+		$this->modelo->RequireOnce("barrasuperior.php");
+		// require_once PATH.'/plantilla/barrasuperior.php';
+		*/
+		$this->entrada("plantilla",$archivo);//$this->pagina["archivo"]);
 	}
 	public function contenido(){        
-		$helper = $this->pagina["ayuda"];
-		$html = $this->pagina["html"];
 		
-		foreach ($this->pagina["datos"] as $id_assoc => $valor) {
-            ${$id_assoc}=$valor; 
-        }
-                // echo "lanzo:$vista"; 
-		require_once PATH.'/view/'.$this->pagina["contenido"] ;
+        $this->entrada("view",$this->pagina["contenido"],$this->pagina["datos"]);
 	}
 	public function piepagina(){        
-		
-		require_once PATH.'/plantilla/footer.php' ;
+		$this->entrada("plantilla","footer.php");
 	}
-	public function render(){
-		// $vista= "index";
+	private function entrada($actuador,$archivo,$arreglo=array()){
+		
 		$pagina=$this;
 		$helper = $this->pagina["ayuda"];
 		$html = $this->pagina["html"];
-
-		require_once PATH.'/plantilla/'.$this->pagina["archivo"] ;
+		
+		foreach ($arreglo as $id_assoc => $valor) {
+            ${$id_assoc}=$valor; 
+        }
+		
+		// echo "PaginaBase:archivo:$archivo actuador:$actuador<br>\n";
+		$this->modelo->setActuador($actuador);
+		// $file=$this->modelo->runing($this->pagina["archivo"]);
+		$file=$this->modelo->runing($archivo);
+		echo array("","<!-- df -->","<!-- 404 $archivo -->")[$this->modelo->falla()];
+		 
+		require_once($file);
+		
+	}
+	public function render(){
+		// $vista= "index";
+		$this->entrada("plantilla",$this->pagina["archivo"],$this->pagina["datos"]);
+		// require_once PATH.'/plantilla/'.$this->pagina["archivo"] ;
 		if (debugmode){
 			// el signo + viene como un espacio.	
 			// echo "<div>".nz($_GET["dg"])."</div>";
-			$msg=base64_decode( str_replace(" ","+",nz($_GET["dg"]) ) );
-			echo "<div class='falla'>$msg</div>";
+			if (isset($_GET["dg"])){
+				$msg=base64_decode( str_replace(" ","+",nz($_GET["dg"],"") ) );
+				echo "<div class='falla'>$msg</div>";
+			}
 		}
 			
 	}
-
+	/*
+	private function modelo(){
+		global $modelo;
+		return $modelo;
+	}
+	*/
 }

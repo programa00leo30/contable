@@ -1,8 +1,4 @@
 <?php
-// parte sesion del sistema. activar entorno global
-// require_once 'error.php';
-require_once 'sesion.php';
-require_once 'objeto.php';
 
 // start_sesion();
 
@@ -10,17 +6,36 @@ require_once 'objeto.php';
  
 function cargarControladorSeguro($controller){
 
-	global $_SESSION,$ob_sesion,$error_handle;	
-		
+	global $_SESSION,$ob_sesion,$error_handle,$modelo ;	
+		/*
 		$controlador=ucwords(CONTROLADOR_DEFECTO).'Controller';
-		$strFileController=PATH.'/controller/'.ucwords(CONTROLADOR_DEFECTO).'Controller.php';  
+		// $strFileController=PATH.'/controller/'.ucwords(CONTROLADOR_DEFECTO).'Controller.php';  
+		// $strFileController=$f->runing( ucwords(CONTROLADOR_DEFECTO).'Controller.php');  
 		
 		//if ( file_exists( PATH.'/controller/'.ucwords($controller).'Controller.php' ))
 		{	
-			$controlador=ucwords($controller).'Controller';
-			$strFileController=PATH.'/controller/'.ucwords($controller).'Controller.php' ;
+			// $controlador=ucwords($controller).'Controller';
+			// $strFileController=PATH.'/controller/'.ucwords($controller).'Controller.php' ;
+			// $strFileController=PATH.'/controller/'.ucwords($controller).'Controller.php' ;
+			$strFileController=$f->runing( ucwords(CONTROLADOR_DEFECTO).'Controller.php');  
 		}
+		$strFileController=ucwords($controller).'Controller.php' ;
+		$rt=$modelo->RequireOnce( ucwords($controller).'Controller.php' );
+			$rt=$modelo->RequireOnce(ucwords(CONTROLADOR_DEFECTO).'Controller.php');
+		*/
+		$controlador=ucwords($controller).'Controller';
+		$modelo->setActuador("controller");
+		$strFileController=$modelo->runing( ucwords(CONTROLADOR_DEFECTO).'Controller.php');  
+		$rt=require_once($modelo->runing( ucwords($controller).'Controller.php' ));
+		if (!$rt){
+			// no existe el controlador, cargando el que es por defecto.
+			$strFileController=ucwords(CONTROLADOR_DEFECTO).'Controller.php';
+			$rt=require_once($modelo->runing( ucwords(CONTROLADOR_DEFECTO).'Controller.php' ));
+			$controlador=ucwords(CONTROLADOR_DEFECTO).'Controller';
 		
+		}
+		// return $rt;
+		/*
 		// falla al adquirir controlador.
 		if ( file_exists( $strFileController ) ) {
 			require_once $strFileController;
@@ -30,14 +45,14 @@ function cargarControladorSeguro($controller){
 			$strFileController=PATH.'/controller/'.ucwords(CONTROLADOR_DEFECTO).'Controller.php'; 
 			require_once $strFileController;
 		}
-		
+		*/
 		$controllerObj=new $controlador();
 		// $_SESSION = $controllerObj->sesion();
 		
 		return $controllerObj;
 	}
 function cargarControlador($controller){
-	global $_SESSION,$ob_sesion,$error_handle;
+	global $_SESSION,$ob_sesion,$error_handle,$modelo;
 	$ob_sesion = sesion::getInstance();
 	if ( defined( "LOGIN") ){
 		// en caso de que se necesite login.
@@ -63,7 +78,7 @@ function cargarControlador($controller){
 
 
 function cargarAccion($controllerObj,$action,$activacion=null){
-    global $_SESION,$ob_sesion ;
+    global $_SESION,$ob_sesion,$modelo ;
     // echo "accion: $action";
     $accion=$action;
     $controllerObj->$accion($activacion);

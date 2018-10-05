@@ -24,13 +24,13 @@ class EntidadBase{
 				$this->columnas[]=$k;
 			}
 		}
-		tiempo( __FILE__ , __LINE__);
         
         require_once 'Conectar.php';
         require_once 'objeto.php';
        
         $this->conectar=new Conectar($perfil);
         
+		tiempo( __FILE__ , __LINE__);
         $this->db=$this->conectar->conexion();
 		// $this->columnas = array(); // inicializacion de campos.
 		if (! isset($this->where )) { $this->where="" ;} ;
@@ -193,6 +193,9 @@ textoultm
 		// funcion que devuelve un contenido html
 		// para la edicion del campo.
 		tiempo( __FILE__ , __LINE__);
+		require_once("EntidadBaseFormularios.php");
+		$for=new EntidadBaseFormularios();
+		
 		$txt="";
 		$tabulador="\n".str_repeat("\t",4);
 		if (in_array($campo,$this->columnas)){
@@ -207,6 +210,7 @@ textoultm
 			}
 			$placeholder = isset($atr["comenta"])?$atr["comenta"]:$campo ;
 			$label=isset($atr["label"])?$atr["label"]:$placeholder;
+			$lista=array();
 			if (isset($atr["list"])){
 				// arreglo de valores a listar en un desplegable.
 				foreach( $atr["list"] as $v)$lista[$v]=$v;
@@ -226,6 +230,8 @@ textoultm
 					tiempo( __FILE__ , __LINE__);
 				}
 			}
+			$txt.=$for->{$atr["typeform"]}($campo,$valor,$tabulador,$placeholder,$extra,$lista);
+			/*
 			switch( $atr["typeform"] ){
 				case "text" : $txt.="$tabulador<input type=\"text\" class=\"form-control\" "
 					."placeholder=\"$placeholder\" name=\"$campo\" $extra value=\"$valor\" >\n";
@@ -288,7 +294,7 @@ JAVAS
 					.$atr["typeform"]."\" value=\"$valor\" \">\n";
 					break;
 			}
-			
+			*/
 			if (isset($atr["htmlfirst"])){
 				$txt= $tabulador.$atr["htmlfirst"].$tabulador.$txt ;
 			}
@@ -421,7 +427,7 @@ JAVAS
 		static $query;
 		static $posicion=0;
 		if ($bandera){
-			echo "entrando $posicion";
+			// echo "entrando $posicion";
 			// primera vuelta verificar estado y comenzar.
 			$sql= "SELECT * FROM $this->table WHERE $campo='$valor' ;";
 			$query=$this->db->query($sql);
@@ -532,11 +538,11 @@ JAVAS
      * a hacer operaciones con la base de datos de la entidad
      */
 	public function buscar($campo,$valor,$especial=''){
-		$cmd="SELECT * FROM $this->table ".$this->where." ORDER BY id DESC";
+		$cmd="SELECT * FROM $this->table $this->where ORDER BY id DESC";
 		$query=$this->db->query($cmd);
         $query= $this->error($query,$cmd);
-        
-		
+        $rt = false;
+		// echo $cmd;
         //Devolvemos el resultset en forma de array de objetos
         while ( $row = $query->fetch_object() ) {
 			// var_dump($row);
@@ -560,6 +566,7 @@ JAVAS
 					return $row ; // valor encontrado
 				}else{
 					// echo "\"" . $row->$campo."\" != \"$valor\"<br>\n" ;
+					// return false;
 				}
 				
 			}
@@ -650,7 +657,7 @@ JAVAS
 		}
         // var_dump($resultSet->contar );
         return $resultSet->contar ;
-    }	
+    }
 	/*
 	 * AGREGAR NUEVO REGISTRO. 
 	 */

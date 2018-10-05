@@ -41,6 +41,10 @@ function tiempo($f,$l){
 tiempo( __FILE__ , __LINE__);
 
 	require_once 'error.php';
+	require_once 'ControlArchivo.php';
+	// controlador de archivos de objetos.
+	$modelo = new ControlArchivo();
+	
 	// $error_handle = new MiControlError();
 
 
@@ -55,7 +59,11 @@ if (!function_exists("nz")){
 if (defined ("PATH")) {
 	// PATH_INFO // 
 	//Base para los controladores
-	
+	// parte sesion del sistema. activar entorno global
+	// require_once 'error.php';
+	require_once 'sesion.php';
+	require_once 'objeto.php';
+
 	require_once 'ControladorBase.php';
 	 tiempo( __FILE__ , __LINE__);
 	//Funciones para el controlador frontal
@@ -63,7 +71,7 @@ if (defined ("PATH")) {
 	tiempo( __FILE__ , __LINE__);
 }
 else {
-	echo "falla critica!";
+	echo "falla critica! control no definido.";
 }
 
 if (isset($_SERVER["PATH_INFO"])){

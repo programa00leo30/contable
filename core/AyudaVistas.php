@@ -11,10 +11,14 @@ class AyudaVistas{
 	}
     public function url($controlador=CONTROLADOR_DEFECTO,$accion=ACCION_DEFECTO,$ifram=false){
 		$iframe = $ifram or $this->iframe;
+		$url = URL;
+		$url = rtrim($url,"/");
+		//echo $url;
+		// la url debe contener el archivo destino: index.php , 
         if ( $iframe ){	
-			$urlString=URL."index.php/".$controlador."/iframe/".$accion;
+			$urlString=$url."/".$controlador."/iframe/".$accion;
 		}else{
-			$urlString=URL."index.php/".$controlador."/".$accion;
+			$urlString=$url."/".$controlador."/".$accion;
 		}
         return $urlString;
     }
