@@ -49,11 +49,13 @@
   </head>
 
   <body>
+	
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top"> -->
+    <nav class="navbar navbar-default">
       <div class="container-fluid">
         <?php
-			echo $pagina->barrasuperior() ;
+			echo $pagina->barra("barrasuperior.php") ;
 		?>
       </div>
     </nav>
@@ -61,11 +63,13 @@
     <div class="container-fluid">
       <div class="row">
         
+		<div class="col-sm-2 col-md-1 sidebar">
 			<?php
-				echo $pagina->barralateral() ;
+				echo $pagina->barra("barralateral.php") ;
 			?>
-        
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        </div>
+		<?php echo MiControlError::colocarBarra('class="col-sm-1 col-sm-offset-2 col-md-2 col-md-offset-1"') ?>
+        <div class="col-sm-8  col-md-7  main">
 			<?php
 				echo $pagina->contenido();
 			?>
@@ -101,4 +105,3 @@
 		echo "\n". $html->javascript_Render();
 	?>
   </body>
-</html>

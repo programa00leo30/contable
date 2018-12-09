@@ -24,20 +24,6 @@ class loginController extends ControladorBase{
 
 	public function contrasenna(){
 		// comprobar responder al logeo.
-		/*
-		 * posible codigo de logeo.
-		 $sem = array(  "a1" , "a2" , "a3" , "a4" , "a5", "a6","a7" , "a8" , "a9");
-
-			switch( $swt ){
-			case 1 or 3 or 5 :
-			   list($local,$pregunta) = $this->cadenas( $sem , "atiende" , $nro );break;
-			   
-			default :
-			  list($local,$pregunta) = $this->numeros( $sem , "verifica" , $nro );break;
-			  
-			};
-
-		 */
 		$usuarios = new usuarios();
 		if (isset($_POST["usr"])){
 			$usuarios = new usuarios();
@@ -51,6 +37,7 @@ class loginController extends ControladorBase{
 				$this->set_sesion("login_usuario_id",$usuarios->id );
 				$this->set_sesion("login_usuario_nombre",$usuarios->nombre . ", ".$usuarios->apellido );
 				$this->set_sesion("login_usuario_grupo",$usuarios->grupo );
+				$this->set_sesion("login_usuario_Departamento",$usuarios->Departamento );
 				
 				$this->view("loginClave",array(
 					"indicio"=>":". $this->get_sesion("login_pregunta"), // ":".$this->get_sesion("login_local"),

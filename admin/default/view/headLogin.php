@@ -7,7 +7,7 @@
 	<meta name="description" content="Proyecto IDUV">
     <meta name="author" content="LeandroMorala">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title><?php echo $Pagtitulo ?></title>
+    <title><?php echo $paginaGlobal->Pagtitulo ?></title>
 	<link rel="shortcut icon" href="favicon.ico">
 		<?php 
 		 //include("boostrap3.3.php") ;

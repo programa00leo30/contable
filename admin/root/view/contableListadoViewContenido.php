@@ -1,7 +1,8 @@
 <?php
 
 ?>			
-					<h2 class="sub-header">Movimiento comercial de: <?php echo $cliente->nombre . ", ". $cliente->apellido ?></h2>
+					<h2 class="sub-header">Movimiento comercial de: <?php 
+						echo $cliente->nombre . ", ". $cliente->apellido ?></h2>
 					<!-- seccion de informacion -->
 						<div class="table-responsive">
 							<table class="table table-striped">
