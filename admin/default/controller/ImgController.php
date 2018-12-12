@@ -2,8 +2,6 @@
 class ImgController extends ControladorBase{
 
     public function __construct() {
-        		global $debug;
-		if(is_null($debug))$debug= ChromePhp::getInstance();
         parent::__construct();
         
     }
@@ -49,15 +47,15 @@ class ImgController extends ControladorBase{
 		$debug->trigger(false); // no mostrar mensajes.
 
 		// $dato=base64_encode(file_get_contents(PATH."/img/".$name ));
-		$dato=$this->modelo->RutaVista()."/img/".$name ;
-		$dato=$this->modelo->MiArchivo($name,"img");
+		// $dato=$this->modelo->RutaVista()."/img/".$name ;
+		$dato=$this->modelo->MiArchivo("img",$name);
 		// echo $dato;
 		$dimension = array( "x"=>500,"y"=>500 );
 
-		if (!file_exists($dato)){
-
+		// if (!file_exists($dato)){
+		if ($this->modelo->falla() > 1 ){
 			// $dato=$this->modelo->RutaVista()."/img/logo.jpg" ; // valor por defecto.
-			$dato=$this->modelo->MiArchivo("logo.jpg","img") ; // valor por defecto.
+			$dato=$this->modelo->MiArchivo("img","logo.jpg") ; // valor por defecto.
 		}
 		if (isset($_GET["x"])){
 			$dimension["x"]=$_GET["x"];
