@@ -11,46 +11,11 @@
 		
     }
     
-	private function check(){
-		if ($this->get_sesion("cobros_idCliente")){
-			// if ($this->IdDelCliente == ""){
-		   $this->selecionarCliente();
-		   exit(0); // no hay error. pero no continuamos ejecutando.
-		 }
-		 return $this->get_sesion("cobros_idCliente");
-	}
-	
-	public function selecionarCliente(){
-		// seleccionar el cliente a evaluar.
-		//Creamos el objeto usuario
-        // $usuarios = new usuarios();
-        $clientes = new clientes();
-        
-		// $usr = $usuarios->buscar( "id" , $this->get_sesion("login_usuario_id"));
-		
-		$this->view("indexCobros",array(
-            "cliente"=>$clientes,
-            "Pagtitulo"=>"..::Seleccionar Cliente::..",
-        ));
-	}
-	public function selecione(){
-		// cliente seleccionado.
-		$clientes = new clientes();
-        $cliente = $clientes->buscar( "id" , $_GET["id"]);
-		if ($cliente){
-			$this->set_sesion("cobros_idCliente",$cliente->id);
-			$this->redirect("cobros","ultimos");
-		
-		}else {
-			$this->redirect("cobros","selecionarCliente");
-		}
-		
-	}
 	
     public function index(){
        
        // $this->check();
-       $this->listado();
+       $this->ultimos();
          
        
     }
@@ -60,24 +25,80 @@
 		
 		$cliente = new clientes();
 		// $cliente->buscar("id",$idCliente );
-		$contable = new contable($idCliente );
+		// $contable = new contable($idCliente );
+		$comp = new comppago();
 		
 		$this->view("cobrosListado",array(
-			"cliente" => $cliente,
+			"factura" => $comp,
+			"clientes" => $cliente,
 			"Pagtitulo" => "Ultimos Movimientos de ".$cliente->nombre.", ".$cliente->apellido
 		));
 	}
-	public function listado(){
-		// un listado de movimientos del cliente.
+	
+	public function nuevo(){
+		// agregar nuevo recibo de cobranza.
 		$cliente = new clientes();
-		$cliente->buscar("id",$this->idCliente() );
-		$contable = new contable($this->IdDelCliente );
+		$comp = new comppago();
+	
 		
-		$this->view("contableListado",array(
-			"cliente" => $cliente->getAll,
-			"cliente" => $cliente->getAll,
-			"Pagtitulo" => "Estado Contable"
+		
+	}
+	
+	public function editar(){
+		$cliente = new clientes();
+		$comp = new comppago();
+		$this->view("cobrosForm",array(
+			"clientes"=>$cliente
+			,"comppago"=>$comppago
+			,"Pagtitulo"=>"editar comprobantes de cobro"
 		));
+		
+	}
+	
+	
+	/* *******************************************
+	 * 
+	 * detalle de cobros.
+	 * 
+	/* *******************************************/
+	
+	
+	public function nuevodetalle(){
+		// agregar nuevo detalle de recibo
+		$recibo = $_GET["idRecibo"];
+		if ($recibo){
+			$comppago= new comp_detalle();
+			$rt=$comppago->buscar("idComprob",$recibo);
+			
+			if($rt){
+				$rtn= $comppago->guardarform($_POST,true);
+				$this->view("cobrosDetalle",array(
+					"comppago"=>$comppago
+					,"idRecibo"=>$recibos
+					,"Pagtitulo"=>"detalles de comprobante de recibos"
+				));
+			}
+		}else{
+			$this->redirect("cobros","detalle");
+		}
+	}
+	
+	public function detalle(){
+		$recibo = $_GET["idRecibo"];
+		if ($recibo){
+			$comppago= new comp_detalle();
+			
+			if($rt){
+				$rtn= $comppago->guardarform($_POST,true);
+				$this->view("cobrosDetalle",array(
+					"comppago"=>$comppago
+					,"idRecibo"=>$recibos
+					,"Pagtitulo"=>"detalles de comprobante de recibos"
+				,false));
+			}
+		}else{
+			$this->redirect("cobros","index");
+		}
 	}
 }
 

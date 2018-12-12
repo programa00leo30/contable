@@ -77,23 +77,7 @@ class Clientes extends EntidadBase{
 		return $this->table ;
 	}
 
-	public function check($campo,$valor){
-		// busca en la base de datos el valor del campo
-		if (in_array($campo,$this->columnas)){
-			
-			$tmp = parent::getAll();
-			foreach($tmp as $tm ){
-				if ($tm->$campo == $valor ){
-					// valor encontrado.
-					foreach($this->columnas as $c){
-						$this->$c = $tm->{$c} ;
-					}
-					return true;
-				}
-			}
-		}else
-			return false;
-	}
+	
 	
 
 }

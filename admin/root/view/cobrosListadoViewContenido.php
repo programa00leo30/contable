@@ -1,57 +1,66 @@
 <?php
 
 ?>			
-					<h2 class="sub-header">Seleccionar un cliente</h2>
+					<h2 class="sub-header">Listado de recibos</h2>
 					<!-- seccion de informacion -->
 						<div class="table-responsive">
 							<table class="table table-striped">
 							  <thead>
 								<tr>
-								  <th>##</th>
-								  <th>nombre, apellido</th>
-								  <th>direccion</th>
-								  <th>celular</th>
-								  <th>acciones</th>
+								  <th>#</th>
+								  <th>recibo nro</th>
+								  <th>cliente</th>
+								  <th>monto</th>
+								  <th>Acciones</th>
 								</tr>
 							  </thead>
-							  <tbody id="tblClientes">
+							  <tbody id="tblFactura">
 					<?php
-						
-						// $usr=$cliente->getAll( "default",$inicio,$cantidadPorHoja);
-						$cont=0;
-						// $facturas = new facturas($clientes->id);
-						// $recibos = new recibos($clientes->id);
-						
-						// foreach($usr as $k=>$v){
-						// solo los clientes activos de categoria menor que 6
-						while ( $cliente->mostrar("activo","6","<") ){
-							$n="";
-							// foreach ( $v as $i){
-							if ($cliente->activo < 6){
-								switch($cliente->activo){
-									case "1" : $n="" ;break;
-									case "2" : $n="success" ; break ;
-									case "3" : $n="warning" ; break ;
-									case "5" : $n="danger" ; break;
+						// tiempo( __FILE__ , __LINE__);
+						$losclient=$clientes->getAll();
+						// tiempo( __FILE__ , __LINE__);
+						function eleccliente($id,$losclient){
+							$ban=false;
+							foreach($losclient as $v){
+								if ($v->id == $id){
+									$ban=true;break;
 								}
-							?>
-						<tr class="<?php echo $n ?>" data-idcliente="<?php echo $cliente->id ?>">
-							<td ><?php echo $cliente->id ."(".$cliente->activo . ")" ?></td>
-							<td ><?php echo $cliente->nombre .", ". $cliente->apellido ?></td>
-							<td><?php echo $cliente->direccion ?></td>
-							<td ><?php echo $cliente->celular ?></td>
-							<td><a class="config_cliente" data-accion="selecione" data-idcliente="<?php 
-										echo $cliente->id; ?>" href="javascript:void(0)">
-							<i class="glyphicon glyphicon-cog"></i></a><?php 
-								/*
-								 echo "<a href=\""
-								.$helper->url("clientes","editar?cliente=".$cliente->id ) 
-								."\">editar</a>" ; */
-								?></td>
+							}
+							if ($ban){
+								return $v;
+							}else{
+								return null;
+							}
+						}
+						
+					while( $factura->mostrar("id",0,">") ){
+						$client=eleccliente( $factura->idCliente ,$losclient );
+						$nombre="[".$client->id."]".$client->nombre.", ".$client->apellido;
+						$facNro = $factura->cajero."-".$factura->nrocontrol;
+						$monto=$factura->Total;
+						switch( 1 ){	// eleccion de estado de factura.
+							case "1" : $n="" ;break;
+							case "2" : $n="success" ; break ;
+							case "3" : $n="warning" ; break ;
+							case "5" : $n="danger" ; break;
+							default : $n="";
+						}
+						?>
+						<tr class="<?php echo $n ?>" data-idfactura="<?php echo $factura->id ?>">
+							<td ><?php echo $factura->Fecha ?></td>
+							<td ><?php echo $facNro ."(".$factura->id . ")" ?></td>
+							<td ><?php echo $nombre ?></td>
+							<td><?php echo $monto ?></td>
+							<td><a class="delete_factura" data-accion="borrar" data-idfactura="<?php 
+								echo $factura->id; ?>" href="javascript:void(0)">
+                <i class="glyphicon glyphicon-trash"></i></a>
+							<a class="edit_factura" data-accion="edicion" data-idfactura="<?php 
+								echo $factura->id; ?>" href="javascript:void(0)">
+                <i class="glyphicon glyphicon-pencil"></i></a>
+							</td>
 						</tr>
 					<?php		
-							} // si esta activo.
-						} // fin del bucle.
+							}// fin del bucle.
 						
 					?>
 						</tbody>
@@ -59,33 +68,31 @@
 					<div class="col-md-12 center">
 					<?php
 					// echo $pag;
-					echo $helper->paginador($cliente,"clientes","listado",$inicio,$cantidadPorHoja);
+					$inicio=0;$cantidadPorHoja=20;
+					echo $helper->paginador($factura,"facturas","ultimas",$inicio,$cantidadPorHoja);
 					?>
 					</div>
-					<button type="button" class="bb-hello-world btn btn-primary btn-lg">Run example</button>
+					
 <?php
-$elurl=$helper->url("clientes","borrar");
-$laur = $helper->url("clientes","");
-
+$elurl=$helper->url("cobros","borrar");
+$laur = $helper->url("cobros","editar");
 
 $html->javascript(<<<USOJAVA
 
-$('#tblClientes').on('click','tr td a', function(evt){
-   var target,idCliente,valorSeleccionado;
+$('#tblFactura').on('click','tr td a', function(evt){
+   var target,idFactu,valorSeleccionado;
+   // target = $(event.target);
    target = $(evt.target);
-   idCliente = target.parent().data('idcliente');
+   idFactu = target.parent().data('idfactura');
    activacion = target.parent().data('accion');
    valorSeleccionado = target.text();
-   /* 
-   alert("Referencia Seleccionado: "+
-		valorSeleccionado+"\\n idCliente: "+ 
-		target.parent().data('idcliente') +
-		" acion:"+activacion );
-   location.href = "$laur"+activacion+"?id="+idCliente; 
-   */
-   haciaurl= "http:$laur"+activacion+"?cliente="+idCliente;
+   /* alert("Referencia Seleccionado: "+valorSeleccionado+"\\n idCliente: "+ target.parent().data('idcliente') +" acion:"+activacion );
+   location.href = "$laur"+activacion+"?id="+idFactu; */
+   haciaurl= "http:$laur"+activacion+"?idFactura="+idFactu;
    $(location).attr('href',haciaurl );
+
 });
 
 USOJAVA
 );
+

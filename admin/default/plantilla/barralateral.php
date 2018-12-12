@@ -17,7 +17,10 @@
 							<li><a href="<?php 
 								echo $helper->url("clientes","altas" ) ?>">clientes altas</a></li>
 						<li><a href="<?php 
-							echo $helper->url("clientes","listado?filtro=suspendidos" ) ?>">clientes suspendidos/eliminados</a></li>
+							
+							echo $helper->url("clientes","listado?filtro=suspendidos" ) 
+							
+							?>">clientes suspendidos/eliminados</a></li>
 						</ul></li>
 						
 						<li><a  data-toggle="dropdown" class="dropdown-toggle"  href="<?php 

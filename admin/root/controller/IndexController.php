@@ -14,7 +14,7 @@ class indexController extends ControladorBase{
 		$usr = $usuarios->buscar( "id" , $this->get_sesion("login_usuario_id"));
 		
 		$this->view("index",array(
-            "usuarios"=>$usuarios,
+            "user"=>$usuarios,
             "clientes"=>$clientes,
             "Pagtitulo"=>"..::Bienvenido::..",
         ));

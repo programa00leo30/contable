@@ -27,57 +27,57 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 					<h3 class="form-title">
 					<i class="fa fa-user"></i>detalle factura:</h3><?php echo nz($l) ; ?>
 				</div>
-				<table>
-					<tr>
-						<th>id</th>
-						<th>relacFactura</th>
-						<th>cantidad</th>
-						<th>detalle</th>
-						<th>precio por unidad</th>
-						<th>subtotal</th>
-						<th>accion</th>
-					</tr>
+			<div class="table">
+				<div class="row">
+						<div class="col-sm-1">id</div>
+						<div class=" hidden">relacFactura</div>
+						<div class="col-sm-2">cantidad</div>
+						<div class="col-sm-4">detalle</div>
+						<div class="col-sm-2">precio por unidad</div>
+						<div class="col-sm-2">subtotal</div>
+						<div class="col-sm-2">accion</div>
+				</div>
 				<?php 
 					// listado de registros.
 			while( $fact_detalle->mostrar("idFact",$idfactura) ){
 				?>
-			<form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-				echo $helper->url("facturas","iframe/confirmardetalle?iddetalle=".$fact_detalle->id ) ?>" >
-				<tr>
-					<td><?php echo $fact_detalle->mostrar_editar("id",$html) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("idFact",$html) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("Cantidad",$html) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("Detalle",$html) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("porunidad",$html) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("subtotal",$html) ?></td>
-					<td><div class="form-footer">
-					 <button type="submit" class="btn btn-info">
+			<form role="form" id="factDetalle_<?php echo $fact_detalle->id ?>" autocomplete="off" method="post" action="<?php 
+				echo $helper->url("facturas","confirmardetalle?iddetalle=".$fact_detalle->id ) ?>" >
+				<div class="row">
+					<div class="col-sm-1"><?php echo $fact_detalle->mostrar_editar("id",$html) ?></div>
+					<div class=" hidden"><?php echo $fact_detalle->mostrar_editar("idFact",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html) ?></div>
+					<div class="col-sm-4"><?php echo $fact_detalle->mostrar_editar("Detalle",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("subtotal",$html) ?></div>
+					<div class="col-sm-2"><div class="form-footer">
+					 <button type="submit" class="btn btn-info" id="enviar">
 					 <span class="glyphicon glyphicon-log-in"></span>modificar</button>
-				</div></td>
-				  </tr>
+				</div></div>
+				</div>
 			</form>
 				<?php 
 					// fin de listado de registros.
 				}
 				// agregar detalle:
 				?>
-				<form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
+				<form role="form" id="factDetalle" autocomplete="off" method="post" action="<?php 
 				echo $helper->url("facturas","iframe/confirmardetalle?agregar=si" ) ?>" >
-				<tr>
-					<td>&Euml;nuevo</td>
-					<td><?php echo $fact_detalle->mostrar_editar("idFact",$html,$idfactura) ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("Cantidad",$html,"") ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("Detalle",$html,"") ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("porunidad",$html,"") ?></td>
-					<td><?php echo $fact_detalle->mostrar_editar("subtotal",$html,"") ?></td>
-					<td><div class="form-footer">
+				<div class="row">
+					<div class="col-sm-1">#nuevo</div>
+					<div class=" hidden"><?php echo $fact_detalle->mostrar_editar("idFact",$html,$idfactura) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html,"") ?></div>
+					<div class="col-sm-4"><?php echo $fact_detalle->mostrar_editar("Detalle",$html,"") ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html,"") ?></div>
+					<div class="col-sm-2 subtotal"><?php echo $fact_detalle->mostrar_editar("subtotal",$html,"") ?></div>
+					<div class="col-sm-2"><div class="form-footer">
 						 <button type="submit" class="btn btn-info">
 						 <span class="glyphicon glyphicon-log-in"></span>agregar</button>
 						</div>
-					</td>
-				  </tr>
+					</div>
+				  </div>
 				</form>
 			
-			</table>
+			</div>
 		</div>
 		

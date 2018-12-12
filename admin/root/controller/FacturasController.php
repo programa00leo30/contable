@@ -138,6 +138,23 @@ class facturasController extends ControladorBase{
 		}
 	}
 	/* 
+	 * borrar una factura:
+	 * 
+	 */
+	public function borrar(){
+		$idFact=nz($_GET["idFactura"],-1);
+		$fac=new factura();
+		$f=$fac->buscar("id",$idFact);
+		$msg="sin cambio";
+		if ($f){
+			$faDet=new fact_detalle();
+			$faDet->deleteBy("idFact",$f->id);
+			$fac->deleteById($idFact);
+			$msg="eliminada confirmada";
+		}
+		$this->redirect("facturas","ultimas?msg=$msg");
+	}
+	/* 
 	 * control de detalle de factura:
 	 * 
 	 */
@@ -152,7 +169,7 @@ class facturasController extends ControladorBase{
 		}else{
 			$this->redirect("facturas","fail?msg='falla obtencion detalle'");
 		}
-			
+		$this->plantilla("");
 		// formulario detalle de las factura
 		$this->view("facturaFormDetalle",array(
 			"idfactura"=>$idfactura,

@@ -41,11 +41,12 @@
 		// un listado de movimientos del cliente.
 		$cliente = new clientes();
 		$cliente->buscar("id",$this->idCliente() );
-		$contable = new contable($this->IdDelCliente );
+		// $contable = new contable($this->IdDelCliente );
+		$comp = new comppago();
 		
 		$this->view("contableListado",array(
-			"cliente" => $cliente->getAll,
-			"cliente" => $cliente->getAll,
+			"clientes" => $cliente,
+			"factura" => $comp,
 			"Pagtitulo" => "Estado Contable"
 		));
 	}

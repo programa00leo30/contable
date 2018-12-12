@@ -1,22 +1,5 @@
 <?php
-/* --------- clientesFormulario
- * formulario de edicion y agregado de clientes
- *
- *
-  `id` int(11) NOT NULL,
-  `cajero` int(4) NOT NULL DEFAULT '0',
-  `nrocontrol` int(11) DEFAULT NULL,
-  `idCliente` int(11) NOT NULL,
-  `idEmpleado` int(11) NOT NULL,
-  `factCerrada` int(1) DEFAULT '0' COMMENT 'si la factura es posible modificarla',
-  `idDeContrato` int(11) DEFAULT NULL COMMENT 'que contrato genero la factura',
-  `tipFact` varchar(1) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'se refiere a fact A o B o C.',
-  `Fecha` date DEFAULT NULL,
-  `Total` decimal(12,4) NOT NULL,
-  `Impuesto` decimal(12,4) NOT NULL,
-  `Observaciones` text COLLATE utf8_spanish2_ci,
-  `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
-*/				
+			
 if (!isset($l)) $l="";
 $ngroup = "has-error has-feedback";
 /*
@@ -28,7 +11,7 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
     
          <!-- form start -->
          <form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-			echo $helper->url("facturas","confirmar?".(($detalle)?"editar":"facturaNueva")."=si" ) ?>" >
+			echo $helper->url("cobros","confirmar?".(($detalle)?"editar":"facturaNueva")."=si" ) ?>" >
          
          <div class="form-header">
 			<div class="pull-left"></div>
@@ -175,16 +158,7 @@ USOJAVA
 					echo "<div class=\"row\"><div class=\"col-md-12\"><h2>primero se debe crear la factura</h2></div></div>";
 				
 				}	
-/*				
-				foreach($fatura->columns() as $k ){
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar($k)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-				}
-*/				
-					
-					
+		
             ?>
 
             
