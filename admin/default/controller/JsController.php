@@ -5,6 +5,7 @@ class JsController extends ControladorBase{
 				global $debug;
 		if(is_null($debug))$debug= ChromePhp::getInstance();
         parent::__construct();
+        Debuger::nolog();
     }
 
     public function __call($name, $arguments)

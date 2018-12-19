@@ -8,11 +8,23 @@ class facturasController extends ControladorBase{
 		// listado de facturas no cerradas
 		$factura=new factura();
 		$clientes = new clientes();
+		$saldofacturas = new saldofacturas();
 		$this->view("facturaListado",array(
 			"factura" => $factura,
+			"saldofacturas" => $saldofacturas,
 			"clientes" => $clientes,
 			"Pagtitulo" => "ultimas facturas"
 		));
+		
+	}
+	public function pagar(){
+	
+		$this->redirect("cobros"
+			,"nuevopagafactura"
+			,array(
+				"facturaid"=>isset($_GET["idFactura"])?$_GET["idFactura"]:-1
+			)
+		);
 		
 	}
 	public function nueva(){
@@ -57,9 +69,11 @@ class facturasController extends ControladorBase{
 				// si se crea una que se refresque el campo.
 				$this->set_sesion("facturaID",$idFact);
 				$this->redirect("facturas","editar?idFactura=".$idFact);
+				//echo "exito $idFact"; 
 			}else{
 				// hubo algun error al intentar guardar.
 				$this->redirect("facturas","fail?msg='existio un error'");
+				// echo "fallo";
 			}
 		}else{
 			// opcion desconocida.

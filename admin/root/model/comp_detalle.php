@@ -8,6 +8,10 @@ class comp_detalle extends EntidadBase {
 
 
 	public function __construct (){
+		
+		// $auxiliar = " and ( `idCliente` = $IDCLIENTE )";
+		$auxiliar = "";
+		
 		$this->atributos = array (
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
@@ -17,23 +21,49 @@ class comp_detalle extends EntidadBase {
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
-			"idFact"=> array(  
-				"typeform" => "numerico","claseform"=> "inputbox" , 
-				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+			
+			"idFactura"=> array( 
+				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
+				, "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:"
+				,"dbtipo"=>"not null"
+					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
+				,"sql"=>array(
+					"id",
+					"select id,CONCAT( `idCliente`
+						,', ',`NumeroComprobante`
+						,' $',`total`
+						,'( ',`adeuda`,')' ) as nombre FROM `saldofacturas`
+						WHERE ( `adeuda` <> 0 ) $auxliar
+						 ",
+					"nombre") 
+				),
+				
 			
 			"ImporteAplicado"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"null" ,"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ),	
 			"otros"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"not null" )				
+				"dbtipo"=>"null" )				
 						
 			
 				);
-		 $table="comp_detalle";
+		$table="comp_detalle";
+        
         
         parent::__construct($table);
     }
-    
+    public function sql_cliente($idCliente){
+		$this->atributos["idFactura"]["sql"] = array(
+					"id",
+					"select id,CONCAT( `idCliente`
+						,', ',`NumeroComprobante`
+						,' $',`total`
+						,'( ',`adeuda`,')' ) as nombre FROM `saldofacturas`
+						WHERE ( `adeuda` <> 0 )  and ( `idCliente` = $idCliente )
+						 ",
+					"nombre")
+					;
+		
+	}
     public function tabla(){
 		return $this->table ;
 	}

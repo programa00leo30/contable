@@ -42,9 +42,9 @@
 						</ul></li>
 						
 						<li><a href="<?php 
-							echo $helper->url("clientes","contratos" ) ?>">contratos</a></li>
+							echo $helper->url("contratos","contratos" ) ?>">contratos</a></li>
 						<li><a href="<?php 
-							echo $helper->url("clientes","planes" ) ?>">planes</a></li>
+							echo $helper->url("planes","index" ) ?>">planes</a></li>
 				</ul>
 				<ul class="nav nav-sidebar" >
 					<li  ><a  data-toggle="dropdown" class="dropdown-toggle"  href="<?php 

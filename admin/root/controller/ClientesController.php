@@ -44,9 +44,11 @@ class clientesController extends ControladorBase{
 			$inicio=0;
 		}
         $this->set_sesion("pagina",$inicio) ;
+		$totales = new movimientocomercial();
 		
 		$this->view("clienteslistado",array(
 			"clientes" => $clientes,
+			"movimientocomercial" => $totales,
 			"inicio" => $inicio,
 			"cantidadPorHoja" => $cantidadPorHoja,
 			"Pagtitulo" => "encabezado"

@@ -3,7 +3,7 @@ class ImgController extends ControladorBase{
 
     public function __construct() {
         parent::__construct();
-        
+        Debuger::nolog();
     }
 
     public static function img($archivo, $parametros){
@@ -45,18 +45,20 @@ class ImgController extends ControladorBase{
 	{
 		global $debug;
 		$debug->trigger(false); // no mostrar mensajes.
-
-		// $dato=base64_encode(file_get_contents(PATH."/img/".$name ));
-		// $dato=$this->modelo->RutaVista()."/img/".$name ;
+		$tipefile = "png";
 		$dato=$this->modelo->MiArchivo("img",$name);
-		// echo $dato;
 		$dimension = array( "x"=>500,"y"=>500 );
 
 		// if (!file_exists($dato)){
 		if ($this->modelo->falla() > 1 ){
 			// $dato=$this->modelo->RutaVista()."/img/logo.jpg" ; // valor por defecto.
 			$dato=$this->modelo->MiArchivo("img","logo.jpg") ; // valor por defecto.
+			$tipefile="jpg";
+		}else{
+			$info = new SplFileInfo($dato);
+			$tipefile = $info->getExtension();
 		}
+		
 		if (isset($_GET["x"])){
 			$dimension["x"]=$_GET["x"];
 		}
@@ -65,6 +67,7 @@ class ImgController extends ControladorBase{
 		}
 		// no utilizar plantilla
 		$this->view("img",array(
+            "tipefile"=>$tipefile,
             "dato"=>$dato,
             "dimension"=>$dimension
         ), FALSE);

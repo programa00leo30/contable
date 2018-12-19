@@ -30,7 +30,9 @@ class comppago extends EntidadBase {
 				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id", 
 				"dbtipo"=>"not null", "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
-					"sql"=>array("id","select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` ","nombre") 
+					"sql"=>array("id"
+						,"select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` "
+						,"nombre") 
 					),
 			"Fecha"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
@@ -43,11 +45,7 @@ class comppago extends EntidadBase {
 			"nrocontrol"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"not null" , "label" => "nro Factura"),
 			
-			"tipFact" => array( 
-				"typeform" => "list", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"not null", "clas"=>"" ,"label"=>"tipo de factura",
-					"list"=>array("A","B","C","D" ) 
-					) ,
+
 			"fechacupon" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
 			"Importe"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
@@ -63,7 +61,7 @@ class comppago extends EntidadBase {
 				"dbtipo"=>"null", "label"=>"Numero de cupon:" )
 			,"nombrecupon"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null", "label"=>"Numero de cupon:" )
-			,"medioP"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
+			,"medioPago"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null", "label"=>"Numero de cupon:" )
 			,"hora"=> array(  "typeform" => "time", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null", "label"=>"Numero de cupon:" )

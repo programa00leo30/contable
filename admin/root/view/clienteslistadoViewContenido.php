@@ -11,6 +11,7 @@
 								  <th>Nombre, Apellido</th>
 								  <th>Direccion</th>
 								  <th>Celular</th>
+								  <th>saldo</th>
 								  <th>Acciones</th>
 								</tr>
 							  </thead>
@@ -35,6 +36,7 @@
 							<td ><?php echo $v->nombre .", ". $v->apellido ?></td>
 							<td><?php echo $v->direccion ?></td>
 							<td ><?php echo $v->celular ?></td>
+							<td ><?php echo $movimientocomercial->total($v->id) ?></td>
 							<td><a class="delete_cliente" data-accion="borrar" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-trash"></i></a>
 							<a class="edit_cliente" data-accion="editar" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">

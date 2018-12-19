@@ -11,6 +11,7 @@
 								  <th>factura nro</th>
 								  <th>cliente</th>
 								  <th>monto</th>
+								  <th>saldoAdeudado</th>
 								  <th>Acciones</th>
 								</tr>
 							  </thead>
@@ -38,6 +39,7 @@
 						$nombre="[".$client->id."]".$client->nombre.", ".$client->apellido;
 						$facNro = $factura->cajero."-".$factura->nrocontrol;
 						$monto=$factura->Total;
+						$saldo=$saldofacturas->saldo($factura->id);
 						switch( 1 ){	// eleccion de estado de factura.
 							case "1" : $n="" ;break;
 							case "2" : $n="success" ; break ;
@@ -51,13 +53,17 @@
 							<td ><?php echo $facNro ."(".$factura->id . ")" ?></td>
 							<td ><?php echo $nombre ?></td>
 							<td><?php echo $monto ?></td>
-							<td><a class="delete_factura" data-accion="borrar" data-idfactura="<?php 
+							<td><?php echo $saldo ?></td>
+							<td><div class="input-group"><a class="delete_factura" data-accion="borrar" data-idfactura="<?php 
 								echo $factura->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-trash"></i></a>
 							<a class="edit_factura" data-accion="edicion" data-idfactura="<?php 
 								echo $factura->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-pencil"></i></a>
-							</td>
+							<a class="pagar_factura" data-accion="pagar" data-idfactura="<?php 
+								echo $factura->id; ?>" href="javascript:void(0)">
+								<i class="glyphicon glyphicon-usd"></i></a>
+							</div></td>
 						</tr>
 					<?php		
 							}// fin del bucle.

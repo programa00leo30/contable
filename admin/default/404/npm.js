@@ -1,1 +1,1 @@
-archivo fallido
+console.log("archivo fallido");

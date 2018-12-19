@@ -10,11 +10,13 @@ class indexController extends ControladorBase{
         //Creamos el objeto usuario
         $usuarios = new usuarios();
         $clientes = new clientes();
+        $totales = new movimientocomercial();
         
 		$usr = $usuarios->buscar( "id" , $this->get_sesion("login_usuario_id"));
 		
 		$this->view("index",array(
             "user"=>$usuarios,
+            "movimientocomercial"=>$totales,
             "clientes"=>$clientes,
             "Pagtitulo"=>"..::Bienvenido::..",
         ));

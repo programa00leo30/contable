@@ -40,7 +40,7 @@ class fact_detalle extends EntidadBase {
 	}
 	public function add(){
 		// calcular el subtotal:
-		echo "agregando registro...";
+		// echo "agregando registro...";
 		if ($this->Cantidad == 0 ){
 			$this->Cantidad = 1;
 		}

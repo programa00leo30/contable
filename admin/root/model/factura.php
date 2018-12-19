@@ -42,6 +42,7 @@ class factura extends EntidadBase {
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"default" ,"dbdefault"=>0, 
 				"clas"=>"hidden" ,"label"=>"la factura esta cerrada?" ),					
+			
 			"idDeContrato"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
@@ -60,13 +61,16 @@ class factura extends EntidadBase {
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
 			"Impuesto"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
-				"dbtipo"=>"DEFAUL NULL",
+				"dbtipo"=>"null",
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,"label"=>"Impuesto"),
+			
 			"Total"=> array(  "typeform" => "moneda", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,
-				"dbtipo"=>"DEFAUL NULL", "label"=>"total" ),
+				"dbtipo"=>"default null", "dbdefault" => 0, "label"=>"total" ),
+			
 			"Observaciones"=> array(  "typeform" => "textarea", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null","label"=>"Observaciones" ),
+			
 			"nroCupon"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null", "label"=>"Numero de cupon:" )
 				);

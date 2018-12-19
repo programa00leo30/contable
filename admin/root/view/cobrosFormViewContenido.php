@@ -1,63 +1,70 @@
 <?php
-			
-if (!isset($l)) $l="";
-$ngroup = "has-error has-feedback";
-/*
-if (!isset($mensaje))$mensaje="";
-$inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >$mensaje</div>";
-*/
+			 
+
 ?>
 		<div class="signup-form-container">
     
          <!-- form start -->
          <form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-			echo $helper->url("cobros","confirmar?".(($detalle)?"editar":"facturaNueva")."=si" ) ?>" >
+			echo $helper->url("cobros","confirmar",array(
+			(($detalle)?"editarcheck":"recibonuevo") => "si" 
+			,"idRecibo"=>$_GET["idRecibo"]
+			)); ?>" >
          
          <div class="form-header">
 			<div class="pull-left"></div>
 				<h3 class="form-title">
 				<span class="glyphicon glyphicon-pencil"></span>
-				<i class="fa fa-user"></i>Datos de factura:</h3><?php echo $l ; ?>
+				<i class="fa fa-user"></i>Datos de recibos:</h3>
          </div>
          
          <div class="form-body">
 			 <!-- autoform start -->
             <?php
-				if ( isset($idfatura)) {
-					$idfacDetalle="?idfac=".$idfatura;
-					$t=$fatura->buscar("id",$idfatura);
-					echo $fatura->mostrar_editar("id")."\n";
+				if ( isset($idComppago)) {
+					$idComppagor="?idRecibo=".$idComppago;
+					$t=$comprobante->buscar("id",$idComppago);
+					echo $comprobante->mostrar_editar("id")."\n";
 					// var_dump($idfatura);
 				}else{
 					$idfacDetalle="";
 				}
+				/*
+				 * * `id`
+				* `idCobrador`,
+				* 
+				* , `cajero`, `nrocontrol`,
+				*  `idCliente`, `Fecha`, `Importe`, 
+				*  `Observac`, `hasregistro`, `nombrecupon`, `cupon`, `fechacupon`,
+				*  `hora`, `medioPago
+				*/
 				echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("tipFact")."\n";
+					echo $comprobante->mostrar_editar("medioPago")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("cajero")."\n";
+					echo $comprobante->mostrar_editar("cajero")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 					echo "\t\t\t\t<div class=\"separate col-md-1\">-</div><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("nrocontrol")."\n";
+					echo $comprobante->mostrar_editar("nrocontrol")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div></div>";					
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("Fecha",$html)."\n";
+					echo $comprobante->mostrar_editar("Fecha",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idCliente",$html)."\n";
+					echo $comprobante->mostrar_editar("idCliente",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idEmpleado",$html)."\n";
+					echo $comprobante->mostrar_editar("idCobrador",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 /*					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idDeContrato")."\n";
+					echo $comprobante->mostrar_editar("idDeContrato")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 */
@@ -65,13 +72,10 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 			 <!-- autoform end -->
 			 <div class="row">
 				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Impuesto") ?>				
+				<?php echo $comprobante->mostrar_editar("Importe") ?>				
 				 </div>
 				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Total") ?>
-				 </div>
-				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Observaciones") ?>
+				<?php echo $comprobante->mostrar_editar("Observac") ?>
 				</div>
 			 </div>
             </div>
@@ -95,10 +99,11 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 				?>
 				<div id="detalle"></div>
 				<?php
-				$tmpurl='"'. $helper->url("facturas","iframe/detalle",array("idfac"=>$idfatura)). '"';
-				
-				$html->javascript(<<<USOJAVA
+				$tmpurl='"'. $helper->url("cobros","iframe/detalle",array("idRecibo"=>$idComppago)). '"';
 
+// para que carge el detalle una vez cargado la pagina.
+	
+$html->javascript(<<<USOJAVA
 $(document).ready(function(){
     $.ajax({
 			url: $tmpurl, 
@@ -112,7 +117,7 @@ $(document).ready(function(){
 });
 USOJAVA
 );
-
+// para sumar los totales..
 $html->javascript(<<<USOJAVA
 function sumar(){
 	var totalDeuda=0;
@@ -127,6 +132,7 @@ function sumar(){
 USOJAVA
 );
 
+// para que los sume al modificar el campo.
 $html->javascript(<<<USOJAVA
 function asociarEvento(){
 
@@ -155,7 +161,7 @@ USOJAVA
 );
 				
 				}else{
-					echo "<div class=\"row\"><div class=\"col-md-12\"><h2>primero se debe crear la factura</h2></div></div>";
+					echo "<div class=\"row\"><div class=\"col-md-12\"><h2>primero se debe crear el recibo</h2></div></div>";
 				
 				}	
 		

@@ -13,9 +13,8 @@ require_once $actualDir."/core/core/core.php";
 
 // ejecutar todo lo que se deba a travez de  la variable 
 // de control PathController.
-Debuger::log("warn","inicio");
-ChromePhp::log("warn","inicio");
+
 core($PathController);
-Debuger::log("warn","fin");
+
 
 ?>

@@ -10,11 +10,21 @@ if (isset($dimension)){
 	$nuevo_ancho=200	;
 	$nuevo_alto=60;
 }
-header("Content-type: image/png");
+$header = "Content-type: image/$tipefile"; 
+// header("Content-type: base64/png");  
 
 // $im     =  imagecreatefromgif(base64_decode($dato));
-$im     =  imagecreatefromjpeg($dato);
-
+switch($tipefile){
+	case "jpg":
+		$im     =  imagecreatefromjpeg($dato);break;
+	case "gif":
+		$im     =  imagecreatefromgif($dato);break;
+	case "png" :
+		$im     =  imagecreatefrompng($dato);break;
+		
+	default: 
+		$header ="";
+}
 // crear una imagen nueva 
 
 $thumb = imagecreatetruecolor($nuevo_ancho,$nuevo_alto);
@@ -27,6 +37,7 @@ imagecopyresized($thumb,$im, 0,0 ,0,0  ,$nuevo_ancho,$nuevo_alto,ImageSX($im),Im
 // imagesetinterpolation($im,IMG_NEAREST_NEIGHBOUR);
 // imagescale($im,1289,350);
 
+header("Content-type: image/png"); 
 imagepng($thumb);
 imagedestroy($thumb);
 imagedestroy($im);

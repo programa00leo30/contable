@@ -18,37 +18,7 @@
 						$inicio = 0;
 						$cantidadPorHoja = 5;
 						include("clienteslistadoViewContenido.php");
-						/*
-							$clients = $clientes->getAll( "default",0,10);
-							foreach ($clients as $cl){
-								$k="";
-								/* [id]  [activo]  [nombre]  [apellido]  [nombusuario]  [Passwd]  [sexo]  
-								 * [tipodocumento]  [docnro]  [fechanac]  [nacionalidad]  [direccion]  [localidad]  
-								 * [provincia]  [cp]  [mail]  [tel]  [celular] 						
-								 * /
-						
-								foreach ($cl as $key=>$dato){
-									$k.=" [".$key."] ";
-								// * /
-							
-								
-						?>
-						<div class="col-md-12">
-						<div class="col-md-1"><?php echo $cl->id ?></div>
-						<div class="col-md-4"><?php echo $cl->nombre .", ".$cl->apellido ?></div>
-						<div class="col-md-4"><?php echo $cl->direccion ?></div>
-						<div class="col-md-2"><a href="<?php 
-							echo $helper->url("clientes","editar?cliente=".$cl->id)  
-							?>">editar</a>
-							<a href="<?php 
-							echo $helper->url("clientes","borrar?id=".$cl->id)  
-							?>">eliminar</a></div>
-						</div>
-						<?php
-								// };
-								echo $k;
-							};
-							*/
+
 						?>
 					 </div>
 				  </div>

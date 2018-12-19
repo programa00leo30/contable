@@ -3,6 +3,7 @@ class FontsController extends ControladorBase{
 
     public function __construct() {
         parent::__construct();
+        Debuger::nolog();
     }
 
     public function __call($name, $arguments)

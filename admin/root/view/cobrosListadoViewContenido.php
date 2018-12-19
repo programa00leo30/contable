@@ -88,7 +88,7 @@ $('#tblFactura').on('click','tr td a', function(evt){
    valorSeleccionado = target.text();
    /* alert("Referencia Seleccionado: "+valorSeleccionado+"\\n idCliente: "+ target.parent().data('idcliente') +" acion:"+activacion );
    location.href = "$laur"+activacion+"?id="+idFactu; */
-   haciaurl= "http:$laur"+activacion+"?idFactura="+idFactu;
+   haciaurl= "http:$laur"+activacion+"?idRecibo="+idFactu;
    $(location).attr('href',haciaurl );
 
 });
