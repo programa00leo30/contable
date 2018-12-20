@@ -29,13 +29,12 @@ class facturasController extends ControladorBase{
 	}
 	public function nueva(){
 		// debo saber que cliente
-		tiempo( __FILE__ , __LINE__);
 		$factura = new factura();
 		$clientes = new clientes();
-		tiempo( __FILE__ , __LINE__);
-		// eliminiar variable precedente.
+		if (isset($_GET["cliente"])){
+			$clientes->buscar("id",$_GET["cliente"]);
+		}
 		$this->set_sesion("facturaID" , null);
-		tiempo( __FILE__ , __LINE__);
 		$this->view("facturaForm",array(
 			"destino" => "confirmar",
 			"clientes" => $clientes,	// model cliente
@@ -44,6 +43,9 @@ class facturasController extends ControladorBase{
 			"Pagtitulo" => "encabezado"
 		));
 	}
+	
+	
+	
 	public function confirmar(){
 		// recibo nueva factura o edicion de factura.
 		// confirmacion de facturas:
@@ -65,6 +67,7 @@ class facturasController extends ControladorBase{
 			// no hay id de factura se agrega nueva factura.
 			// var_dump($_POST);
 			list($error,$idFact) = $factura->guardarform($_POST,true);
+		
 			if ($error){				
 				// si se crea una que se refresque el campo.
 				$this->set_sesion("facturaID",$idFact);

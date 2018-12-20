@@ -1,6 +1,6 @@
 <?php
 /* --------- clientesFormulario
- * formulario de edicion y agregado de clientes
+ * formulario de edicion y agregado de facturas.
  *
  *
   `id` int(11) NOT NULL,
@@ -17,12 +17,7 @@
   `Observaciones` text COLLATE utf8_spanish2_ci,
   `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
 */				
-if (!isset($l)) $l="";
-$ngroup = "has-error has-feedback";
-/*
-if (!isset($mensaje))$mensaje="";
-$inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >$mensaje</div>";
-*/
+
 ?>
 		<div class="signup-form-container">
     
@@ -34,7 +29,7 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 			<div class="pull-left"></div>
 				<h3 class="form-title">
 				<span class="glyphicon glyphicon-pencil"></span>
-				<i class="fa fa-user"></i>Datos de factura:</h3><?php echo $l ; ?>
+				<i class="fa fa-user"></i>Datos de factura:</h3>
          </div>
          
          <div class="form-body">
@@ -49,19 +44,19 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 					$idfacDetalle="";
 				}
 				echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("tipFact")."\n";
+					echo $fatura->mostrar_editar("tipFact",$html,"C")."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("cajero")."\n";
+					echo $fatura->mostrar_editar("cajero",$html,0)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 					echo "\t\t\t\t<div class=\"separate col-md-1\">-</div><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("nrocontrol")."\n";
+					echo $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0))."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div></div>";					
 					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("Fecha",$html)."\n";
+					echo $fatura->mostrar_editar("Fecha",$html,date("Y-m-d"))."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
 
@@ -73,29 +68,24 @@ $inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\">
 					echo $fatura->mostrar_editar("idEmpleado",$html)."\n";
 					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
 				</div>";
-/*					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idDeContrato")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-*/
 ?>
 			 <!-- autoform end -->
 			 <div class="row">
 				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Impuesto") ?>				
+				<?php echo $fatura->mostrar_editar("Impuesto",$html,0) ?>				
 				 </div>
 				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Total") ?>
+				<?php echo $fatura->mostrar_editar("Total",$html,0) ?>
 				 </div>
 				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Observaciones") ?>
+				<?php echo $fatura->mostrar_editar("Observaciones",$html) ?>
 				</div>
 			 </div>
             </div>
             
             <div class="form-footer">
                  <button type="submit" class="btn btn-info">
-                 <span class="glyphicon glyphicon-log-in"></span> Enviar Datos !
+                 <span class="glyphicon glyphicon-log-in"></span> GUARDAR !
                  </button>
             </div>
 

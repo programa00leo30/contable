@@ -14,10 +14,10 @@
 				</div>
 			<div class="table">
 				<div class="row">
-						<div class="col-sm-1">id</div>
+						<div class="col-sm-1">#id</div>
 						<div class=" hidden">idRecibo</div>
-						<div class="col-sm-2">idfactura</div>
-						<div class="col-sm-4">ImporteAplicado</div>
+						<div class="col-sm-4">idfactura</div>
+						<div class="col-sm-3">ImporteAplicado</div>
 						<div class="col-sm-2">otros</div>
 						<div class="col-sm-2">accion</div>
 				</div>
@@ -43,8 +43,8 @@
 				<div class="row">
 					<div class="col-sm-1"><?php echo $comp_detalle->mostrar_editar("id",$html) ?></div>
 					<div class=" hidden"><?php echo $comp_detalle->mostrar_editar("idComprob",$html) ?></div>
-					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("idFactura",$html) ?></div>
-					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html) ?></div>
+					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("idFactura",$html) ?></div>
+					<div class="col-sm-3"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html) ?></div>
 					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("otros",$html) ?></div>
 					<div class="col-sm-2"><div class="form-footer">
 					 <button type="submit" class="btn btn-info btn-circle" id="detalleeditar" name="detalleenviar" value="<?php
@@ -63,13 +63,14 @@
 				}
 				// agregar detalle:
 				?>
+				<div class="row">
 				<form role="form" id="factDetalle" autocomplete="off" method="post" action="<?php 
 				echo $helper->url("cobros","iframe/confirmardetalle?agregar=si" ) ?>" >
 				<div class="row">
 					<div class="col-sm-1">#nuevo</div>
 					<div class=" hidden"><?php echo $comp_detalle->mostrar_editar("idComprob",$html,$idRecibo) ?></div>
-					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("idFact",$html) ?></div>
-					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html) ?></div>
+					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("idFactura",$html,"") ?></div>
+					<div class="col-sm-3"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html,0) ?></div>
 					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("otros",$html) ?></div>
 					<div class="col-sm-2"><div class="form-footer">
 						 <button type="submit" class="btn btn-info">
@@ -78,7 +79,7 @@
 					</div>
 				  </div>
 				</form>
-			
+				</div>
 			</div>
 		</div>
 		

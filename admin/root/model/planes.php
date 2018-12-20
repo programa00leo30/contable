@@ -46,7 +46,29 @@ class planes extends EntidadBase {
 			return -1;
 		}
 	}
+	public function guardarform($post,$agregar=false){
+		if (isset($post["importe"])){
+			$importe = $this->importe((isset($post["id"])?$post["id"]:-1) );
+			if ($importe <> $post["importe"] ){
+				$nuevoImporte = $post["importe"];
+			}
+			unset($post["importe"]);			
+		}
+		$rt = parent::guardarform($post,$agregar);
 		
+		if ( $rt[0][0] and isset($nuevoImporte)){
+			// Debuger::log("planes","agregando nuevo importe");
+			$nuevodetalle = new planes_importes();
+			$nuevodetalle->guardarform( array(
+				"idPlan"=>$rt[1]
+				,"FechaImporte" => date("Y-m-d H:i:s")
+				,"importe" => $nuevoImporte
+			) , true);
+		}
+		// Debuger::log("planes","fin de guardar");
+		return $rt;
+			
+	}
 	
     public function tabla(){
 		return $this->table ;

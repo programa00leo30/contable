@@ -89,9 +89,12 @@ class factura extends EntidadBase {
 		$this->idDeContrato=0;
 		$this->Impuesto=0;
 		$this->Total=0;
-		parent::add();
+		return parent::add();
 	}
-	
+	public function nroControl($idCajero){
+		// retorna el proxinmo numero a utilizar 
+		return 0;
+	}
 	public function check($campo,$valor){
 		// busca en la base de datos el valor del campo
 		if (in_array($campo,$this->columnas)){

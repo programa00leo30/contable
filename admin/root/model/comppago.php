@@ -35,7 +35,7 @@ class comppago extends EntidadBase {
 						,"nombre") 
 					),
 			"Fecha"=> array(  
-				"typeform" => "hidden","claseform"=> "inputbox" , 
+				"typeform" => "fechahora","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"default" ,"dbdefault"=>0, 
 				"clas"=>"hidden" ,"label"=>"la factura esta cerrada?" ),									

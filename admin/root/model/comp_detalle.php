@@ -23,17 +23,16 @@ class comp_detalle extends EntidadBase {
 				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
 			
 			"idFactura"=> array( 
-				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
-				, "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:"
-				,"dbtipo"=>"not null"
-					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
+				"dbtipo"=>"not null"
+				,"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
+				, "clas"=>"glyphicon glyphicon-user" ,"label"=>"identificador de factura"
 				,"sql"=>array(
 					"id",
 					"select id,CONCAT( `idCliente`
 						,', ',`NumeroComprobante`
 						,' $',`total`
 						,'( ',`adeuda`,')' ) as nombre FROM `saldofacturas`
-						WHERE ( `adeuda` <> 0 ) $auxliar
+						WHERE ( `adeuda` <> 0 ) $auxiliar
 						 ",
 					"nombre") 
 				),

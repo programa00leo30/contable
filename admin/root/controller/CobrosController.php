@@ -121,20 +121,10 @@
 					,"idCliente" => $chk->idCliente
 					,"Fecha" => date("Y-m-d")
 					,"Importe" => $chk->adeuda
-					/*
-					,"Observac" => "solicitado desde aciones"
-					,"hasregistro" => base64_encode("solicitado desde aciones")
-					,"hora" => date("H:i:s")
-					,"medioPago" => 1 
-					*/
 					),true);
 				if (!$comppago->fail()){
-					// agregamos el deatlle.
-					echo "-----idcomp dump:";
-					var_dump($idComp);
-					echo "-----idcomp dump:";
 					
-					$idCompdetalle = $compdetall->guardarform(array(
+					list($error,$idCompdetalle) = $compdetall->guardarform(array(
 						"idComprob"=> $idComp[1]
 						,"idFactura"=> $chk->id
 						,"ImporteAplicado"=> $chk->adeuda
@@ -142,7 +132,7 @@
 						),true);
 					if (!$compdetall->fail()){
 						// todo fue un exito.
-						$this->redirect("cobros","ultimos?msg=agregadoOK");
+						$this->redirect("cobros","editaredicion?idRecibo=$idCompdetalle");
 					}
 				}else{
 					 $this->redirect("cobros","ultimos?msg=no se puedo agregar nuevo detalle");

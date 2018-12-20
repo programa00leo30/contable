@@ -38,7 +38,9 @@
 					<div class="col-sm-1"><?php echo $planes->mostrar_editar("id",$html) ?></div>
 					<div class=" col-sm-4"><?php echo $planes->mostrar_editar("NombrePlan",$html) ?></div>
 					<div class="col-sm-2"><?php echo $planes->mostrar_editar("CRT",$html) ?></div>
-					<div class="col-sm-2"><?php echo $planes->importe() ?></div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" placeholder="importe" name="importe"  value="<?php echo $planes->importe() ?>" >
+						</div>
 					<div class="col-sm-2"><div class="form-footer">
 					 <button type="submit" class="btn btn-info btn-circle" id="detalleeditar" name="detalleenviar" value="<?php
 					 echo $planes->id ;
@@ -62,7 +64,9 @@
 					<div class="col-sm-1">#nuevo</div>
 					<div class=" col-sm-4"><?php echo $planes->mostrar_editar("NombrePlan",$html,"") ?></div>
 					<div class="col-sm-2"><?php echo $planes->mostrar_editar("CRT",$html,"") ?></div>
-					<div class="col-sm-2">0</div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" placeholder="importe" name="importe"  value="0" >
+					</div>
 					<div class="col-sm-2"><div class="form-footer">
 						 <button type="submit" class="btn btn-info">
 						 <span class="glyphicon glyphicon-log-in"></span>agregar</button>

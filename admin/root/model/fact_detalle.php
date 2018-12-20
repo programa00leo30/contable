@@ -50,7 +50,7 @@ class fact_detalle extends EntidadBase {
 			$this->porunidad = $this->subtotal / $this->Cantidad;
 		}
 		// var_dump($this);
-		parent::add();
+		return parent::add();
 		
 	}
 	
