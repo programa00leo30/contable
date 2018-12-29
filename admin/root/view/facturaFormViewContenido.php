@@ -1,107 +1,110 @@
-<?php
-/* --------- clientesFormulario
- * formulario de edicion y agregado de facturas.
- *
- *
-  `id` int(11) NOT NULL,
-  `cajero` int(4) NOT NULL DEFAULT '0',
-  `nrocontrol` int(11) DEFAULT NULL,
-  `idCliente` int(11) NOT NULL,
-  `idEmpleado` int(11) NOT NULL,
-  `factCerrada` int(1) DEFAULT '0' COMMENT 'si la factura es posible modificarla',
-  `idDeContrato` int(11) DEFAULT NULL COMMENT 'que contrato genero la factura',
-  `tipFact` varchar(1) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'se refiere a fact A o B o C.',
-  `Fecha` date DEFAULT NULL,
-  `Total` decimal(12,4) NOT NULL,
-  `Impuesto` decimal(12,4) NOT NULL,
-  `Observaciones` text COLLATE utf8_spanish2_ci,
-  `nroCupon` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL
-*/				
+<div class="container">
+    <div class="text-center">
+         <h1>Factura </h1>
+    </div>
 
+     <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <!-- <h3 class="panel-title">Cabecera</h3> -->
+					<hr>
+                    <div class="row" >
+                        
+                        <div class="col-md-3" style="background-color:white;">
+                            
+<?php 
+$ob= $fatura->mostrar_editar("idCliente",$html) ;$ob->tab(8) ; echo $ob ;  
 ?>
-		<div class="signup-form-container">
+                                
+                            
+                        </div>
+                        <div class="col-md-2" style="background-color:white;">
+							
+<?php $ob = $fatura->mostrar_editar("tipFact",$html,"C") ;$ob->tab(8) ; echo $ob ; 
+?>
+							
+                        </div>
+                        <div class="col-md-3" style="background-color:white;">
+                            <div class="form-group">
+                              
+                                <label for="fecha" class="col-sm-5 control-label">Fecha factura</label>
+                                <div class="col-sm-7">
+<?php $ob = $fatura->mostrar_editar("Fecha",$html,date("Y-m-d")); 
+								$ob->SetAtr("class","form-control");
+								$ob->tab(8);
+								echo $ob; 
+							?></div>
+							    
+                            </div>
+                        </div>
+                        <div class="col-md-4 target" style="background-color:white;">
+                            <div class="form-group">
+                                <label for="id" class="col-sm-1 control-label">Id</label>
+                                <div class="col-sm-11">
+                                    
+<?php $ob= $fatura->mostrar_editar("cajero",$html,0); 
+$ob->tab(8) ; 
+$ob->SetAtr("class","col-sm-5");
+echo $ob ;  ?>
+									-
+<?php $ob= $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0));
+$ob->tab(8) ; 
+$ob->SetAtr("class","col-sm-5");
+echo $ob ;  ?>
+									
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- row -->
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6"> 
+                          <address id="datosCliente"></address>
+                          <address>
+                           <strong class="">BERNARDO GINARD PRATS</strong><br class="">
+                            Carrer Ciutadella nº 26 A<br class="">
+                            07008 Palma<br class="">
+                            Illes Balears<br class="">                          
+                           </address>
+                        </div>
+                   </div> <!-- row -->
+                   <br>
+                   <div class="row">
+						<!-- autoform end -->
+						<div class="row">
+							<div class="form-group col-md-4">
+								<?php echo $fatura->mostrar_editar("Impuesto",$html,0) ?>				
+							</div>
+							<div class="form-group col-md-4">
+								<?php echo $fatura->mostrar_editar("Total",$html,0) ?>
+							</div>
+							<div class="form-group col-md-4">
+								<?php echo $fatura->mostrar_editar("Observaciones",$html) ?>
+							</div>
+						</div>
+						
+
+						<div class="form-footer">
+							<button type="submit" class="btn btn-info">
+								<span class="glyphicon glyphicon-log-in"></span> GUARDAR !
+							</button>
+						</div>
+                   
+                   
+                   </div><!-- row -->
+				</div> <!-- panel heading -->
+				<div class="panel-body" id="detalle" >
+				</div> <!-- panel body -->
+				
+             </div> <!-- panel -->
+        </div> <!-- col -->
+    </div> <!-- row -->
     
-         <!-- form start -->
-         <form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-			echo $helper->url("facturas","confirmar?".(($detalle)?"editar":"facturaNueva")."=si" ) ?>" >
-         
-         <div class="form-header">
-			<div class="pull-left"></div>
-				<h3 class="form-title">
-				<span class="glyphicon glyphicon-pencil"></span>
-				<i class="fa fa-user"></i>Datos de factura:</h3>
-         </div>
-         
-         <div class="form-body">
-			 <!-- autoform start -->
-            <?php
-				if ( isset($idfatura)) {
-					$idfacDetalle="?idfac=".$idfatura;
-					$t=$fatura->buscar("id",$idfatura);
-					echo $fatura->mostrar_editar("id")."\n";
-					// var_dump($idfatura);
-				}else{
-					$idfacDetalle="";
-				}
-				echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("tipFact",$html,"C")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("cajero",$html,0)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"separate col-md-1\">-</div><div class=\"form-group col-md-4\">\n" ;
-					echo $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0))."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div></div>";					
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("Fecha",$html,date("Y-m-d"))."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
+</div>    <!-- container -->
 
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idCliente",$html)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar("idEmpleado",$html)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-?>
-			 <!-- autoform end -->
-			 <div class="row">
-				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Impuesto",$html,0) ?>				
-				 </div>
-				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Total",$html,0) ?>
-				 </div>
-				 <div class="form-group col-md-4">
-				<?php echo $fatura->mostrar_editar("Observaciones",$html) ?>
-				</div>
-			 </div>
-            </div>
-            
-            <div class="form-footer">
-                 <button type="submit" class="btn btn-info">
-                 <span class="glyphicon glyphicon-log-in"></span> GUARDAR !
-                 </button>
-            </div>
+<?php
 
-
-            </form>
-            <?php
-
-				//var_dump($fatura);
-				if ($detalle){ // existe un registro activo.
-					/*
-					echo "<iframe src=\"".
-						$helper->url("facturas","iframe/detalle$idfacDetalle")."\" class=\"col-md-12\">factura detalle</iframe>";
-					*/
-				?>
-				<div id="detalle"></div>
-				<?php
 				$tmpurl='"'. $helper->url("facturas","iframe/detalle",array("idfac"=>$idfatura)). '"';
 				
 				$html->javascript(<<<USOJAVA
@@ -125,7 +128,7 @@ function sumar(){
 	var totalDeuda=0;
 
 	$("[name=subtotal]").each(function(){
-		console.log("sumar:"+$(this).val());
+		// console.log("sumar:"+$(this).val());
 		totalDeuda+=parseInt($(this).val()) || 0;
 	});
 
@@ -135,12 +138,14 @@ USOJAVA
 );
 
 $html->javascript(<<<USOJAVA
+/* funcion de asociar elementos */
 function asociarEvento(){
-
-$("[id*=factDetalle]").submit(function(e) {
+$("#detalle").on('submit',"[id*=factDetalle]",function(e){
+/* $("[id*=factDetalle]").submit(function(e) { */
     var form = $(this);
     var url = form.attr('action');
 	/* alert("enviando formulario "+url); */
+    console.log("formulario:" +  form.attr("id") );
     $.ajax({
            type: "POST",
            url: url,
@@ -160,23 +165,6 @@ $("[id*=factDetalle]").submit(function(e) {
 }
 USOJAVA
 );
-				
-				}else{
-					echo "<div class=\"row\"><div class=\"col-md-12\"><h2>primero se debe crear la factura</h2></div></div>";
-				
-				}	
-/*				
-				foreach($fatura->columns() as $k ){
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $fatura->mostrar_editar($k)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-				}
-*/				
-					
-					
-            ?>
 
-            
-		</div>
-		
+
+

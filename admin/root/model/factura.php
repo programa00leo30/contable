@@ -32,8 +32,9 @@ class factura extends EntidadBase {
 					"sql"=>array("id","select id,Nombre FROM `empleados` ","Nombre")  
 					) ,
 			"idCliente"=> array( 
-				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id", 
-				"dbtipo"=>"not null", "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:",
+				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
+				,"comenta"=>"cliente:" 
+				,"dbtipo"=>"not null", "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` ","nombre") 
 					),
@@ -55,8 +56,8 @@ class factura extends EntidadBase {
 			
 			"tipFact" => array( 
 				"typeform" => "list", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"not null", "clas"=>"" ,"label"=>"tipo de factura",
-					"list"=>array("A","B","C","D" ) 
+				"dbtipo"=>"not null", "clas"=>"" ,"label"=>"tipo de factura","comenta"=>"tipo:"
+					,"list"=>array("A","B","C","D" ) 
 					) ,
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),

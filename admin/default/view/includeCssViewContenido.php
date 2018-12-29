@@ -43,8 +43,8 @@ class recursivo {
 }
 
 $n = new recursivo($helper);
-echo "// ----\n";
+// echo "// ----\n";
 // cambiar las etiquetas [url]controlador/archivo[/url] 
 $salida = $n->analiza($entrada,"url");
-echo "// ----\n";
+// echo "// ----\n";
 echo $salida ;

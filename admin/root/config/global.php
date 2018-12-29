@@ -2,13 +2,9 @@
 define("CONTROLADOR_DEFECTO", "index");
 define("ACCION_DEFECTO", "index");
 
-define("CONTROLADOR_FIN", "fin"); // define pagina de salida
-define("ACCION_FIN", "gracias");   // define pagina especial de salutacion
-
-define("debugmode",true);		// define produccion o desarrollo ( debugmode=true => desarrollo )
 
 // session_name("iduv");
-define("SESION_NOMBRE","4Net");  // nombre a la cookie de sesion:
+define("SESION_NOMBRE","zerOuno");  // nombre a la cookie de sesion:
 
 // activar el logeo obligatorio:
 define("LOGIN",true);

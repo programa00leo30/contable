@@ -1,83 +1,110 @@
 <?php
-/* --------- clientesFormulario
- * formulario de edicion y agregado de clientes
- * facturaFormDetalleViewContenido.php
- * 
- */
-$mensaje=isset($mensaje)?$mensaje:"";
-if (!isset($l)) $l="";
-$ngroup = "has-error has-feedback";
-$inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >"
-	. $mensaje ."</div>";
-// funcion para que aparezca la fecha en el costado de los campos pertinentes.
-// $html->javascript("",$helper->url("js","bootstrap-datetimepicker.min.js"));
-// esta pagina esta en modalidad iframe.
 
-// solamente los detalles de la factura actual. 
-// $detalle = $fact_detalle->getBy( "idFact",$idfactura);
 
-?>
-		<div class="signup-form-container">
-    
-			 <!-- form start -->
-			 
-			 
-				<div class="form-header">
-					<div class="pull-left"></div>
-					<h3 class="form-title">
-					<i class="fa fa-user"></i>detalle factura:</h3><?php echo nz($l) ; ?>
-				</div>
-			<div class="table">
-				<div class="row">
-						<div class="col-sm-1">id</div>
-						<div class=" hidden">relacFactura</div>
-						<div class="col-sm-2">cantidad</div>
-						<div class="col-sm-4">detalle</div>
-						<div class="col-sm-2">precio por unidad</div>
-						<div class="col-sm-2">subtotal</div>
-						<div class="col-sm-2">accion</div>
-				</div>
-				<?php 
-					// listado de registros.
-			while( $fact_detalle->mostrar("idFact",$idfactura) ){
-				?>
-			<form role="form" id="factDetalle_<?php echo $fact_detalle->id ?>" autocomplete="off" method="post" action="<?php 
-				echo $helper->url("facturas","confirmardetalle?iddetalle=".$fact_detalle->id ) ?>" >
-				<div class="row">
-					<div class="col-sm-1"><?php echo $fact_detalle->mostrar_editar("id",$html) ?></div>
-					<div class=" hidden"><?php echo $fact_detalle->mostrar_editar("idFact",$html) ?></div>
-					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html) ?></div>
-					<div class="col-sm-4"><?php echo $fact_detalle->mostrar_editar("Detalle",$html) ?></div>
-					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html) ?></div>
-					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("subtotal",$html) ?></div>
-					<div class="col-sm-2"><div class="form-footer">
-					 <button type="submit" class="btn btn-info" id="enviar">
-					 <span class="glyphicon glyphicon-log-in"></span>modificar</button>
-				</div></div>
-				</div>
-			</form>
-				<?php 
-					// fin de listado de registros.
-				}
-				// agregar detalle:
-				?>
-				<form role="form" id="factDetalle" autocomplete="off" method="post" action="<?php 
-				echo $helper->url("facturas","iframe/confirmardetalle?agregar=si" ) ?>" >
-				<div class="row">
-					<div class="col-sm-1">#nuevo</div>
-					<div class=" hidden"><?php echo $fact_detalle->mostrar_editar("idFact",$html,$idfactura) ?></div>
-					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html,"") ?></div>
-					<div class="col-sm-4"><?php echo $fact_detalle->mostrar_editar("Detalle",$html,"") ?></div>
-					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html,"") ?></div>
-					<div class="col-sm-2 subtotal"><?php echo $fact_detalle->mostrar_editar("subtotal",$html,"") ?></div>
-					<div class="col-sm-2"><div class="form-footer">
-						 <button type="submit" class="btn btn-info">
-						 <span class="glyphicon glyphicon-log-in"></span>agregar</button>
-						</div>
-					</div>
-				  </div>
-				</form>
+$detalle = new html("div",array("class"=>"panel-body"));
+$detalle->tab(5);
+$detalle->add(new html("h3",array("class"=>"panel-title"),"Detalle"));
+$detalle->add(new html("table",array("class"=>"table table-condensed")));
+$detalle->table->add(new html("thead"));
+$detalle->table->thead->add(new html("tr"));
+$detalle->table->thead->tr->add(new html("th",array(),"Producto"));
+$detalle->table->thead->tr->add(new html("th",array(),"Cantidad"));
+$detalle->table->thead->tr->add(new html("th",array(),"Precio"));
+$detalle->table->thead->tr->add(new html("th",array(),"Importe"));
+$detalle->table->thead->tr->add(new html("th",array(),array(
+	"acciones"
+	,"eventos"
+)));
+
+$cont=0;
+while( $fact_detalle->mostrar("idFact",$idfactura) ){
+	$detalle->table->add(new html("tr",array("id"=>"tab_".$cont),
+			new html("form",array(
+				"role"=>"form"
+				,"id"=>"facDetalle_".$fact_detalle->id
+				,"autocomplete"=>"off"
+				,"method"=>"post"
+				,"action"=>$helper->url("facturadetalle","confirmardetalle?iddetalle=".$fact_detalle->id )
+			))
+		)
+	);
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,array(
+				$fact_detalle->mostrar_editar("id",$html)
+				,$fact_detalle->mostrar_editar("Detalle",$html)
+			)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,array(
+				$fact_detalle->mostrar_editar("idFact",$html)
+				,$fact_detalle->mostrar_editar("Cantidad",$html)
+			)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,$fact_detalle->mostrar_editar("porunidad",$html)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,$fact_detalle->mostrar_editar("subtotal",$html)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-2"),
+		new html("div",array("class"=>"form-footer"),
+			array(
+				new html("button",array(
+					"type"=>"submit","class"=>"btn btn-info btn-circle"
+					, "id"=>"enviar" ,"name"=>"boton", "value"=>"change"
+					),new html("span",array("class"=>"glyphicon glyphicon-pencil")," ")
+				)
+				,new html("button",array(
+					"type"=>"submit","class"=>"btn btn-info btn-circle"
+					, "id"=>"enviar" ,"name"=>"boton", "value"=>"delete"
+					),new html("span",array("class"=>"glyphicon glyphicon-pencil")," ")
+				)
+			)
+		)
+	));
+// fin de listado de registros.
+$cont++;
+}
+	$detalle->table->add(new html("tr",array("id"=>"tab_".$cont),
+			new html("form",array(
+				"role"=>"form"
+				,"id"=>"facDetalle_".$fact_detalle->id
+				,"autocomplete"=>"off"
+				,"method"=>"post"
+				,"action"=>$helper->url("facturadetalle","confirmardetalle?iddetalle=".$fact_detalle->id )
+			))
+		)
+	);
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,array(
+				"##"
+				,$fact_detalle->mostrar_editar("Detalle",$html)
+			)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,array(
+				$fact_detalle->mostrar_editar("idFact",$html)
+				,$fact_detalle->mostrar_editar("Cantidad",$html)
+			)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,$fact_detalle->mostrar_editar("porunidad",$html)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
+			,$fact_detalle->mostrar_editar("subtotal",$html)
+		)); 
+	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-2"),
+		new html("div",array("class"=>"form-footer"),
 			
-			</div>
-		</div>
-		
+				new html("button",array(
+					"type"=>"submit","class"=>"btn btn-info btn-circle"
+					, "id"=>"enviar" ,"name"=>"boton", "value"=>"add"
+					),array( 
+						new html("span",array("class"=>"glyphicon glyphicon-log-in")," ")
+						,"agregar")
+				)
+			
+		)
+	));
+
+echo $detalle;

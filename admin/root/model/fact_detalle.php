@@ -4,7 +4,7 @@ class fact_detalle extends EntidadBase {
 	public function __construct (){
 		$this->atributos = array (
 			"id"=> array(  
-				"typeform" => "hidden","claseform"=> "inputbox" , 
+				"typeform" => "text","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
 			"idFact"=> array(  

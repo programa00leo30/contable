@@ -1,0 +1,85 @@
+<?php
+/* --------- clientesFormulario
+ * formulario de edicion y agregado de clientes
+ * facturaFormDetalleViewContenido.php
+ * 
+ */
+$mensaje=isset($mensaje)?$mensaje:"";
+if (!isset($l)) $l="";
+$ngroup = "has-error has-feedback";
+$inputgroup = "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span><div class=\"warning\" >"
+	. $mensaje ."</div>";
+// funcion para que aparezca la fecha en el costado de los campos pertinentes.
+// $html->javascript("",$helper->url("js","bootstrap-datetimepicker.min.js"));
+// esta pagina esta en modalidad iframe.
+
+// solamente los detalles de la factura actual. 
+// $detalle = $fact_detalle->getBy( "idFact",$idfactura);
+
+?>
+		<div class="signup-form-container">
+    
+			 <!-- form start -->
+			 
+			 
+				<div class="form-header">
+					<div class="pull-left"></div>
+					<h3 class="form-title">
+					<i class="fa fa-user"></i>detalle factura:</h3><?php echo nz($l) ; ?>
+				</div>
+			<div class="table">
+				<div class="row">
+						<div class="col-sm-1">id</div>
+						<div class="col-sm-1">relacFactura</div>
+						<div class="col-sm-2">cantidad</div>
+						<div class="col-sm-3">detalle</div>
+						<div class="col-sm-2">precio por unidad</div>
+						<div class="col-sm-2">subtotal</div>
+						<div class="col-sm-2">accion</div>
+				</div>
+				<?php 
+					// listado de registros.
+			while( $fact_detalle->mostrar("idFact",$idfactura) ){
+				?>
+			<form role="form" id="factDetalle_<?php echo $fact_detalle->id ?>" autocomplete="off" method="post" action="<?php 
+				echo $helper->url("facturadetalle","confirmardetalle?iddetalle=".$fact_detalle->id ) ?>" >
+				<div class="row">
+					<div class="col-sm-1"><?php echo $fact_detalle->mostrar_editar("id",$html) ?></div>
+					<div class="col-sm-1"><?php echo $fact_detalle->mostrar_editar("idFact",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html) ?></div>
+					<div class="col-sm-3"><?php echo $fact_detalle->mostrar_editar("Detalle",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("subtotal",$html) ?></div>
+					<div class="col-sm-2"><div class="form-footer">
+					 <button type="submit" class="btn btn-info btn-circle" id="enviar" name="boton" value="change">
+					 <span class="glyphicon glyphicon-pencil"></span></button>
+					 <button type="submit" class="btn btn-info btn-circle" id="enviar" name="boton" value="delete">
+					 <i class="glyphicon glyphicon-remove"></i></button>
+				</div></div>
+				</div>
+			</form>
+				<?php 
+					// fin de listado de registros.
+				}
+				// agregar detalle:
+				?>
+				<form role="form" id="factDetalle_0" autocomplete="off" method="post" action="<?php 
+				echo $helper->url("facturadetalle","confirmardetalle?agregar=si" ) ?>" >
+				<div class="row">
+					<div class="col-sm-1">#nuevo</div>
+					<div class="col-sm-1"><?php echo $fact_detalle->mostrar_editar("idFact",$html,$idfactura) ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("Cantidad",$html,"") ?></div>
+					<div class="col-sm-3"><?php echo $fact_detalle->mostrar_editar("Detalle",$html,"") ?></div>
+					<div class="col-sm-2"><?php echo $fact_detalle->mostrar_editar("porunidad",$html,"") ?></div>
+					<div class="col-sm-2 subtotal"><?php echo $fact_detalle->mostrar_editar("subtotal",$html,"") ?></div>
+					<div class="col-sm-2"><div class="form-footer">
+						 <button type="submit" class="btn btn-info btn-circle" id="enviar" name="boton" value="add">
+						 <span class="glyphicon glyphicon-log-in"></span>agregar</button>
+						</div>
+					</div>
+				  </div>
+				</form>
+			
+			</div>
+		</div>
+		

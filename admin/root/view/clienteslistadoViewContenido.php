@@ -43,7 +43,9 @@
                 <i class="glyphicon glyphicon-pencil"></i></a>
 							<a class="config_cliente" data-accion="config" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-cog"></i></a>
-							<a class="config_cliente" data-accion="contable" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+							<a class="config_cliente" data-accion="facturas" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+                <i class="glyphicon glyphicon-cog"></i></a>
+							<a class="config_cliente" data-accion="cobros" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-usd"></i></a><?php 
 								/*
 								 echo "<a href=\""

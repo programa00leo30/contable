@@ -76,5 +76,18 @@ class comppago extends EntidadBase {
     public function tabla(){
 		return $this->table ;
 	}
+	public function ultimo($cajero = 0){
+		$sql="SELECT max(`nrocontrol`) as ultimo FROM `factura` where `cajero` = '$cajero' ORDER BY `cajero` , `factura`.`nrocontrol` DESC ";
+		$sqtr=$this->query($sql);
+		if ($sqtr){
+			$rt=$sqtr->fetch_object();
+			if ($rt){
+				return $rt->ultimo;
+			}else return 0;
+		}else{ 
+			// echo $this->fail().$sql;
+			return -1;
+		}
 	
+	}	
 }
