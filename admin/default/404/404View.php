@@ -10,18 +10,20 @@ $name = isset($name)?$name:"ERROR";
 
 // include("head.php");
 //include("estructura.php");
-?>
-<html>
-	<head>
-		<title>ERROR</title>
-	</head>
-<body>
-		<div class="container-fluid">
-			<h2>ERROR 404 </h2><p><strong><?php  
-				echo $title ?></strong>- no se ha encontrado <strong><?php  
-			echo $name ?></strong></p>
-			<div><a href="<?php echo $url ?>" >regresar al inicio</a></div>
-		</div>
-	
-	
-</html>
+$documento = new html("html");
+$documento->add([
+	new html("head",[], new html("title",[],"ERROR"))
+	, new html("body")
+	]
+);
+$documento->body->add(new html("div",['class'=>"container-fluid"],
+	[
+		new html("h2",[],"ERROR 404")
+		,new html("p",[],"no se ha encontrado")
+		,new html("strong",[],$title)
+		,new html("a",[href => $helper->url("index","index")],"regresar al inicio")
+	]
+));
+			
+
+echo $documento;

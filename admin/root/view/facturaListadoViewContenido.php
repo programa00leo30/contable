@@ -34,7 +34,12 @@
 							}
 						}
 						
-					while( $factura->mostrar("factCerrada",0) ){
+						$inicio=isset($_GET["pag"])?$_GET["pag"]:0;
+						if ($inicio=="first")$inicio=0;
+						if ($inicio=="last")$inicio=99;
+						
+						$cantidadPorHoja=4;
+					while( $factura->mostrar("factCerrada",0,'=',"LIMIT $inicio,$cantidadPorHoja") ){
 						$client=eleccliente( $factura->idCliente ,$losclient );
 						$nombre="[".$client->id."]".$client->nombre.", ".$client->apellido;
 						$facNro = $factura->cajero."-".$factura->nrocontrol;
@@ -74,7 +79,7 @@
 					<div class="col-md-12 center">
 					<?php
 					// echo $pag;
-					$inicio=0;$cantidadPorHoja=20;
+					// $inicio=0;$cantidadPorHoja=2;
 					echo $helper->paginador($factura,"facturas","ultimas",$inicio,$cantidadPorHoja);
 					?>
 					</div>

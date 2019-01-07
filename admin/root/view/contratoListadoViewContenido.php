@@ -16,7 +16,7 @@
 								  <th>Acciones</th>
 								</tr>
 							  </thead>
-							  <tbody id="tblFactura">
+							  <tbody id="tblContratos">
 					<?php
 						// tiempo( __FILE__ , __LINE__);
 						
@@ -49,10 +49,10 @@
 							<td ><?php echo $facNro ."(".$contratos->id . ")" ?></td>
 							<td><?php echo $ip ?></td>
 							<td><?php echo $PLAN ?></td>
-							<td><a class="delete_factura" data-accion="borrar" data-idfactura="<?php 
+							<td><a class="delete_contrato" data-accion="borrar" data-idfactura="<?php 
 								echo $contratos->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-trash"></i></a>
-							<a class="edit_factura" data-accion="edicion" data-idfactura="<?php 
+							<a class="edit_contrato" data-accion="edicion" data-idfactura="<?php 
 								echo $contratos->id; ?>" href="javascript:void(0)">
                 <i class="glyphicon glyphicon-pencil"></i></a>
 							</td>
@@ -67,17 +67,17 @@
 					<?php
 					// echo $pag;
 					$inicio=0;$cantidadPorHoja=20;
-					echo $helper->paginador($contratos,"facturas","ultimas",$inicio,$cantidadPorHoja);
+					echo $helper->paginador($contratos,"contratos","listado",$inicio,$cantidadPorHoja);
 					?>
 					</div>
 					
 <?php
-$elurl=$helper->url("cobros","borrar");
-$laur = $helper->url("cobros","editar");
+$elurl=$helper->url("contratos","");
+$laur = $helper->url("contratos","");
 
 $html->javascript(<<<USOJAVA
 
-$('#tblFactura').on('click','tr td a', function(evt){
+$('#tblContratos').on('click','tr td a', function(evt){
    var target,idFactu,valorSeleccionado;
    // target = $(event.target);
    target = $(evt.target);
@@ -86,7 +86,7 @@ $('#tblFactura').on('click','tr td a', function(evt){
    valorSeleccionado = target.text();
    /* alert("Referencia Seleccionado: "+valorSeleccionado+"\\n idCliente: "+ target.parent().data('idcliente') +" acion:"+activacion );
    location.href = "$laur"+activacion+"?id="+idFactu; */
-   haciaurl= "http:$laur"+activacion+"?idRecibo="+idFactu;
+   haciaurl= "http:$laur"+activacion+"?id="+idFactu;
    $(location).attr('href',haciaurl );
 
 });

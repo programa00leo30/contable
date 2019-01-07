@@ -6,7 +6,13 @@ class contrato extends EntidadBase {
  * `ip`, `localidad`, `idEquipo`, `idCliente`, 
  * `idPlan`, `idEmpleado`, `Estado`, `fechaalta`, 
  * `fechacierre`, `otrosdatos`
- * 
+ * ALTER TABLE `contrato` 
+ * ADD `Minutos` VARCHAR(6) NULL AFTER `fechacierre`, 
+ * ADD `Horas` VARCHAR(6) NULL AFTER `Minutos`, 
+ * ADD `DiaMes` VARCHAR(6) NULL AFTER `Horas`, 
+ * ADD `Mes` VARCHAR(6) NULL AFTER `DiaMes`, 
+ * ADD `DiaSemana` VARCHAR(6) NULL AFTER `Mes`, 
+ * ADD `Comando` VARCHAR(60) NULL AFTER `DiaSemana`;
  * */
 
 
@@ -36,13 +42,13 @@ class contrato extends EntidadBase {
 			"ip"=> array(  
 				"dbtipo"=>"null",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-user" ,
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-net" ,
 				"label"=>"ip de cliente:" ),
 			
 			"localidad"=> array(  
 				"dbtipo"=>"null",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-user" ,
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
 				"label"=>"localidad de instalacion:" ),
 			
 			"idEquipo"=> array( 
@@ -97,14 +103,55 @@ class contrato extends EntidadBase {
 			"Estado"=> array( 
 				"dbtipo"=>"not null", "dbdefault" => 1,
 				"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-user" ,
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-staus" ,
 				"label"=>"Estado actual del contrato:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","SELECT id,`estado` as nombre FROM `contrato_estados` ","nombre") 
-			),
+			)
 				
+			,"fechaalta" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
+				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar")
+			,"fechacierre" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
+				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar")
 			
-				);
+			,"Minutos"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"0",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"a cuantos minutos:" )
+			,"Horas"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"2",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"localidad de instalacion:" )
+			,"DiaMes"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"1",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"localidad de instalacion:" )
+			,"Mes"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"*",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"localidad de instalacion:" )
+			,"DiaSemana"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"*",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"localidad de instalacion:" )
+			,"Comando"=> array(  
+				"dbtipo"=>"null", "dbdefault"=>"\$facturas->crear(\$cliente,1);",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"label"=>"localidad de instalacion:" )
+			
+			,"otrosdatos"=> array(  
+				"dbtipo"=>"null",
+				"typeform" => "text", "comandoform"=>"alfanumerico", 
+				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-note" ,
+				"label"=>"localidad de instalacion:" )
+				
+			);
 		$table="contrato";
         
         

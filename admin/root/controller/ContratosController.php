@@ -34,7 +34,7 @@ class contratosController extends ControladorBase{
         $contratos = new contrato();
         
 		
-		$this->view("contratoForm",array(
+		$this->view("contratosFormAlta",array(
 			"editar"=>false,
             "contratos"=>$contratos,
             "clientes"=>$clientes,
@@ -43,12 +43,15 @@ class contratosController extends ControladorBase{
 		
 	}
 	
-	public function editar(){
+	public function edicion(){
 		$clientes = new clientes();
         $contratos = new contrato();
-        
+        if (isset($_GET["id"])){
+			$id = $_GET["id"];
+			$contratos->buscar("id",$id);
+		};
 		
-		$this->view("contratoForm",array(
+		$this->view("contratosFormAlta",array(
             "editar"=>$id,
             "contratos"=>$contratos,
             "clientes"=>$clientes,
@@ -60,7 +63,11 @@ class contratosController extends ControladorBase{
 		
 		$clientes = new clientes();
         $contratos = new contrato();
-        
+        if (isset($_POST["id"])){
+			$contratos->guardarform($_POST);
+		}elseif (isset($_POST)){
+			$contratos->guardarform($_POST,true);
+		}
 		
 		$this->view("contratoForm",array(
             "contratos"=>$contratos,

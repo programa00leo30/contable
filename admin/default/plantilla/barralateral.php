@@ -1,114 +1,121 @@
-	
-		<aside class="aside">
-         <!-- START Sidebar (left)-->
-         <nav class="sidebar col-md-2 ">
-            <ul class="nav">
-               <!-- START user info-->
-			  <ul class="dropdown-menu">
-					<li><a href="<?php echo $helper->url("index","index" ) ?>">informacion general</a></li>
-				</ul>
-				<ul class="nav nav-sidebar">
-					
-						<li><a data-toggle="dropdown" class="dropdown-toggle" href="<?php 
-							echo $helper->url("clientes","index" ) ?>">clientes<b class="caret"></b></a>
-						<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("clientes","listado" ) ?>">clientes listado</a></li>
-							<li><a href="<?php 
-								echo $helper->url("clientes","altas" ) ?>">clientes altas</a></li>
-						<li><a href="<?php 
-							
-							echo $helper->url("clientes","listado?filtro=suspendidos" ) 
-							
-							?>">clientes suspendidos/eliminados</a></li>
-						</ul></li>
-						
-						<li><a  data-toggle="dropdown" class="dropdown-toggle"  href="<?php 
-							echo $helper->url("facturas","ultimas" ) ?>">facturacion<b class="caret"></b></a>
-							<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("facturas","ultimas" ) ?>">Ver listado ultimas facturas</a></li>
-							<li><a href="<?php 
-								echo $helper->url("facturas","nueva" ) ?>">Crear Factura</a></li>
-						</ul></li>
-						
-						<li><a data-toggle="dropdown" class="dropdown-toggle" href="<?php 
-							echo $helper->url("cobros","ultimos" ) ?>">Cobros<b class="caret"></b></a>
-							<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("cobros","ultimos" ) ?>">Ver listado ultimos Cobros</a></li>
-							<li><a href="<?php 
-								echo $helper->url("cobros","nuevo" ) ?>">Nuevo Cobro</a></li>
-						</ul></li>
-						
-						<li><a href="<?php 
-							echo $helper->url("contratos","contratos" ) ?>">contratos</a></li>
-						<li><a href="<?php 
-							echo $helper->url("planes","index" ) ?>">planes</a></li>
-				</ul>
-				<ul class="nav nav-sidebar" >
-					<li  ><a  data-toggle="dropdown" class="dropdown-toggle"  href="<?php 
-							echo $helper->url("equipos","index" ) ?>">equipos / mantenimientos<b class="caret"></b></a>
-							<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("equipos","listado" ) ?>">listado de equipos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("equipos","index" ) ?>">listado de mantenimientos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">comandos para los equipos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">chequeos</a></li>
-							</ul></li>			
-					
-				</ul>
-				<ul class="nav nav-sidebar" >
-					<li  ><a  data-toggle="dropdown" class="dropdown-toggle"   href="<?php 
-							echo $helper->url("productos","index" ) ?>">productos<b class="caret"></b></a>
-							<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("productos","listado" ) ?>">listado de productos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("productos","nuevo" ) ?>">agregar productos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("productos","stock" ) ?>">stock</a></li>
-							</ul></li>			
-				</ul>
-				<ul class="nav nav-sidebar">
-					<li  ><a data-toggle="dropdown" class="dropdown-toggle" href="<?php 
-						echo $helper->url("index","index" ) ?>">herramientas<b class="caret"></b></a>
-							<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">configuracion de panginas</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">configuracion de contratos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">configuracion de planes</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">configuracion de periodos</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">configuracion de tazas</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">empleados</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">otras configuraciones</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">estados de este servidor</a></li>
-							<li><a href="<?php 
-								echo $helper->url("index","index" ) ?>">backups y resptauraciones</a></li>
-							</ul>			</li>					
-						
+<?php
 
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="<?php echo $helper->url("index","index" ) ?>">Acerca de <b class="caret"></b></a>
-						<ul role="menu" class="dropdown-menu">
-							<li><a href="<?php echo $helper->url("index","index" ) ?>">Quienes somos</a></li>
-							<li><a href="<?php echo $helper->url("index","index" ) ?>">Ubicación</a></li>
-							<li><a href="<?php echo $helper->url("index","index" ) ?>">Historia</a></li>
-							<li><a href="<?php echo $helper->url("login","salir" ) ?>">Cerrar sesion</a></li>
-						</ul>
-					</li>
-				</ul>
-			</ul>
-		</nav>
+
+
+$barra = new menu(0,0,0);
+$barra->usuario("Administrador","OnLine",$helper->url("img","user.jpg"));
+$barra->headerGrup(	"Basico" );
+$barra->selectedCondicion("clientes",1,"#",
+		/*opciones = array ("nombre"=>["href" "opciones","contenido"] */
+	[
+		listado => [ 
+			$helper->url("clientes","listado") 
+			,"listados" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+		, altas => [
+			$helper->url("clientes","altas")
+			,"altas clientes"
+			,""
+		]
+		, "suspendidos" => [
+			$helper->url("clientes","listado",[ filtro=>"suspendidos"])
+			,"Clientes Suspendidos"
+			,""
+		]
+	]
+	);
+// $barra->selecionado("clientes");
+$barra->selectedCondicion("Facturas",2,"#",
+	[
+	listado => [ 
+			$helper->url("facturas","ultimas" )
+			,"Ultimas Cargadas" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+	
+	
+	,nueva => [ 
+			$helper->url("facturas","nueva" )
+			,"Crear Factura" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+	
+	]
+);
+$barra->selectedCondicion("Cobros",3,"#",
+	[
+	listado => [ 
+			$helper->url("cobros","ultimos" ) 
+			,"Listados de los ultimos cobros" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+	
+	
+	,nueva => [ 
+			$helper->url("cobros","nuevo" )
+			,"Crear Recibo" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+	
+	]
+);
+
+
+$barra->headerGrup("Contratos");
+$barra->selectedCondicion("Contratos",3,"#",
+		/*opciones = array ("nombre"=>["href" "opciones","contenido"] */
+	[
+		listado => [ 
+			$helper->url("contratos","index") 
+			,"listados" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+		, altas => [
+			$helper->url("contratos","nuevo")
+			,"Nuevo Contrato"
+			,""
+		]
+		, "suspendidos" => [
+			$helper->url("contratos","listado",[ filtro=>"suspendidos"])
+			,"Clientes Suspendidos"
+			,""
+		]
+	]
+	);
+$barra->selectedCondicion("planes",4,"#",
+		/*opciones = array ("nombre"=>["href" "opciones","contenido"] */
+	[
+		listado => [ 
+			$helper->url("planes","index") 
+			,"listados" // new html("span",[ 'class'=>"badge badge-pill badge-success"],"pro") 
+			,""
+			]
+		, altas => [
+			$helper->url("planes","nuevo")
+			,"Nuevo Plan"
+			,""
+		]
+		, "suspendidos" => [
+			$helper->url("contratos","listado",[ filtro=>"suspendidos"])
+			,"Clientes Suspendidos"
+			,""
+		]
+	]
+	);
+$barra->headerGrup("Extras");
+$barra->selectedCondicion("Extras",2,"#",
+	[
+		"Contrato de clientes"=>[
+			$helper->url("contratos","listado")
+			,""
+			,"Contrato con clientes"
+		]
+	]
+);
+
+$barra->tab(3);
+return $barra;
+
+?>                
+

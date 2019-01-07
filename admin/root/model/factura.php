@@ -61,13 +61,16 @@ class factura extends EntidadBase {
 					) ,
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
-			"Impuesto"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
+			"Impuesto"=> array(  
 				"dbtipo"=>"null",
+				"typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,"label"=>"Impuesto"),
 			
-			"Total"=> array(  "typeform" => "moneda", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
+			"Total"=> array(  
+				"dbtipo"=>"default null", "dbdefault" => 0,
+				"typeform" => "moneda", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,
-				"dbtipo"=>"default null", "dbdefault" => 0, "label"=>"total" ),
+				 "label"=>"total" ),
 			
 			"Observaciones"=> array(  "typeform" => "textarea", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"null","label"=>"Observaciones" ),
