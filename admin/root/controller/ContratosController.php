@@ -64,17 +64,23 @@ class contratosController extends ControladorBase{
 		$clientes = new clientes();
         $contratos = new contrato();
         if (isset($_POST["id"])){
-			$contratos->guardarform($_POST);
+			$rt=$contratos->guardarform($_POST);
 		}elseif (isset($_POST)){
-			$contratos->guardarform($_POST,true);
+			$rt=$contratos->guardarform($_POST,true);
 		}
-		
+		// var_dump($_POST);
+		if ($rt[1]){
+			$this->index();
+		}else{
+			// existio falla.
 		$this->view("contratoForm",array(
+            "editar"=>(isset($_POST["id"])?$_POST["id"]:false),
             "contratos"=>$contratos,
             "clientes"=>$clientes,
-            "Pagtitulo"=>"..::Listado de Contratos::..",
+            "Pagtitulo"=>"..::CONTRATOS::..",
         ));
-        
+			
+		}
 	}
 	
 }

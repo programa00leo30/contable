@@ -31,6 +31,7 @@ class Fuckyou {
         usort($tags, array($sorter, "fsort"));
         */
         function t($flipped){
+			
 			return self::t($flipped);
 		};
         

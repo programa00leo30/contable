@@ -28,6 +28,7 @@ class facturadetalleController extends ControladorBase{
 		
 		if (isset($_GET["idfac"])){
 			$idfactura=$_GET["idfac"];
+			
 		}elseif ($this->get_sesion("facturaID" )){ // retorna falso sin no existe.
 			$idfactura=$this->get_sesion("facturaID" );
 		}else{

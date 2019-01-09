@@ -47,7 +47,7 @@ class factura extends EntidadBase {
 			"idDeContrato"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden" ,"label"=>"ID:" ),					
+				"dbtipo"=>"null","clas"=>"hidden" ,"label"=>"ID:" ),					
 			
 			"cajero"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"default null","label"=>"nro punto venta" ),
@@ -62,12 +62,12 @@ class factura extends EntidadBase {
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
 				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
 			"Impuesto"=> array(  
-				"dbtipo"=>"null",
+				"dbtipo"=>"default" ,"dbdefault"=>0,
 				"typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,"label"=>"Impuesto"),
 			
 			"Total"=> array(  
-				"dbtipo"=>"default null", "dbdefault" => 0,
+				"dbtipo"=>"default", "dbdefault" => 0,
 				"typeform" => "moneda", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,
 				 "label"=>"total" ),
@@ -88,13 +88,7 @@ class factura extends EntidadBase {
     public function tabla(){
 		return $this->table ;
 	}
-	public function add(){
-		// completa algunos campos obligatorios y de valor 0
-		$this->idDeContrato=0;
-		$this->Impuesto=0;
-		$this->Total=0;
-		return parent::add();
-	}
+	
 	public function nroControl($idCajero){
 		// retorna el proxinmo numero a utilizar 
 		return 0;

@@ -3,7 +3,7 @@
 
 $detalle = new html("div",array("class"=>"panel-body"));
 $detalle->tab(5);
-$detalle->add(new html("h3",array("class"=>"panel-title"),"Detalle"));
+$detalle->add(new html("h3",array("class"=>"panel-title"),"Detalle($idfactura)"));
 $detalle->add(new html("table",array("class"=>"table table-condensed")));
 $detalle->table->add(new html("thead"));
 $detalle->table->thead->add(new html("tr"));
@@ -24,7 +24,7 @@ while( $fact_detalle->mostrar("idFact",$idfactura) ){
 				,"id"=>"facDetalle_".$fact_detalle->id
 				,"autocomplete"=>"off"
 				,"method"=>"post"
-				,"action"=>$helper->url("facturadetalle","confirmardetalle?iddetalle=".$fact_detalle->id )
+				,"action"=>$helper->url("facturadetalle","confirmardetalle",["iddetalle"=>$fact_detalle->id ])
 			))
 		)
 	);
@@ -36,7 +36,7 @@ while( $fact_detalle->mostrar("idFact",$idfactura) ){
 		)); 
 	$detalle->table->GetById("tab_".$cont)->form->add(new html("td",array("class"=>"col-sm-1")
 			,array(
-				$fact_detalle->mostrar_editar("idFact",$html)
+				new html("div",['class'=>"hidden"],$fact_detalle->mostrar_editar("idFact",$html,$idfactura))
 				,$fact_detalle->mostrar_editar("Cantidad",$html)
 			)
 		)); 

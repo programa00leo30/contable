@@ -34,12 +34,15 @@
 							}
 						}
 						
-						$inicio=isset($_GET["pag"])?$_GET["pag"]:0;
-						if ($inicio=="first")$inicio=0;
-						if ($inicio=="last")$inicio=99;
+						$inicio=isset($_GET["pag"])?($_GET["pag"]):0;
+						if ((string)$inicio == "preview") $inicio=0  ;
+						if ((string)$inicio == "next") $inicio=0  ;
+						if ((string)$inicio == "first") $inicio=0  ;
+						if ((string)$inicio == "last" ) $inicio=99 ;
 						
-						$cantidadPorHoja=4;
-					while( $factura->mostrar("factCerrada",0,'=',"LIMIT $inicio,$cantidadPorHoja") ){
+						
+						$cantidadPorHoja=8;
+					while( $factura->mostrar("factCerrada",0,'=',"ORDER BY `factura`.`id` DESC LIMIT $inicio,$cantidadPorHoja") ){
 						$client=eleccliente( $factura->idCliente ,$losclient );
 						$nombre="[".$client->id."]".$client->nombre.", ".$client->apellido;
 						$facNro = $factura->cajero."-".$factura->nrocontrol;

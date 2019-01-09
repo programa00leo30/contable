@@ -37,7 +37,7 @@
 						$client=eleccliente( $factura->idCliente ,$losclient );
 						$nombre="[".$client->id."]".$client->nombre.", ".$client->apellido;
 						$facNro = $factura->cajero."-".$factura->nrocontrol;
-						$monto=$factura->Total;
+						$monto=$factura->Importe;
 						switch( 1 ){	// eleccion de estado de factura.
 							case "1" : $n="" ;break;
 							case "2" : $n="success" ; break ;

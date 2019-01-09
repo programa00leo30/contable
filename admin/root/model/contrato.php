@@ -59,8 +59,8 @@ class contrato extends EntidadBase {
 				,"sql"=>array(
 					"id",
 					"
-					SELECT id,  
-					select id,CONCAT( `ip`
+					SELECT id, 
+					CONCAT( `ip`
 						,'[',`mac`
 						,'] ',`identificador` ) as nombre  FROM `equipos`
 						WHERE `estado` = 1 
@@ -83,11 +83,14 @@ class contrato extends EntidadBase {
 				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-compressed" ,
 				"label"=>"Plan contratado:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
-					"sql"=>array("id","SELECT 
-						id,
-						CONCAT( `planes_con_importes`,' [',`CRT`,'] $',`importe`) as nombre 
-						FROM `planes_con_importes` ",
-						"nombre") 
+					"sql"=>array(
+						"id"
+						,"SELECT 
+							id,
+							CONCAT( '[',`CRT`,'] ',`NombrePlan`,' $',`importe`) as nombre 
+							FROM `planes_con_importes` "
+						,"nombre"
+						) 
 					),
 				
 			
@@ -174,29 +177,7 @@ class contrato extends EntidadBase {
 			return -1;
 		}
 	}
-	public function guardarform($post,$agregar=false){
-		if (isset($post["importe"])){
-			$importe = $this->importe((isset($post["id"])?$post["id"]:-1) );
-			if ($importe <> $post["importe"] ){
-				$nuevoImporte = $post["importe"];
-			}
-			unset($post["importe"]);			
-		}
-		$rt = parent::guardarform($post,$agregar);
-		
-		if ( $rt[0][0] and isset($nuevoImporte)){
-			// Debuger::log("planes","agregando nuevo importe");
-			$nuevodetalle = new planes_importes();
-			$nuevodetalle->guardarform( array(
-				"idPlan"=>$rt[1]
-				,"FechaImporte" => date("Y-m-d H:i:s")
-				,"importe" => $nuevoImporte
-			) , true);
-		}
-		// Debuger::log("planes","fin de guardar");
-		return $rt;
-			
-	}
+	
 	
     public function tabla(){
 		return $this->table ;

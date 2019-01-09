@@ -22,7 +22,7 @@ class facturasController extends ControladorBase{
 		$this->redirect("cobros"
 			,"nuevopagafactura"
 			,array(
-				"facturaid"=>isset($_GET["idFactura"])?$_GET["idFactura"]:-1
+				"facturaid"=>nz($_GET["idFactura"],-1)
 			)
 		);
 		
@@ -36,6 +36,7 @@ class facturasController extends ControladorBase{
 		}
 		$this->set_sesion("facturaID" , null);
 		$this->view("facturaForm",array(
+			"urlParam" => [facturaNueva=>"si"],
 			"destino" => "confirmar",
 			"clientes" => $clientes,	// model cliente
 			"fatura" => $factura,	// model factura
@@ -67,12 +68,13 @@ class facturasController extends ControladorBase{
 			// no hay id de factura se agrega nueva factura.
 			// var_dump($_POST);
 			list($error,$idFact) = $factura->guardarform($_POST,true);
-		
+			// $obj = $factura->guardarform($_POST,true);
+			// var_dump($obj); exit();
 			if ($error){				
 				// si se crea una que se refresque el campo.
 				$this->set_sesion("facturaID",$idFact);
 				$this->redirect("facturas","editar?idFactura=".$idFact);
-				//echo "exito $idFact"; 
+				// echo "exito $idFact"; var_dump($error); var_dump($idFact);
 			}else{
 				// hubo algun error al intentar guardar.
 				$this->redirect("facturas","fail?msg='existio un error'");
@@ -81,6 +83,7 @@ class facturasController extends ControladorBase{
 		}else{
 			// opcion desconocida.
 			$this->redirect("facturas","nueva");
+			// echo "desconocido";
 		}
 		
 	}
@@ -113,7 +116,7 @@ class facturasController extends ControladorBase{
 					"destino" => "confirmar",
 					"clientes" => $clientes,	// model cliente
 					"fatura" => $factura,	// model factura
-					"idfatura" => $idF,
+					"urlParam" => ["idfatura" => $idF],
 					"detalle" => true,	// no mostrar detalle.
 					"Pagtitulo" => "editando factura"
 				));
@@ -139,7 +142,7 @@ class facturasController extends ControladorBase{
 						"destino" => "confirmar",
 						"clientes" => $clientes,	// model cliente
 						"fatura" => $factura,	// model factura
-						"idfatura" => $idF,
+						"urlParam" => ["idfatura" => $idF],
 						"detalle" => true,	//mostrar detalle.
 						"Pagtitulo" => "editando factura"
 					));
@@ -171,86 +174,5 @@ class facturasController extends ControladorBase{
 		}
 		$this->redirect("facturas","ultimas?msg=$msg");
 	}
-	/* 
-	 * control de detalle de factura:
-	 * 
-	 */
-	public function detalle(){
-		$fac_detalle = new fact_detalle();
-		$factura = new factura();
-		
-		if (isset($_GET["idfac"])){
-			$idfactura=$_GET["idfac"];
-		}elseif ($this->get_sesion("facturaID" )){ // retorna falso sin no existe.
-			$idfactura=$this->get_sesion("facturaID" );
-		}else{
-			$this->redirect("facturas","fail?msg='falla obtencion detalle'");
-		}
-		$this->plantilla("");
-		// formulario detalle de las factura
-		$this->view("facturaFormDetalle",array(
-			"idfactura"=>$idfactura,
-			"fact_detalle"=>$fac_detalle,
-			"Pagtitulo" =>"detalle de facturas"
-		));
-	}
-	public function checfactura($idfact ){
-		// verificar si esta factura puede ser modificada.
-		return true; // invalidacion.
-		
-	}
-	public function deldetalle(){
-		$fac_detalle = new fact_detalle();
-		// verificar informacion:
-		if (isset($_GET["deleted"])){
-			// eliminar detalle
-			$det=nz($_POST["id"]);
-			$chec=$fac_detalle->buscar("id",$det);
-		// $this->checfactura();
-			if ($chec and $this->checfactura($fac_detalle->idFact ) ){
-				$iddet=$fac_detalle->deleteById($det);
-				if ($iddet){
-					// var_dump($iddet);
-					$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
-				}else{
-					$this->redirect("facturas","fail?msg='no se pudo editar el detalle'");
-				}
-			}else{
-				$this->redirect("facturas","fail?msg='detalle no encontrado'");
-			}
-		}else{
-			// edicion de detalle:
-			$this->redirect("facturas","fail?msg='detalle no encontrado'");				
-		}
-	}
-	public function confirmardetalle(){
-		$fac_detalle = new fact_detalle();
-		// $this->checfactura();
-		// verificar informacion:
-		if (isset($_GET["agregar"])){
-			// nuevo detalle.
-			$iddet=$fac_detalle->guardarform($_POST,true);
-			if ($iddet){
-				// var_dump($iddet);
-				$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
-			}else{
-				$this->redirect("facturas","fail?msg='no se pudo agregar el detalle'");
-			}
-		}else{
-			// edicion de detalle:
-			$det=nz($_POST["id"]);
-			$chec=$fac_detalle->buscar("id",$det);
-			if ($chec and $this->checfactura($fac_detalle->idFact )){
-				$iddet=$fac_detalle->guardarform($_POST);
-				if ($iddet){
-					// var_dump($iddet);
-					$this->redirect("facturas","detalle?idfac=".$fac_detalle->idFact);
-				}else{
-					$this->redirect("facturas","fail?msg='no se pudo editar el detalle'");
-				}
-			}else{
-				$this->redirect("facturas","fail?msg='detalle no encontrado'");
-			}	
-		}
-	}
+
 }

@@ -9,7 +9,7 @@
 		$this->clientes = new clientes();
 		$this->factura = new factura();
 		$this->detalle=new fact_detalle();
-		$this->plan = new planes_importes();
+		$this->plan = new planes();
 		
     }
     private function nuevaFactura($contrato){
@@ -18,8 +18,8 @@
 		$detalle = $this->detalle;
 		$plan = $this->plan;
 		
-		$pl = $plan->buscar("id",$contrato->idPlan);
-			$importe= (string) $pl->importe;
+		//$pl = $plan->buscar("id",$contrato->idPlan);
+			$importe= (string) $plan->importe($contrato->idPlan);
 			// *
 			$datosfac=[
 				idEmpleado => 1 ,
@@ -29,7 +29,7 @@
 				idDeContrato => $contrato->id ,
 				tipFact => "C",
 				Fecha => date("Y-m-d"),
-				Total => (int)$importe,
+				Total => (string)$importe,
 				Impuesto => "0",
 				Observaciones => "facturacion automatica periodo:". ["enero","febrero","marzo","abril"
 					,"mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"][date("n")] ,
@@ -54,11 +54,46 @@
 		/* *************************
 		 * ejecutar acciones de cronometro.
 		 * *************************/
-		 
+		$dia=date("d");
+		$mes=date("m");
+		$hora=date("H");
+		$min=date("i");
+		$diaSemana = date("N");
+		/*
+		 * ar("Minutos",$html)])
+		 * r("Horas",$html)])
+		 * _editar("DiaMes",$html)])
+		 * r("Mes",$html)])
+		 * strar_editar("DiaSemana",$
+		 * 
+		 * */
+		
 		$contrato = new contrato();
+		// agregar control de tiempo:
 		
 		while( $contrato->mostrar("Estado",1,"=") ){
-			$this->nuevaFactura($contrato);
+			$ban=true;
+			/* los * equivalen a todos */
+			if ( ( $contrato->Minutos <> "*" ) and ( $contrato->Minutos <> $min ) ) $ban=false ;
+			if ( ( $contrato->Horas <> "*" ) and ( $contrato->Horas <> $hora ) ) $ban=false ;
+			if ( ( $contrato->DiaMes <> "*" ) and ( $contrato->DiaMes <> $dia ) ) $ban=false ;
+			
+			if ( ( $contrato->Mes <> "*" ) and ( $contrato->Mes <> $mes ) ) $ban=false ;
+			if ( ( $contrato->DiaSemana <> "*" ) and ( $contrato->DiaSemana <> $diaSemana ) ) $ban=false ;
+			
+			if ($ban){
+				// crear una factura:
+				$this->nuevaFactura($contrato);
+			}else{
+				echo new html("html",[],[
+					new html("head",[])
+					,new html("body",[],
+						[
+							new html("div",[],"contrato no ejecutado:".$contrato->id)
+						]
+					)
+				]);
+			}
 		}
 		 
 	}

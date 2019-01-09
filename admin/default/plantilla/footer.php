@@ -42,6 +42,6 @@ $footer=
 	;	
 $footer->tab(4);
 
-echo $footer;
+// echo $footer;
 					
 ?>

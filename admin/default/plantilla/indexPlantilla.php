@@ -34,40 +34,6 @@ $documento->head->add(new html("link",array("href"=>$helper->url("css","sidebar-
 $documento->head->add(new coment("Boostrap css core"));
 $documento->head->add(new html("link",array("href"=>$helper->url("css","bootstrap.min.css"),"rel"=>"stylesheet")));
 $documento->head->add(new html("link",array("href"=>$helper->url("css","dashboard.css"),"rel"=>"stylesheet")));
-/*
-?>
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo $helper->url("css","bootstrap.min.css") ?>" rel="stylesheet">
-	
-
-    <!-- Custom styles for this template -->
-    <link href="<?php echo $helper->url("css","dashboard.css") ?>" rel="stylesheet">
-    <link href="<?php echo $helper->url("css","app.css") ?>" rel="stylesheet">
-    <link href="<?php echo $helper->url("css","main.css") ?>" rel="stylesheet">
-    <link href="<?php echo $helper->url("css","bootsnipp.min.css") ?>" rel="stylesheet">
-    <link href="<?php echo $helper->url("sass","main.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_sidebar-brand.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_sidebar-header.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_sidebar-footer.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_sidebar-search.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","sidebar-themes.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_sidebar-wrapper.scss") ?>" rel="stylesheet" type="text/css" >
-    <link href="<?php echo $helper->url("sass","_themes-mixin.scss") ?>" rel="stylesheet" type="text/css">
-
-
-
-</head>
-*/
-
-// echo $documento;
-/*
-?>
-
-<body>
-    <div class="page-wrapper chiller-theme toggled">
-<?php
-*/
-
 
 
 $documento->body->add(new html("div",array("class"=>"page-wrapper chiller-theme toggled","id"=>"pagina")));
@@ -83,57 +49,16 @@ ob_start();
 	$pagina->contenido();
 	$contenido = ob_get_contents();
 ob_end_clean();
-		
 
+$documento->body->footer->add( new coment("pie de pagina agregado") );
+$documento->body->footer->add( $pagina->entrada("plantilla","footer.php") );
 
-ob_start() ;
-		// echo $pagina->piepagina();
-?>
-    <!-- page-wrapper -->
-    <script src="<?php echo $helper->url("js","jquery.min.js") ?>"></script>
-    <script src="<?php echo $helper->url("js","popper.min.js") ?>" ></script>
-    <script src="<?php echo $helper->url("js","bootstrap.min.js") ?>" ></script>
-    <script>
-		
-    jQuery(function ($) {
+$documento->body->footer->add( new coment("script necesarios.") );
 
-		$(".sidebar-dropdown > a").click(function() {
-		  $(".sidebar-submenu").slideUp(100);
-		  if (
-			$(this)
-			  .parent()
-			  .hasClass("active")
-		  ) {
-			$(".sidebar-dropdown").removeClass("active");
-			$(this)
-			  .parent()
-			  .removeClass("active");
-		  } else {
-			$(".sidebar-dropdown").removeClass("active");
-			$(this)
-			  .next(".sidebar-submenu")
-			  .slideDown(200);
-			$(this)
-			  .parent()
-			  .addClass("active");
-		  }
-		});
+foreach( [ "jquery.min.js","popper.min.js","bootstrap.min.js"] as $file){
+$documento->body->footer->add( new html("script",[src=> $helper->url("js",$file) ]) );
+}
 
-		$("#close-sidebar").click(function() {
-		  $(".page-wrapper").removeClass("toggled");
-		});
-		$("#show-sidebar").click(function() {
-		  $(".page-wrapper").addClass("toggled");
-		});
-	});
-    
-    </script>
-    <?php
-		// renderizar todo el javascript que necesite inicializar.
-		echo "\n". $html->javascript_Render();
-	
-	$footer = ob_get_contents();
-ob_end_clean();
 
 $documento->body->div->main->add( 	[
 	new html("div",['class'=>"container-fluid"],
@@ -145,5 +70,5 @@ $documento->body->div->main->add( 	[
 	] 
 );
 	
-$documento->body->footer->add( $footer );
+$documento->body->footer->add( $html->javascript_Render() );
 echo $documento;

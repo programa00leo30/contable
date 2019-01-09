@@ -1,64 +1,81 @@
-<div class="container">
-    <div class="text-center">
-         <h1>Factura </h1>
-    </div>
+<?php
 
-     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <!-- <h3 class="panel-title">Cabecera</h3> -->
-					<hr>
-                    <div class="row" >
-                        
-                        <div class="col-md-3" style="background-color:white;">
-                            
-<?php 
-$ob= $fatura->mostrar_editar("idCliente",$html) ;$ob->tab(8) ; echo $ob ;  
-?>
-                                
-                            
-                        </div>
-                        <div class="col-md-2" style="background-color:white;">
-							
-<?php $ob = $fatura->mostrar_editar("tipFact",$html,"C") ;$ob->tab(8) ; echo $ob ; 
-?>
-							
-                        </div>
-                        <div class="col-md-3" style="background-color:white;">
-                            <div class="form-group">
-                              
-                                <label for="fecha" class="col-sm-5 control-label">Fecha factura</label>
-                                <div class="col-sm-7">
-<?php $ob = $fatura->mostrar_editar("Fecha",$html,date("Y-m-d")); 
-								$ob->SetAtr("class","form-control");
-								$ob->tab(8);
-								echo $ob; 
-							?></div>
-							    
-                            </div>
-                        </div>
+$urlParam=nz($urlParam,[]);
+
+	$main = new html("div",['class' =>"container-fluid"]);
+	$main->add( new html("div",['class'=>"text-center",id=>"head"], new html("h1",[],".:FACTURA:.")));
+	$main->add( new html("div",['class'=>"row",id=>"contenido"]));
+
+	$content = new html("div",['class'=>"col-md-12"]);
+	$content->add( 
+		new html("div",['class'=>"panel panel-default"],
+			new html("form",[
+				"role"=>"form"
+				,"id"=>"factura"
+				,"autocomplete"=>"off"
+				,"method"=>"post"
+				,"action"=>$helper->url("facturas",$destino,$urlParam )
+			],
+				[
+					new html("div",['class'=>"panel-heading"],[
+						new coment("cabecera")
+						,new html("hr")
+						,new html("div",['class'=>"row"],
+							[
+								new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
+									$fatura->mostrar_editar("idCliente",$html)
+								)
+								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
+									$fatura->mostrar_editar("tipFact",$html,"C")
+								)
+								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
+									$fatura->mostrar_editar("Fecha",$html,date("Y-m-d"))
+								)
+								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
+									new html("div",['class'=>"form-group"],
+										[
+											new html("label",['for'=>"fecha",'class'=>"col-sm-5 control-label"],"ID:")
+											,new html("div",['class'=>"col-sm-7"])
+										]
+									
+									
+									)
+								)
+							]
+						)
+					])
+				]
+			)
+		)
+	);
+		/*
+ ?>
+   
                         <div class="col-md-4 target" style="background-color:white;">
                             <div class="form-group">
                                 <label for="id" class="col-sm-1 control-label">Id</label>
                                 <div class="col-sm-11">
                                     
-<?php $ob= $fatura->mostrar_editar("cajero",$html,0); 
+<?php 
+*/
+
+$ob= $fatura->mostrar_editar("cajero",$html,0); 
 $ob->tab(8) ; 
-$ob->SetAtr("class","col-sm-5");
-echo $ob ;  ?>
-									-
-<?php $ob= $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0));
+$ob->SetAtr("class","col-sm-3");
+// echo $ob ;
+$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
+$ob= $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0));
 $ob->tab(8) ; 
-$ob->SetAtr("class","col-sm-5");
-echo $ob ;  ?>
-									
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- row -->
-                    <br>
-                    <div class="row">
+$ob->SetAtr("class","col-sm-3");
+$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
+
+$ob= $fatura->mostrar_editar("idEmpleado",$html,$fatura->nroControl(0));
+$ob->tab(8) ; 
+$ob->SetAtr("class","col-sm-3");
+$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
+// echo $ob ;  
+/*
+        <div class="row">
                         <div class="col-md-6"> 
                           <address id="datosCliente"></address>
                           <address>
@@ -70,44 +87,34 @@ echo $ob ;  ?>
                         </div>
                    </div> <!-- row -->
                    <br>
-                   <div class="row">
-						<!-- autoform end -->
-						<div class="row">
-							<div class="form-group col-md-4">
-								<?php echo $fatura->mostrar_editar("Impuesto",$html,0) ?>				
-							</div>
-							<div class="form-group col-md-4">
-								<?php echo $fatura->mostrar_editar("Total",$html,0) ?>
-							</div>
-							<div class="form-group col-md-4">
-								<?php echo $fatura->mostrar_editar("Observaciones",$html) ?>
-							</div>
-						</div>
-						
-
-						<div class="form-footer">
-							<button type="submit" class="btn btn-info">
-								<span class="glyphicon glyphicon-log-in"></span> GUARDAR !
-							</button>
-						</div>
+                   */
                    
-                   
-                   </div><!-- row -->
-				</div> <!-- panel heading -->
-				<div class="panel-body" id="detalle" >
-				</div> <!-- panel body -->
-				
-             </div> <!-- panel -->
-        </div> <!-- col -->
-    </div> <!-- row -->
-    
-</div>    <!-- container -->
+$ob=new html("div",['class'=>"row"],[
+	new coment("autoform fin")
+	,new html("div",['class'=>"form-group col-md-4"],$fatura->mostrar_editar("Impuesto",$html,0) )
+	,new html("div",['class'=>"form-group col-md-4"],$fatura->mostrar_editar("Total",$html,0) )
+	,new html("div",['class'=>"form-group col-md-4"],$fatura->mostrar_editar("Observaciones",$html) )
+]);
+$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
+$content->div->form->div->add( new html("div",['class'=>"row"],
+	new html("div",['class'=>"form-footer"],
+		new html("button",[type=>"submit",'class'=>"btn btn-info"], [
+			new html("span",['class'=>"glyphicon glyphicon-log-in"]),"GUARDAR"
+		]) 
+	) 
+));
 
-<?php
 
-				$tmpurl='"'. $helper->url("facturas","iframe/detalle",array("idfac"=>$idfatura)). '"';
-				
-				$html->javascript(<<<USOJAVA
+$main->GetById("contenido")->add($content);
+$main->add( new html("div",['class'=>"panel-body",id=>"detalle"]));
+
+echo $main;
+
+if (isset($urlParam["idfatura"])){
+$idfatura=$urlParam["idfatura"];
+
+$tmpurl='"'. $helper->url("facturadetalle","iframe/detalle",array("idfac"=>$idfatura)). '"';
+$html->javascript(<<<USOJAVA
 
 $(document).ready(function(){
     $.ajax({
@@ -165,6 +172,6 @@ $("#detalle").on('submit',"[id*=factDetalle]",function(e){
 }
 USOJAVA
 );
-
+}
 
 
