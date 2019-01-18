@@ -6,7 +6,7 @@ $c->add( new html("form",[
 	,id=>"register-form"
 	,autocomplete=>"off"
 	,method=>"post"
-	,action=>$helper->url("cobros","confirma",
+	,action=>$helper->url("cobros","confirmar",
 		[ 
 			(($detalle)?"editarcheck":"recibonuevo") => "si" 
 			,"idRecibo"=>$_GET["idRecibo"]
@@ -155,7 +155,7 @@ if ($detalle){ // existe un registro activo.
 				<?php
 					*/
 
-$tmpurl='"'. $helper->url("cobros","iframe/detalle",array("idRecibo"=>$idComppago)). '"';
+$tmpurl='"'. $helper->url("cobros","iframe/detalle",["idRecibo"=>$idComppago)]. '"';
 // para que carge el detalle una vez cargado la pagina.
 	
 $html->javascript(<<<USOJAVA
@@ -165,7 +165,7 @@ $(document).ready(function(){
 			success: function(result){
 				$("#detalle").html(result);
 				asociarEvento();
-				sumar();
+				/* sumar(); */
 			}
 		});
 
@@ -191,7 +191,7 @@ USOJAVA
 $html->javascript(<<<USOJAVA
 function asociarEvento(){
 
-$("[id*=factDetalle]").submit(function(e) {
+$("[id*=comppDetalle]").submit(function(e) {
     var form = $(this);
     var url = form.attr('action');
 	/* alert("enviando formulario "+url); */
@@ -204,11 +204,11 @@ $("[id*=factDetalle]").submit(function(e) {
                $("#detalle").html(data);
                // alert(data); // show response from the php script.
 				asociarEvento();
-				sumar();
+				/* sumar(); */
            }
          });
 
-    // e.preventDefault(); // avoid to execute the actual submit of the form.
+    e.preventDefault(); // avoid to execute the actual submit of the form.
     return false;
 });
 }

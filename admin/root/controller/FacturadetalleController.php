@@ -68,6 +68,10 @@ class facturadetalleController extends ControladorBase{
 	}
 	/* guardar informacion en la base de datos.*/
 	public function confirmardetalle(){
+		var_dump($_POST);
+		
+		if (isset($_GET["agregar"]) and !isset($_POST["boton"]))
+			$_POST["boton"]="add";
 		
 		switch (  $_POST["boton"]) {
 			case "add" :
@@ -87,8 +91,9 @@ class facturadetalleController extends ControladorBase{
 		// verificar informacion:
 		if (isset($_GET["agregar"])){
 			// nuevo detalle.
-			$iddet=$fac_detalle->guardarform($_POST,true);
-			if ($iddet){
+			list($erro,$idDetalle)=$fac_detalle->guardarform($_POST,true);
+			
+			if ($erro[0]){
 				// var_dump($iddet);
 				$this->redirectDetalle($fac_detalle->idFact);
 			}else{
@@ -96,18 +101,22 @@ class facturadetalleController extends ControladorBase{
 			}
 		}else{
 			// edicion de detalle:
-			$det=nz($_POST["id"]);
+			$det=nz($_POST["id"],-1);
 			$chec=$fac_detalle->buscar("id",$det);
-			if ($chec and $this->checfactura($fac_detalle->idFact )){
+			if ($chec ){
 				$iddet=$fac_detalle->guardarform($_POST);
 				if ($iddet){
 					// var_dump($iddet);
 					$this->redirect("facturadetalle","detalle",array("idfac"=>$fac_detalle->idFact));
+					//echo new coment("agregado..");
 				}else{
 					$this->redirect("facturadetalle","fail?msg='no se pudo editar el detalle'");
+					//echo new coment("no se pudo editar detalle");
 				}
 			}else{
-				$this->redirect("facturadetalle","fail?msg='detalle no encontrado'");
+				// $this->redirect("facturadetalle","fail?msg='detalle no encontrado'");
+				// var_dump($chec);
+				// echo new coment("detalle no encontrado");
 			}	
 		}
 	}

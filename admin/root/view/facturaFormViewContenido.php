@@ -1,4 +1,8 @@
 <?php
+if ($detalle)
+	$idfactura=$fatura->mostrar_editar("id",$html);
+else
+	$idfactura= new coment("factura nueva");
 
 $urlParam=nz($urlParam,[]);
 
@@ -19,6 +23,7 @@ $urlParam=nz($urlParam,[]);
 				[
 					new html("div",['class'=>"panel-heading"],[
 						new coment("cabecera")
+						,$idfactura
 						,new html("hr")
 						,new html("div",['class'=>"row"],
 							[
@@ -48,16 +53,6 @@ $urlParam=nz($urlParam,[]);
 			)
 		)
 	);
-		/*
- ?>
-   
-                        <div class="col-md-4 target" style="background-color:white;">
-                            <div class="form-group">
-                                <label for="id" class="col-sm-1 control-label">Id</label>
-                                <div class="col-sm-11">
-                                    
-<?php 
-*/
 
 $ob= $fatura->mostrar_editar("cajero",$html,0); 
 $ob->tab(8) ; 
@@ -73,22 +68,7 @@ $ob= $fatura->mostrar_editar("idEmpleado",$html,$fatura->nroControl(0));
 $ob->tab(8) ; 
 $ob->SetAtr("class","col-sm-3");
 $content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
-// echo $ob ;  
-/*
-        <div class="row">
-                        <div class="col-md-6"> 
-                          <address id="datosCliente"></address>
-                          <address>
-                           <strong class="">BERNARDO GINARD PRATS</strong><br class="">
-                            Carrer Ciutadella nº 26 A<br class="">
-                            07008 Palma<br class="">
-                            Illes Balears<br class="">                          
-                           </address>
-                        </div>
-                   </div> <!-- row -->
-                   <br>
-                   */
-                   
+
 $ob=new html("div",['class'=>"row"],[
 	new coment("autoform fin")
 	,new html("div",['class'=>"form-group col-md-4"],$fatura->mostrar_editar("Impuesto",$html,0) )
@@ -145,18 +125,28 @@ USOJAVA
 );
 
 $html->javascript(<<<USOJAVA
+/* funcion de agregamiento de boton */
+function agregar(form,valor){
+	form.push({ name:'boton', value: valor });
+	form.submit();
+}
+USOJAVA
+);
+
+$html->javascript(<<<USOJAVA
 /* funcion de asociar elementos */
 function asociarEvento(){
-$("#detalle").on('submit',"[id*=factDetalle]",function(e){
-/* $("[id*=factDetalle]").submit(function(e) { */
+$("#detalle").on('submit',"[id*=facDetalle]",function(e){
     var form = $(this);
     var url = form.attr('action');
 	/* alert("enviando formulario "+url); */
+	var datos= $(this).closest('form').serializeArray();
+	datos.push({ name: this.name, value: this.value });
     console.log("formulario:" +  form.attr("id") );
     $.ajax({
            type: "POST",
            url: url,
-           data: form.serialize(), // serializes the form's elements.
+           data: datos, // serializes the form's elements.
            success: function(data)
            {
                $("#detalle").html(data);
@@ -166,7 +156,7 @@ $("#detalle").on('submit',"[id*=factDetalle]",function(e){
            }
          });
 
-    // e.preventDefault(); // avoid to execute the actual submit of the form.
+    e.preventDefault(); // avoid to execute the actual submit of the form.
     return false;
 });
 }

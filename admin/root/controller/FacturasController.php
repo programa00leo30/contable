@@ -60,7 +60,7 @@ class facturasController extends ControladorBase{
 			if ($registro){
 				$factura->guardarform($_POST);
 				$this->set_sesion("facturaID" , $registro->id );
-				$this->redirect("facturas","editar?idFactura=".$registro->id);
+				$this->redirect("facturas","editar",[idFactura=>$registro->id]);
 			}elseif (isset($_GET["facturaNueva"])){
 				$this->redirect("facturas","fail?error=$registro");
 			}
