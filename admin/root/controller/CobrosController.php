@@ -38,9 +38,11 @@
 		// agregar nuevo recibo de cobranza.
 		$cliente = new clientes();
 		$comp = new comppago();
+		$idcliente=nz($_GET["cliente"],null);
 		
 		$this->view("cobrosForm", array(
 			"clientes"=>$cliente
+			,"idclientes"=>$idcliente
 			,"comprobante" => $comp
 			,"detalle" => false
 			,"Pagtitulo" => "Crear un recibo para cliente"
@@ -92,13 +94,13 @@
 				));
 			}
 		}else if (isset($_GET["editarcheck"])){
-						$comp = new comppago();
-			$rt = $comp->guardarform($_POST);
-			if (!$comp->fail()){
-				$this->redirect("cobros","editaredicion",array("idRecibo"=>$_GET["idRecibo"]));
-			}else{
-				$this->redirect("cobros","falla?msg=".$rt[0][1]);
-			}
+				$comp = new comppago();
+				$rt = $comp->guardarform($_POST);
+				if (!$comp->fail()){
+					$this->redirect("cobros","editaredicion",array("idRecibo"=>$_GET["idRecibo"]));
+				}else{
+					$this->redirect("cobros","falla?msg=".$rt[0][1]);
+				}
 		}
 			
 			
@@ -170,7 +172,8 @@
 				$rtn= $comppago->guardarform($_POST,true);
 				$this->view("cobrosDetalle",array(
 					"comppago"=>$comppago
-					,"idRecibo"=>$recibos
+					,"recibo" => new comppago()
+					,"idRecibo"=>$recibo
 					,"Pagtitulo"=>"detalles de comprobante de recibos"
 				));
 			}
@@ -190,8 +193,9 @@
 					"comppago"=>$comppago
 					,"comp_detalle"=>$comp_detalle
 					,"idRecibo"=>$recibo
+					,"recibo" => new comppago()
 					,"Pagtitulo"=>"detalles de comprobante de recibos"
-				,false));
+				));
 			
 		}else{
 			echo "sin detalle";
@@ -199,7 +203,7 @@
 	}
 	public function confirmardetalle(){
 		$compdetalle = new comp_detalle();
-
+		var_dump($_POST);
 		if (isset($_POST["detalledelete"])){
 			$id=($_POST["detalledelete"]);
 			$compdetalle->deleteById($id);
@@ -211,6 +215,12 @@
 				if (!$compdetalle->fail()){
 					$this->redirect("cobros","detalle",array("idRecibo"=>$_GET["idRecibo"]));
 				}
+			}else{
+				// agregar nuevos datos:
+				list($err,$id)=$compdetalle->guardarform($_POST,true);
+				var_dump($err);
+				var_dump($id);
+				$this->redirect("cobros","detalle",["idRecibo"=>$_POST["idComprob"]]);
 			}
 		}
 	}

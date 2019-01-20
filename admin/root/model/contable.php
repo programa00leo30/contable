@@ -10,7 +10,7 @@ class Contable extends EntidadBase{
 		// la columna id es el id del cilente.
         $this->atributos  = array(
 			"id" => array(  "typeform" => "hidden","claseform"=> "inputbox" , "comandoform"=>"no-editor", 
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ) , 
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ) , 
 			"idfact",  
 			"idrec", 
 			"fecha", 

@@ -1,85 +1,99 @@
 <?php
 
+$detalle=new html("div",['class'=>"signup-form-container"],[
+	new coment("inicio formulario")
+	, new html("div",['class'=>"form-header"],
+		[
+			new html("div",['class'=>"pull-lef"])
+			,new html("h3",['class'=>"form-title"],[
+				new html("i",['class'=>"fa fa-user"])
+				,"detalle recibos:"
+				])
+		])
+	,new html("div",['class'=>"table",id=>'tabla0'])
+]);
 
-?>
-		<div class="signup-form-container">
-    
-			 <!-- form start -->
-			 
-			 
-				<div class="form-header">
-					<div class="pull-left"></div>
-					<h3 class="form-title">
-					<i class="fa fa-user"></i>detalle recibos:</h3>
-				</div>
-			<div class="table">
-				<div class="row">
-						<div class="col-sm-1">#id</div>
-						<div class=" hidden">idRecibo</div>
-						<div class="col-sm-4">idfactura</div>
-						<div class="col-sm-3">ImporteAplicado</div>
-						<div class="col-sm-2">otros</div>
-						<div class="col-sm-2">accion</div>
-				</div>
-				<?php 
-					/*
- * `id`, `idComprob`, `idFactura`, `ImporteAplicado`, `otros`
- * 
- * */
-					// listado de registros.
-			$recibo = $comppago->buscar("id",$idRecibo);
-			$comp_detalle->sql_cliente( $recibo->idCliente );
-			echo "<div id=idReciboCliente >";
-			echo "<div >recibocliente:". $recibo->idCliente . "</div>" ;
-			echo "</div>\n";
-			
-			while( $comp_detalle->mostrar("idComprob",$idRecibo) ){
-			?>
-			<form role="form" id="comppDetalle_<?php echo $comp_detalle->id ?>" autocomplete="off" method="post" action="<?php 
-				echo $helper->url("cobros","confirmardetalle",array(
-					"idRecibo" => $comp_detalle->id 
-					)
-					) ?>" >
-				<div class="row">
-					<div class="col-sm-1"><?php echo $comp_detalle->mostrar_editar("id",$html) ?></div>
-					<div class=" hidden"><?php echo $comp_detalle->mostrar_editar("idComprob",$html) ?></div>
-					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("idFactura",$html) ?></div>
-					<div class="col-sm-3"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html) ?></div>
-					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("otros",$html) ?></div>
-					<div class="col-sm-2"><div class="form-footer">
-					 <button type="submit" class="btn btn-info btn-circle" id="detalleeditar" name="detalleenviar" value="<?php
-					 echo $comp_detalle->id ;
-					 ?>">
-					 <span class="glyphicon glyphicon-pencil"></span></button>
-					 <button type="submit" id="detalledelete"  name="detalledelete" class="btn btn-warning btn-circle" value="<?php
-					 echo $comp_detalle->id ;
-					 ?>" >
-						 <i class="glyphicon glyphicon-remove"></i></button>
-				</div></div>
-				</div>
-			</form>
-				<?php 
-					// fin de listado de registros.
-				}
-				// agregar detalle:
-				?>
-				<div class="row">
-				<form role="form" id="factDetalle" autocomplete="off" method="post" action="<?php 
-				echo $helper->url("cobros","iframe/confirmardetalle?agregar=si" ) ?>" >
-				<div class="row">
-					<div class="col-sm-1">#nuevo</div>
-					<div class=" hidden"><?php echo $comp_detalle->mostrar_editar("idComprob",$html,$idRecibo) ?></div>
-					<div class="col-sm-4"><?php echo $comp_detalle->mostrar_editar("idFactura",$html,"") ?></div>
-					<div class="col-sm-3"><?php echo $comp_detalle->mostrar_editar("ImporteAplicado",$html,0) ?></div>
-					<div class="col-sm-2"><?php echo $comp_detalle->mostrar_editar("otros",$html) ?></div>
-					<div class="col-sm-2"><div class="form-footer">
-						 <button type="submit" class="btn btn-info">
-						 <span class="glyphicon glyphicon-log-in"></span>agregar</button>
-						</div>
-					</div>
-				  </div>
-				</form>
-				</div>
-			</div>
-		</div>
-		
+$encabezado=[]; 
+ foreach( [
+	"#id"=>"col-sm-1"
+	,"idRecibo"=>"hidden"
+	,"idfactura"=>"col-sm-4"
+	,"ImporteAplicado"=>"col-sm-3"
+	,"otros"=>"col-sm-2"
+	,"accion"=>"col-sm-2"
+ ] as $k=>$v){
+	$encabezado[] = new html("div",['class'=> $v ],$k);
+};
+ 
+ $detalle->GetById("tabla0")->add(
+	new html("div",['class'=>"row"],$encabezado)
+ );
+ 
+ $recibo->buscar("id",$idRecibo);
+ 
+ $detalle->GetById("tabla0")->add(
+	new html("div",['id'=>"idReciboCliente"],"recibo cliente:".$recibo->idCliente)
+ );
+	
+$campos=[];
+$comp_detalle->sql_cliente($recibo->idCliente);
+
+while( $comp_detalle->mostrar("idComprob",$idRecibo) ){
+		$campos[]=new html("form",[
+				role=>"form"
+				,id=>"comppDetalle_" . $comp_detalle->id
+				,autocomplete=>"off"
+				,method=>"post"
+				,action=>$helper->url("cobros","confirmardetalle",[ idRecibo=> $idRecibo ])
+				
+			],
+				new html("div",['class'=>"row"],[
+					new html("div",['class'=>"col-sm-1"],$comp_detalle->mostrar_editar("id",$html))
+					,new html("div",['class'=>"hidden"],$comp_detalle->mostrar_editar("idComprob",$html))
+					,new html("div",['class'=>"col-sm-4"],$comp_detalle->mostrar_editar("idFactura",$html))
+					,new html("div",['class'=>"col-sm-3"],$comp_detalle->mostrar_editar("ImporteAplicado",$html))
+					,new html("div",['class'=>"col-sm-2"],$comp_detalle->mostrar_editar("otros",$html))
+					,new html("div",['class'=>"col-sm-2"],[
+						new html("button",['class'=>"btn btn-info btn-circle",'type'=>"submit",id=>"detalleeditar",name=>"detalleenviar",value=>$comp_detalle->id]
+							,[new html("span",['class'=>"glyphicon glyphicon-pencil"]),"!"])
+						,new html("button",['class'=>"btn btn-info btn-circle"
+							,'type'=>"submit",id=>"detalledelete",name=>"detalledelete"
+							,value=>$comp_detalle->id]
+							,[new html("span",['class'=>"glyphicon glyphicon-remove"]),"X"])
+					])
+				])
+		);
+}
+
+$campos[]=new html("form",[
+				role=>"form"
+				,id=>"comppDetalle_" . $comp_detalle->id
+				,autocomplete=>"off"
+				,method=>"post"
+				,action=>$helper->url("cobros","confirmardetalle",[ idRecibo=> $idRecibo ])
+				
+			],
+				new html("div",['class'=>"row"],[
+					new html("div",['class'=>"col-sm-1"],"#")
+					,new html("div",['class'=>"hidden"],$comp_detalle->mostrar_editar("idComprob",$html,$idRecibo ))
+					,new html("div",['class'=>"col-sm-4"],$comp_detalle->mostrar_editar("idFactura",$html,""))
+					,new html("div",['class'=>"col-sm-3"],$comp_detalle->mostrar_editar("ImporteAplicado",$html,""))
+					,new html("div",['class'=>"col-sm-2"],$comp_detalle->mostrar_editar("otros",$html,""))
+					,new html("div",['class'=>"col-sm-2"],[
+						new html("button",['class'=>"btn btn-info btn-circle"
+							,'type'=>"submit",id=>"addDetalle",name=>"detalleadd"
+							,value=>$comp_detalle->id]
+							,[
+								new html("span",['class'=>"glyphicon glyphicon-remove"])
+								,"+"
+							])
+					])
+				])
+		);
+
+ $detalle->GetById("tabla0")->add(
+	new html("div",['class'=>"row"],$campos)
+ );
+
+echo $detalle;
+	

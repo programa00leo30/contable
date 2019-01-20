@@ -16,11 +16,11 @@ class planes_importes extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 
 			"idPlan"=> array( 
 				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
-				, "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:"
+				, "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"cliente:"
 				,"dbtipo"=>"not null"
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 				,"sql"=>array(
@@ -33,7 +33,7 @@ class planes_importes extends EntidadBase {
 				),
 				
 			"FechaImporte" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-calendar"]),
 			"importe"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"null" ,"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ),				
 			

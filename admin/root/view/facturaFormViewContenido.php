@@ -4,6 +4,8 @@ if ($detalle)
 else
 	$idfactura= new coment("factura nueva");
 
+$idCliente=nz($idCliente,$fatura->idCliente);
+
 $urlParam=nz($urlParam,[]);
 
 	$main = new html("div",['class' =>"container-fluid"]);
@@ -28,13 +30,13 @@ $urlParam=nz($urlParam,[]);
 						,new html("div",['class'=>"row"],
 							[
 								new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
-									$fatura->mostrar_editar("idCliente",$html)
+									$fatura->mostrar_editar("idCliente",$html,$idCliente)
 								)
 								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
-									$fatura->mostrar_editar("tipFact",$html,"C")
+									$fatura->mostrar_editar("tipFact",$html)
 								)
 								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
-									$fatura->mostrar_editar("Fecha",$html,date("Y-m-d"))
+									$fatura->mostrar_editar("Fecha",$html)
 								)
 								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
 									new html("div",['class'=>"form-group"],

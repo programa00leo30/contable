@@ -31,14 +31,17 @@ class facturasController extends ControladorBase{
 		// debo saber que cliente
 		$factura = new factura();
 		$clientes = new clientes();
+		$idcliente=null;
 		if (isset($_GET["cliente"])){
 			$clientes->buscar("id",$_GET["cliente"]);
+			$idcliente=$clientes->id;
 		}
 		$this->set_sesion("facturaID" , null);
 		$this->view("facturaForm",array(
 			"urlParam" => [facturaNueva=>"si"],
 			"destino" => "confirmar",
 			"clientes" => $clientes,	// model cliente
+			"idCliente" => $idcliente,
 			"fatura" => $factura,	// model factura
 			"detalle" => false,	// no mostrar detalle.
 			"Pagtitulo" => "encabezado"

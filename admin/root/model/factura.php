@@ -23,18 +23,18 @@ class factura extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 
 			"idEmpleado"=> array( 
 				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id", 
-				"dbtipo"=>"not null", "clas"=>"glyphicon glyphicon-user" ,"label"=>"atendido por:",
+				"dbtipo"=>"not null", "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"atendido por:",
 					// 0=columna relacionada 1=consulta sql.
 					"sql"=>array("id","select id,Nombre FROM `empleados` ","Nombre")  
 					) ,
 			"idCliente"=> array( 
 				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
 				,"comenta"=>"cliente:" 
-				,"dbtipo"=>"not null", "clas"=>"glyphicon glyphicon-user" ,"label"=>"cliente:",
+				,"dbtipo"=>"not null", "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"cliente:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` ","nombre") 
 					),
@@ -42,12 +42,12 @@ class factura extends EntidadBase {
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
 				"dbtipo"=>"default" ,"dbdefault"=>0, 
-				"clas"=>"hidden" ,"label"=>"la factura esta cerrada?" ),					
+				"extras"=>['class'=>"hidden"] ,"label"=>"la factura esta cerrada?" ),					
 			
 			"idDeContrato"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null","clas"=>"hidden" ,"label"=>"ID:" ),					
+				"dbtipo"=>"null","extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),					
 			
 			"cajero"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"default null","label"=>"nro punto venta" ),
@@ -55,12 +55,15 @@ class factura extends EntidadBase {
 				"dbtipo"=>"not null" , "label" => "nro Factura"),
 			
 			"tipFact" => array( 
-				"typeform" => "list", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"not null", "clas"=>"" ,"label"=>"tipo de factura","comenta"=>"tipo:"
-					,"list"=>array("A","B","C","D" ) 
+				"typeform" => "list", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico"
+				, "extras"=>['class'=>""] ,"label"=>"tipo de factura","comenta"=>"tipo:"
+				, "dbtipo"=>"default","dbdefault"=>"C"
+				,"list"=>array("A","B","C","D" ) 
 					) ,
-			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar"),
+			"Fecha" => array( 
+				"dbtipo"=>"default", "dbdefault"=>"date" 
+				,"typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date"
+				,"extras"=>['class'=>"glyphicon glyphicon-calendar"]),
 			"Impuesto"=> array(  
 				"dbtipo"=>"default" ,"dbdefault"=>0,
 				"typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 

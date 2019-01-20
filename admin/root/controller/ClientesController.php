@@ -55,6 +55,13 @@ class clientesController extends ControladorBase{
 		));
 		
 	}
+	public function facturas(){
+		$this->redirect("facturas","nueva",[cliente=>$_GET["cliente"]]);
+	}
+	public function cobros(){
+		$this->redirect("cobros","nuevo",["cliente"=>nz($_GET["cliente"])]);
+	}
+	
 	public function editar(){
 		// mostrar formulario
 		$ifid=(isset($_GET["cliente"]))?$_GET["cliente"]:"-1";

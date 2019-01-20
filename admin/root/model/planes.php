@@ -16,12 +16,12 @@ class planes extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 
 			"NombrePlan"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-user" ),
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-user"] ),
 			"CRT"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-user" ),			
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-user"] ),			
 			
 				);
 		$table="planes";

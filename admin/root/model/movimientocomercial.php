@@ -12,18 +12,18 @@ class movimientocomercial extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			"idfact"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"]  ),
 			"idrec"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"]  ),
 				
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"not null","clas"=>"glyphicon glyphicon-calendar"),
+				"dbtipo"=>"not null","extras"=>['class'=>"glyphicon glyphicon-calendar"]),
 				
 			
 			"obsev"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
@@ -35,7 +35,7 @@ class movimientocomercial extends EntidadBase {
 			"tipo"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  )
+				"dbtipo"=>"not null" ,"extras"=>['class'=>"hidden"]  )
 						
 			
 				);

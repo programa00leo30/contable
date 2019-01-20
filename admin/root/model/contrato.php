@@ -25,36 +25,36 @@ class contrato extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			
 			"seccion"=> array(  
 				"dbtipo"=>"not null", 
 				"typeform" => "numerico", "comandoform"=>"numerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-th-list",
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-th-list"],
 				"label"=>"Seccion de identificacion:" ),
 				
 			"nrocontrato"=> array(  
 				"dbtipo"=>"not null", 
 				"typeform" => "numerico", "comandoform"=>"numerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-tags",
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-tags"],
 				"label"=>"Numero de contrato:" ),
 			
 			"ip"=> array(  
 				"dbtipo"=>"null",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-net" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-net"] ,
 				"label"=>"ip de cliente:" ),
 			
 			"localidad"=> array(  
 				"dbtipo"=>"null",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" ),
 			
 			"idEquipo"=> array( 
 				"dbtipo"=>"null"
 				,"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox", "clas"=>"gglyphicon glyphicon-modal-window" ,
+				"claseform"=>"inputbox", "extras"=>['class'=>"gglyphicon glyphicon-modal-window"] ,
 				"label"=>"equipo utilizado:"
 				,"sql"=>array(
 					"id",
@@ -71,7 +71,7 @@ class contrato extends EntidadBase {
 			"idCliente"=> array( 
 				"dbtipo"=>"not null", 
 				"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-user" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-user"] ,
 				"label"=>"cliente:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` ","nombre") 
@@ -80,7 +80,7 @@ class contrato extends EntidadBase {
 			"idPlan"=> array( 
 				"dbtipo"=>"null", 
 				"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-compressed" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-compressed"] ,
 				"label"=>"Plan contratado:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array(
@@ -97,7 +97,7 @@ class contrato extends EntidadBase {
 			"idEmpleado"=> array( 
 				"dbtipo"=>"not null", 
 				"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-user" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-user"] ,
 				"label"=>"Quien Realiza la el contrato:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","SELECT  id,CONCAT( `Nombre`,', ',`Apellido`) as nombre FROM `empleados` ","nombre") 
@@ -106,52 +106,52 @@ class contrato extends EntidadBase {
 			"Estado"=> array( 
 				"dbtipo"=>"not null", "dbdefault" => 1,
 				"typeform" => "relacional", "comandoform"=>"id", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-staus" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-staus"] ,
 				"label"=>"Estado actual del contrato:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
 					"sql"=>array("id","SELECT id,`estado` as nombre FROM `contrato_estados` ","nombre") 
 			)
 				
 			,"fechaalta" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar")
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-calendar"])
 			,"fechacierre" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"null","clas"=>"glyphicon glyphicon-calendar")
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-calendar"])
 			
 			,"Minutos"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"0",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"a cuantos minutos:" )
 			,"Horas"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"2",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" )
 			,"DiaMes"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"1",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" )
 			,"Mes"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"*",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" )
 			,"DiaSemana"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"*",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" )
 			,"Comando"=> array(  
 				"dbtipo"=>"null", "dbdefault"=>"\$facturas->crear(\$cliente,1);",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-city" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-city"] ,
 				"label"=>"localidad de instalacion:" )
 			
 			,"otrosdatos"=> array(  
 				"dbtipo"=>"null",
 				"typeform" => "text", "comandoform"=>"alfanumerico", 
-				"claseform"=>"inputbox" , "clas"=>"glyphicon glyphicon-note" ,
+				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-note"] ,
 				"label"=>"localidad de instalacion:" )
 				
 			);

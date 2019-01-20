@@ -6,11 +6,11 @@ class fact_detalle extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "text","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			"idFact"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"not null" ,"extras"=>['class'=>"hidden"]  ),
 				
 			"Cantidad"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"null" ),
@@ -18,7 +18,7 @@ class fact_detalle extends EntidadBase {
 			"idDetalle"=> array(  
 				"typeform" => "relacional","claseform"=> "obligatorio" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"]  ),
 				
 			"Detalle"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
 				"dbtipo"=>"not null" ),

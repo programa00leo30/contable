@@ -6,11 +6,11 @@ class facturacompra_detalle extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			"idFactV"=> array(  
 				"typeform" => "relacional","claseform"=> "obligatorio" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"not null" ,"extras"=>['class'=>"hidden"]  ),
 			"Cantidad"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 
 				"dbtipo"=>"default null" ),
 			"Detalle"=> array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 

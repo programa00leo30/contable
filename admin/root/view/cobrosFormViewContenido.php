@@ -1,4 +1,6 @@
 <?php
+
+
 $c=new html("div",['class'=>"signup-form-container"]);
 $c->add(new coment("form start"));
 $c->add( new html("form",[ 
@@ -24,38 +26,20 @@ $c->form->add( [
 		])
 	,new html("div",['class'=>"form-body",id=>"form-body"])
 	]);
-/*
-?>
-		<div class="signup-form-container">
-    
-         <!-- form start -->
-         <form role="form" id="register-form" autocomplete="off" method="post" action="<?php 
-			echo $helper->url("cobros","confirmar",array(
-			(($detalle)?"editarcheck":"recibonuevo") => "si" 
-			,"idRecibo"=>$_GET["idRecibo"]
-			)); ?>" >
-         
-         <div class="form-header">
-			<div class="pull-left"></div>
-				<h3 class="form-title">
-				<span class="glyphicon glyphicon-pencil"></span>
-				<i class="fa fa-user"></i>Datos de recibos:</h3>
-         </div>
-         
-         <div class="form-body">
-			 <!-- autoform start -->
-            <?php
-*/
-				if ( isset($idComppago)) {
-					$idComppagor="?idRecibo=".$idComppago;
-					$t=$comprobante->buscar("id",$idComppago);
-					// echo $comprobante->mostrar_editar("id")."\n";
-					$idhtml= $comprobante->mostrar_editar("id")."\n";
-					// var_dump($idfatura);
-				}else{
-					$idfacDetalle="";
-					$idhtml=new html("div",['class'=>"hidden"],"nuevo");
-				}
+	
+if ( isset($idComppago)) {
+	$idComppagor="?idRecibo=".$idComppago;
+	$t=$comprobante->buscar("id",$idComppago);
+	// echo $comprobante->mostrar_editar("id")."\n";
+	$idhtml= $comprobante->mostrar_editar("id")."\n";
+	// var_dump($idfatura);
+	$idclientes=$comprobante->idCliente;
+}else{
+	$idfacDetalle="";
+	$idclientes=nz($idclientes,"");
+	
+	$idhtml=new html("div",['class'=>"hidden"],"nuevo");
+}
 				/*
 				 * * `id`
 				* `idCobrador`,
@@ -79,85 +63,37 @@ $c->form->add( [
 			foreach($val as $k=>$v){
 				$grp[$id]->add( new html("div",['class'=>$v ],[
 						$comprobante->mostrar_editar($k,$html)
-						,new html("span",['class'=>"help-block",id=>"error"])
+						,new html("span",['class'=>"help-block",id=>"error_$k"])
 					])
 				);
+				if ($k == "idCliente"){
+					$grp[$id]->SetContent(new html("div",['class'=>$v ],[
+							$comprobante->mostrar_editar($k,$html,$idclientes)
+							,new html("span",['class'=>"help-block",id=>"error_$k"])
+						])
+					);
+				}
 			}
 			$id++;
 		}
 		
-/*					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-				echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $comprobante->mostrar_editar("medioPago")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"row\"><div class=\"form-group col-md-4\">\n" ;
-					echo $comprobante->mostrar_editar("cajero")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"separate col-md-1\">-</div><div class=\"form-group col-md-4\">\n" ;
-					echo $comprobante->mostrar_editar("nrocontrol")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div></div>";					
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $comprobante->mostrar_editar("Fecha",$html)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
 
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $comprobante->mostrar_editar("idCliente",$html)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo "\t\t\t\t<div class=\"form-group \">\n" ;
-					echo $comprobante->mostrar_editar("idCobrador",$html)."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-					echo $comprobante->mostrar_editar("idDeContrato")."\n";
-					echo "\t\t\t\t<span class=\"help-block\" id=\"error\"></span>
-				</div>";
-?>
-			 <!-- autoform end -->
-			 <div class="row">
-				 <div class="form-group col-md-4">
-				<?php echo $comprobante->mostrar_editar("Importe") ?>				
-				 </div>
-				 <div class="form-group col-md-4">
-				<?php echo $comprobante->mostrar_editar("Observac") ?>
-				</div>
-			 </div>
-            </div>
-            
-            <div class="form-footer">
-                 <button type="submit" class="btn btn-info">
-                 <span class="glyphicon glyphicon-log-in"></span> Enviar Datos !
-                 </button>
-            </div>
-
-
-            </form>
-            <?php
-*/
-			$grp[]=new html("div",['class'=>"form-footer"],
-				new html("button",['class'=>"btn btn-info",type=>"submit"],[
-					new html("span",['class'=>"glyphicon glyphicon-log-in"])
-					,"Enviar Datos!"
-					]));
-			$grp[]=new html("div",['id'=>"detalle"]);
+$grp[]=new html("div",['class'=>"form-footer"],
+	new html("button",['class'=>"btn btn-info",type=>"submit"],[
+		new html("span",['class'=>"glyphicon glyphicon-log-in"])
+		,"Enviar Datos!"
+		]));
+$c->add( new html("div",['id'=>"detalle"]));
 
 $c->form->GetById("form-body")->add($grp);					
-				//var_dump($fatura);
-if ($detalle){ // existe un registro activo.
-					/*
-					echo "<iframe src=\"".
-						$helper->url("facturas","iframe/detalle$idfacDetalle")."\" class=\"col-md-12\">factura detalle</iframe>";
-				?>
-				<div id="detalle"></div>
-				<?php
-					*/
+				
+if ($detalle){ 
+	// existe un registro activo.
+					
 
-$tmpurl='"'. $helper->url("cobros","iframe/detalle",["idRecibo"=>$idComppago)]. '"';
-// para que carge el detalle una vez cargado la pagina.
-	
+	$tmpurl='"'. $helper->url("cobros","iframe/detalle",["idRecibo"=>$idComppago] ). '"';
+	// para que carge el detalle una vez cargado la pagina.
+		
 $html->javascript(<<<USOJAVA
 $(document).ready(function(){
     $.ajax({

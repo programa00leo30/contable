@@ -12,15 +12,15 @@ class saldofacturas extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			"idCliente"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"hidden"]  ),
 
 				
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"not null","clas"=>"glyphicon glyphicon-calendar"),
+				"dbtipo"=>"not null","extras"=>['class'=>"glyphicon glyphicon-calendar"]),
 				
 			
 			"NumeroComprobante"=> array(  "typeform" => "numerico", "claseform"=>"inputbox" , "comandoform"=>"numerico", 

@@ -16,20 +16,19 @@ class comp_detalle extends EntidadBase {
 			"id"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"autoincrement" ,"clas"=>"hidden" ,"label"=>"ID:" ),
+				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 			"idComprob"=> array(  
 				"typeform" => "numerico","claseform"=> "inputbox" , 
 				"comandoform"=>"no-editor",
-				"dbtipo"=>"not null" ,"clas"=>"hidden"  ),
+				"dbtipo"=>"not null" ,"extras"=>['class'=>"hidden"]  ),
 			
 			"idFactura"=> array( 
 				"dbtipo"=>"not null"
 				,"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
-				, "clas"=>"glyphicon glyphicon-user" ,"label"=>"identificador de factura"
+				, "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"identificador de factura"
 				,"sql"=>array(
 					"id",
-					"select id,CONCAT( `idCliente`
-						,', ',`NumeroComprobante`
+					"select id,CONCAT( '(',id,')', `NumeroComprobante`
 						,' $',`total`
 						,'( ',`adeuda`,')' ) as nombre FROM `saldofacturas`
 						WHERE ( `adeuda` <> 0 ) $auxiliar
@@ -53,8 +52,7 @@ class comp_detalle extends EntidadBase {
     public function sql_cliente($idCliente){
 		$this->atributos["idFactura"]["sql"] = array(
 					"id",
-					"select id,CONCAT( `idCliente`
-						,', ',`NumeroComprobante`
+					"select id,CONCAT( '(',id,')', `NumeroComprobante`
 						,' $',`total`
 						,'( ',`adeuda`,')' ) as nombre FROM `saldofacturas`
 						WHERE ( `adeuda` <> 0 )  and ( `idCliente` = $idCliente )

@@ -26,35 +26,35 @@ class usuarios extends EntidadBase{
         // atributos de las columnas.
         $this->atributos = array(
 			"id" => array( "typeform" => "hidden", "claseform"=> "inputbox" , 
-				"comandoform"=>"no-editor", "dbtipo"=>"autoincrement" ,"class"=>"hidden" ),
+				"comandoform"=>"no-editor", "dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ),
 			"Nombre" => array( "typeform" =>  "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null","class"=>"glyphicon glyphicon-user" ),
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-user"] ),
 			"Apellido" => array(  "typeform" => "text", "claseform"=>"inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null" ,"class"=>"glyphicon glyphicon-user"),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"glyphicon glyphicon-user"]),
 			"Direccion" => array(  "typeform" => "text","claseform"=> "inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null" ,"class"=>"glyphicon glyphicon-home"),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"glyphicon glyphicon-home"]),
 			"funciones" => array(  "typeform" => "text","claseform"=> "inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"not null","class"=>"glyphicon glyphicon-tags" ),
+				"dbtipo"=>"not null","extras"=>['class'=>"glyphicon glyphicon-tags"] ),
 			"comandos" => array(  "typeform" => "code","claseform"=> "inputbox" , "comandoform"=>"alfanumerico", 
-				"dbtipo"=>"null" ,"class"=>"glyphicon glyphicon-list-alt"),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"glyphicon glyphicon-list-alt"]),
 			"seguridad" => array(  "typeform" => "interno", "claseform"=>"inputbox" , "comandoform"=>"no-editor", 
-				"dbtipo"=>"null","class"=>"hidden" ), // no se envia
+				"dbtipo"=>"null","extras"=>['class'=>"hidden"] ), // no se envia
 			"grupo" => array(  "typeform" => "numerico","claseform"=> "select" , "comandoform"=>"editor", 
 				"dbtipo"=>"null" ,
-				"array ( 'administrador'=>0,'atencion'=>1,'contable'=>2 , 'mantenimiento'=>3 )" ,"class"=>"glyphicon glyphicon-sunglasses" ),
+				"array ( 'administrador'=>0,'atencion'=>1,'contable'=>2 , 'mantenimiento'=>3 )" ,"extras"=>['class'=>"glyphicon glyphicon-sunglasses"] ),
 			"prio" => array( "typeform" => "numerico","claseform"=>"inputbox","comandoform"=>"numerico",
-				"dbtipo"=>"null" ,"class"=>"glyphicon glyphicon-sort-by-attributes"),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"glyphicon glyphicon-sort-by-attributes"]),
 			"Departamento" => array( "typeform" => "text","claseform"=>"inputbox","comandoform"=>"alfanumerico",
-				"dbtipo"=>"null" ,"class"=>"glyphicon glyphicon-sort-by-attributes"),
+				"dbtipo"=>"null" ,"extras"=>['class'=>"glyphicon glyphicon-sort-by-attributes"]),
 			"Fecha" => array( "typeform" => "fechahora","claseform"=>"inputbox","comandoform"=>"date",
-				"dbtipo"=>"null","class"=>"glyphicon glyphicon-calendar"),
+				"dbtipo"=>"null","extras"=>['class'=>"glyphicon glyphicon-calendar"]),
 			"Sueldo" => array( "typeform" => "moneda","claseform"=>"inputbox","float(2)",
 				"dbtipo"=>"null",
 				"htmlfirst"=>"<span class=\"input-group-addon\">$</span>" ,
 				"htmllast"=>"<span class=\"input-group-addon\">.00</span>" ,
 				),
 			"Observaciones" => array( "typeform" => "text","claseform"=>"textarea","comandoform"=>"alfanumerico",
-				"dbtipo"=>"null","class"=>"hidden")
+				"dbtipo"=>"null","extras"=>['class'=>"hidden"])
 		);
 			
         $table="empleados";
