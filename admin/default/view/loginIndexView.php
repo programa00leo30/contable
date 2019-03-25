@@ -6,12 +6,8 @@ if(isset($_GET["ms"])){
 	
 }else
 	$msg="";
-	// <input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />
- 
-
-echo $helper->incluir("headLogin.php","view") ;
 ?>
-    <body>
+
     <div class="container">
   
   <div class="row" id="pwd-container">
@@ -43,6 +39,3 @@ echo $helper->incluir("headLogin.php","view") ;
   
   
 </div>
-<?php
-echo $helper->incluir("loginFooter.php","view");
-?>

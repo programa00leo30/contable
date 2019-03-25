@@ -1,8 +1,10 @@
 <?php
-class indexController extends ControladorBase{
+class IndexController extends ControladorBase{
      
     public function __construct() {
         parent::__construct();
+        // Debuger::nolog();
+		// $this->plantilla("index");
     }
     
     public function index(){
@@ -26,6 +28,7 @@ class indexController extends ControladorBase{
 		parent::salir();
 		$this->redirect("index","index");
 	}
+	
 	public function titulo(){
 		$this->view("titulo",array(
 			"Pagtitulo" => "encabezado"

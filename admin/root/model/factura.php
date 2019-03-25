@@ -26,17 +26,25 @@ class factura extends EntidadBase {
 				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 
 			"idEmpleado"=> array( 
-				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id", 
-				"dbtipo"=>"not null", "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"atendido por:",
+				"typeform" => "relacional"
+				, "claseform"=>"inputbox" 
+				, "comandoform"=>"id"
+				, "dbtipo"=>"not null", "dbdefault" => $_SESSION["login_usuario_id"] 
+				, "extras"=>['class'=>"glyphicon glyphicon-user"] 
+				,"label"=>"atendido por:"
 					// 0=columna relacionada 1=consulta sql.
-					"sql"=>array("id","select id,Nombre FROM `empleados` ","Nombre")  
-					) ,
-			"idCliente"=> array( 
+				,	"sql"=>array("id","select id,Nombre FROM `empleados` ","Nombre")  
+			) 
+			,"idCliente"=> array( 
 				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
 				,"comenta"=>"cliente:" 
 				,"dbtipo"=>"not null", "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"cliente:",
 					// 0=columna relacionada 1=consulta sql. 2=columna a mostrar
-					"sql"=>array("id","select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` ","nombre") 
+					"sql"=>array(
+						"id"
+						,"select id,CONCAT( `nombre`,', ',`apellido`) as nombre FROM `clientes` "
+						,"nombre"
+						) 
 					),
 			"factCerrada"=> array(  
 				"typeform" => "hidden","claseform"=> "inputbox" , 

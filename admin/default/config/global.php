@@ -4,7 +4,7 @@ define("ACCION_DEFECTO", "index");
 
 
 // session_name("iduv");
-define("SESION_NOMBRE","zerOuno");  // nombre a la cookie de sesion:
+define("SESION_NOMBRE","zerOunoADMIN");  // nombre a la cookie de sesion:
 
 // activar el logeo obligatorio:
 define("LOGIN",true);

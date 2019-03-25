@@ -38,6 +38,7 @@ class contratosController extends ControladorBase{
 			"editar"=>false,
             "contratos"=>$contratos,
             "clientes"=>$clientes,
+            "idCliente"=>nz($_GET["cliente"],""),
             "Pagtitulo"=>"..::Agregar contrato::..",
         ));
 		

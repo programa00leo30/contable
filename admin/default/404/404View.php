@@ -11,6 +11,7 @@ $name = isset($name)?$name:"ERROR";
 // include("head.php");
 //include("estructura.php");
 $documento = new html("html");
+$helper = new AyudaVistas();
 $documento->add([
 	new html("head",[], new html("title",[],"ERROR"))
 	, new html("body")

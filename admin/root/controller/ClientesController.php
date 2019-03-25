@@ -55,11 +55,17 @@ class clientesController extends ControladorBase{
 		));
 		
 	}
+	
 	public function facturas(){
 		$this->redirect("facturas","nueva",[cliente=>$_GET["cliente"]]);
 	}
+	
 	public function cobros(){
 		$this->redirect("cobros","nuevo",["cliente"=>nz($_GET["cliente"])]);
+	}
+	
+	public function contratos(){
+		$this->redirect("contratos","nuevo",["cliente"=>nz($_GET["cliente"])]);
 	}
 	
 	public function editar(){

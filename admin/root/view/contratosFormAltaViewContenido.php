@@ -1,5 +1,6 @@
 <?php
 // $editar=( ( $contratos->selecionado() )? $contratos->mostrar_editar("id",$html) : "" );
+
 $editar=( ( isset($editar) && $editar <> false )? new html("input",[type=>"hidden",value=>$editar,name=>"id"]) : "" );
 
 $form=new html("form",[
@@ -30,8 +31,8 @@ $tabla->add( new html("tr",[id=>"fechaAlta"]
 			$contratos->mostrar_editar("fechaalta",$html))
 		,new html("td",[colspan=>3],
 			[
-				new html("div",['class' =>"col col-md-6"], $contratos->mostrar_editar("seccion",$html))
-				,new html("div",['class' =>"col col-md-6"], $contratos->mostrar_editar("nrocontrato",$html))
+				new html("p",[],["seccion",new html("div",['class' =>"col col-md-6"], $contratos->mostrar_editar("seccion",$html))])
+				,new html("p",[],["Nro:",new html("div",['class' =>"col col-md-6"], $contratos->mostrar_editar("nrocontrato",$html))])
 			])
 	]));
 	
@@ -43,7 +44,7 @@ $tabla->add( new html("tr",[],new html("td",[colspan=>6]
 ,[
 	new html("div",[]
 		, [ new html("label",[],"Apellido y nombre - Razon social:")
-		, $contratos->mostrar_editar("idCliente",$html)
+		, $contratos->mostrar_editar("idCliente",$html,$idCliente)
 		])
 ])));
 

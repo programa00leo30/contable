@@ -41,8 +41,11 @@ $urlParam=nz($urlParam,[]);
 								,new html("div",['class'=>"col-md-3" ,style=>"background-color:white;"],
 									new html("div",['class'=>"form-group"],
 										[
-											new html("label",['for'=>"fecha",'class'=>"col-sm-5 control-label"],"ID:")
-											,new html("div",['class'=>"col-sm-7"])
+											new html("label",['for'=>"fecha",'class'=>"col col-sm-5 control-label"],"N:")
+											,new html("div",['class'=>"input-group-btn"],[
+												$fatura->mostrar_editar("cajero",$html,0)->setAtr('class',"col col-md-2")
+												, $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0))->setAtr('class',"col col-md-6")
+											])
 										]
 									
 									
@@ -56,17 +59,7 @@ $urlParam=nz($urlParam,[]);
 		)
 	);
 
-$ob= $fatura->mostrar_editar("cajero",$html,0); 
-$ob->tab(8) ; 
-$ob->SetAtr("class","col-sm-3");
-// echo $ob ;
-$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
-$ob= $fatura->mostrar_editar("nrocontrol",$html,$fatura->nroControl(0));
-$ob->tab(8) ; 
-$ob->SetAtr("class","col-sm-3");
-$content->div->form->div->add( new html("div",['class'=>"row"],$ob) );
-
-$ob= $fatura->mostrar_editar("idEmpleado",$html,$fatura->nroControl(0));
+$ob= $fatura->mostrar_editar("idEmpleado",$html);
 $ob->tab(8) ; 
 $ob->SetAtr("class","col-sm-3");
 $content->div->form->div->add( new html("div",['class'=>"row"],$ob) );

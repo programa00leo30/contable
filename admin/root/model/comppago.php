@@ -21,8 +21,10 @@ class comppago extends EntidadBase {
 				"dbtipo"=>"autoincrement" ,"extras"=>['class'=>"hidden"] ,"label"=>"ID:" ),
 
 			"idCobrador"=> array( 
-				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id", 
-				"dbtipo"=>"not null", "extras"=>['class'=>"glyphicon glyphicon-user"] ,"label"=>"atendido por:",
+				"typeform" => "relacional", "claseform"=>"inputbox" , "comandoform"=>"id"
+				, "dbtipo"=>"not null","dbdefault" => $_SESSION["login_usuario_id"] 
+				, "extras"=>['class'=>"glyphicon glyphicon-user"] 
+				,"label"=>"atendido por:",
 					// 0=columna relacionada 1=consulta sql.
 					"sql"=>array("id","select id,Nombre FROM `empleados` ","Nombre")  
 					) ,

@@ -67,8 +67,60 @@ if ( isset($idComppago)) {
 					])
 				);
 				if ($k == "idCliente"){
+					$cli=$comprobante->mostrar_editar($k,$html,$idclientes);
+					$idBuscar="idClienteBusquedasCobros";
+					$v = $cli->div->ul->getContent();
+					// colocar la busqueda al principio.
+					$cli->div->ul->SetContent( array_merge( 
+						[ new html("input",
+							[  "type"=>"search"
+								,'class'=>"input-sm form-control"
+								,"placeholder"=>"Buscar"
+								// ,"onKeyPress"=>"filtrar('$idBuscar',event);"
+								,"id"=>$idBuscar
+							])  
+						]
+						, $v
+						)
+					);
+					$html->javascript(<<<java
+					var inival = $("#$idBuscar").val();
+						$("#$idBuscar").change(function(){
+						  if ( $("#$idBuscar").val() != inival ) {
+							var lista = document.getElementById('$idBuscar').parentElement;
+							alert("El campo ha cambiado");
+							var buscar = lista.childNodes;
+							for ( i=0;i<buscar.length;i++){
+								if (buscar[i].childNodes.length > 0 ) {
+									console.log("si el " + i );
+									if ( buscar[i].childNodes.getElementsByTagName("a").innerHTML.indexOf( $("#$idBuscar").val() ) >= 0 ){
+										buscar[i].childNodes.getElementsByTagName("a").style.backgroundColor = 'red';
+									}else{
+										buscar[i].childNodes.getElementsByTagName("a").style.backgroundColor = 'blue';
+									}
+								}
+							}
+						  }
+						});
+java
+					);
+					$html->javascript( "function filtrar( comon ,event){
+						var codigo = event.which || event.keyCode;
+						var lista = document.getElementById('$idBuscar').parentElement;
+						var texto = document.getElementById('$idBuscar').innerText + String.fromCharCode( codigo );
+						/*<ul><li><a></a></li></ul>*/
+						var buscar = lista.childNodes;
+						for ( i=0;i<buscar.length;i++){
+							if (buscar[i].childNodes.length > 0 ) 
+								if ( buscar[i].childNodes.item(0).innerHTML.indexOf( texto ) >= 0 ){
+									buscar[i].childNodes.item(0).style.backgroundColor = 'red';
+								}
+						}
+						/* alert( 'texto:' + comon); */
+						};");
+					
 					$grp[$id]->SetContent(new html("div",['class'=>$v ],[
-							$comprobante->mostrar_editar($k,$html,$idclientes)
+							$cli
 							,new html("span",['class'=>"help-block",id=>"error_$k"])
 						])
 					);

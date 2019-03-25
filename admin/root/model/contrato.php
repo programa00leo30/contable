@@ -95,7 +95,7 @@ class contrato extends EntidadBase {
 				
 			
 			"idEmpleado"=> array( 
-				"dbtipo"=>"not null", 
+				"dbtipo"=>"not null", "dbdefault" => $_SESSION["login_usuario_id"] ,
 				"typeform" => "relacional", "comandoform"=>"id", 
 				"claseform"=>"inputbox" , "extras"=>['class'=>"glyphicon glyphicon-user"] ,
 				"label"=>"Quien Realiza la el contrato:",
@@ -156,7 +156,7 @@ class contrato extends EntidadBase {
 				
 			);
 		$table="contrato";
-        
+        // var_dump( $_SESSION["login_usuario_id"] );
         
         parent::__construct($table);
     }

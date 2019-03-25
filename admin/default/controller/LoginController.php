@@ -4,6 +4,7 @@ class loginController extends ControladorBase{
     public function __construct() {
         parent::__construct();
 		Debuger::nolog();
+		$this->plantilla("login");
     }
     
     public function index(){
@@ -15,8 +16,9 @@ class loginController extends ControladorBase{
 		$this->view("loginIndex",array(
 			"estado" => $msg ,
             "Pagtitulo"=>"..::-Ingreso-::..",
-        ),FALSE);
+        ));
     }
+	
 	public function salir(){
 		// desasociar sesion.
 		parent::salir();
@@ -43,7 +45,7 @@ class loginController extends ControladorBase{
 				$this->view("loginClave",array(
 					"indicio"=>":". $this->get_sesion("login_pregunta"), // ":".$this->get_sesion("login_local"),
 					"Pagtitulo"=>"..::-Ingreso-::..",
-				), FALSE);
+				));
 			}
 			else{
 				$this->redirect("login","index?msg=userfail");
@@ -52,11 +54,23 @@ class loginController extends ControladorBase{
 			$this->redirect("login","index?msg=fail");
 		}
 	}
-	public function __call($name, $arguments)
-    {
-		// directamente cargar el logeo.
-		$this->index();
+	
+	public function comprobacion(){
+		// comprobar responder al logeo.
+		if (isset( $_POST["paswd"])){
+			if ( $_POST["paswd"] == $this->get_sesion("login_local") ){
+				// exito de logeo
+				$this->set_sesion("login_usuario_activo","activo"); // con esto pasa el logeo.
+				$this->redirect("index","index");
+			}else{
+				$this->redirect("login","contrasenna");
+			}
+		}else{
+		// falla de logeo
+		$this->redirect("login","index?msg=failsur");	
+		}
 	}
+	
 	private function run ($cmd){
 		$GLOBALS["loginfuncion"] = new loginFunction();
 		$tcmd = '$loginfuncion = $GLOBALS["loginfuncion"] ; '."\n".$cmd;
@@ -72,23 +86,54 @@ class loginController extends ControladorBase{
 
 		
 	}
-	public function comprobacion(){
-		// comprobar responder al logeo.
-		if (isset( $_POST["paswd"])){
-			if ( $_POST["paswd"] == $this->get_sesion("login_local") ){
-				// exito de logeo
-				$this->set_sesion("login_usuario_activo","activo"); // con esto pasa el logeo.
-				$this->redirect("index","index");
-			}else{
-				$this->redirect("login","contrasenna");
-			}
-		}else{
-		// falla de logeo
-		$this->redirect("login","index?msg=failsur");
-			
+	
+	public function __call($name, $arguments){
+		// directamente cargar el logeo.
+		// directamente cargar el logeo.
+		switch( substr($name,0,3) ){
+			case "css" : $this->css(substr($name,3),"");break;
+			case "jss" : $this->js(substr($name,3),"");break;
+			default : $this->index();
 		}
-		
-		
+	
 	}
+
+	/* *******************************************************
+	 * Modulos auxiliares de usos:
+	/* *******************************************************/
+	
+	private function js($name, $arguments)
+	{
+		global $debug;
+		$debug->trigger(false); // no mostrar mensajes.
+		$dato=$this->modelo->MiArchivo("js",$name) ;
+		// echo $dato;
+
+		if ($this->modelo->falla()>1){
+			// no esta el archivo
+			$dato=$this->modelo->MiArchivo("js","npm.js") ; // valor por defecto.
+		}
+		// no utiliza plantilla.
+		$this->view("include",array(
+            "dato"=>$dato,
+            "tipe"=>"text/javascript"
+        ), FALSE);
+	}
+	
+	public function css($name, $arguments)
+	{
+		$dato=$this->modelo->MiArchivo("css",$name) ;
+		// echo $dato;
+
+		if ($this->modelo->falla()>1){
+			$dato=$this->MiArchivo("css","estilo.css") ; // valor por defecto.
+		}
+		// no utilizar plantilla
+		$this->view("includeCss",array(
+            "dato"=>$dato,
+            "tipe"=>"text/css"
+        ), FALSE);
+	}
+	
 }
 ?>

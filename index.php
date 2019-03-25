@@ -6,7 +6,7 @@ define("debugmode",true);
 $actualDir=pathinfo( __file__, PATHINFO_DIRNAME); 
 // $actualDir="/home/leandro/test";
 // $objetivo = "/admin/front" ;
-$objetivo = "admin" ;
+$objetivo = "cliente" ;
 //Configuración global
 // require_once "$actualDir$objetivo/config/global.php";
 

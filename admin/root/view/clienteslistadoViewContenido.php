@@ -38,19 +38,21 @@
 							<td ><?php echo $v->celular ?></td>
 							<td ><?php echo $movimientocomercial->total($v->id) ?></td>
 							<td><a class="delete_cliente" data-accion="borrar" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
-                <i class="glyphicon glyphicon-trash"></i></a>
-							<a class="edit_cliente" data-accion="editar" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
-                <i class="glyphicon glyphicon-pencil"></i></a>
-							<a class="config_cliente" data-accion="config" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
-                <i class="glyphicon glyphicon-cog"></i></a>
-							<a class="config_cliente" data-accion="facturas" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
-                <i class="glyphicon glyphicon-cog"></i></a>
-							<a class="config_cliente" data-accion="cobros" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
-                <i class="glyphicon glyphicon-usd"></i></a><?php 
-								/*
-								 echo "<a href=\""
-								.$helper->url("clientes","editar?cliente=".$v->id ) 
-								."\">editar</a>" ; */
+									<i class="glyphicon glyphicon-trash"></i></a>
+								<a class="edit_cliente" data-accion="editar" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+									<i class="glyphicon glyphicon-pencil"></i></a>
+								<a class="config_cliente" data-accion="config" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+									<i class="glyphicon glyphicon-cog"></i></a>
+								<a class="config_cliente" data-accion="contratos" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+									<i class="fa fa-chart-line"></i></a>
+								<a class="config_cliente" data-accion="facturas" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+									<i class="fa fa-shopping-cart"></i></a>
+								<a class="config_cliente" data-accion="cobros" data-idcliente="<?php echo $v->id; ?>" href="javascript:void(0)">
+									<i class="fa fa-gem"></i></a><?php 
+									/*
+									 echo "<a href=\""
+									.$helper->url("clientes","editar?cliente=".$v->id ) 
+									."\">editar</a>" ; */
 								?></td>
 						</tr>
 					<?php		
